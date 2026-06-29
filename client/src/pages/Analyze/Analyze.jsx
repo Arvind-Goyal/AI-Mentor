@@ -1,21 +1,6 @@
 import DashboardLayout from "../Dashboard/Dashboard";
 import { QuestionInput,AnalysisConfig,AnalyzeButton } from "../../components/analyze";
-// import {
-
-// QuestionInput,
-
-// AnalysisConfig,
-
-// AnalyzeButton,
-
-// AnalysisOverview,
-
-// LearningPath,
-
-// MentorInsights
-
-// } from "../../components/analyze";
-
+import MentorPanel from "../../components/analyze/MentorPanel";
 
 const Analyze = () => {
   return (
@@ -114,13 +99,10 @@ const Analyze = () => {
             {/* ================= Right Section ================= */}
             <div className="xl:col-span-3">
 
-              <div className="min-h-[900px] rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-center">
-
-                <h2 className="text-xl font-semibold text-slate-400">
-                  Mentor Panel
-                </h2>
-
+              <div className="min-h-[900px] px-4 py-4 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-center">
+                  <MentorPanel/>
               </div>
+
 
             </div>
 
