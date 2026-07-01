@@ -2,8 +2,8 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div>
-      <h1>NAvbar</h1>
+    <div className="ml-5">
+      <h1>Navbar</h1>
     </div>
   )
 }

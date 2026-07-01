@@ -1,6 +1,47 @@
+import { useAnalysis } from "../../context/AnalysisContext";
+import analyzeProblem from "../../services/analyzeService.js";
 const AnalyzeButton = () => {
+
+  const {
+    problem,
+    language,
+    loading,
+    setLoading,
+    setAnalysis,
+    setError
+} = useAnalysis();
+
+  const handleAnalyze = async()=>{
+    if(!problem.trim()){
+      alert("Please enter problem first. ")
+      return ;
+    }
+    
+    try {
+      setLoading(true);
+      console.log("Analyzing",problem);
+      const response = await  analyzeProblem(problem,language);
+      setAnalysis(response);
+    }catch(error){
+      setError(error.message);
+    } finally{
+      setLoading(false);
+    }
+    // setTimeout(() => {
+
+    //     console.log("Analysis Complete");
+
+    //     setLoading(false);
+
+    // }, 3000);
+
+
+  }
+
+
   return (
     <button
+    onClick={handleAnalyze}
       className="
         mt-6
         w-full
@@ -25,11 +66,14 @@ const AnalyzeButton = () => {
         <div className="text-left">
 
           <h2 className="text-xl font-semibold">
-            ✨ Analyze Problem
+            {
+            loading?"Analyzing......":"✨ Analyze Problem"}
           </h2>
 
           <p className="mt-1 text-sm text-violet-100">
-            AI will analyze your problem and generate your personalized learning roadmap.
+           {loading
+        ? "Please wait while AI is analyzing your problem..."
+        : "AI will analyze your problem and generate your personalized learning roadmap."}
           </p>
 
         </div>
@@ -37,8 +81,8 @@ const AnalyzeButton = () => {
         {/* Right */}
 
         <div className="text-3xl">
-          →
-        </div>
+          {loading ? "⏳" : "→"}
+       </div>
 
       </div>
     </button>

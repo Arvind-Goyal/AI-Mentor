@@ -1,46 +1,46 @@
+import { useAnalysis } from "../../context/AnalysisContext";
 import { FaLightbulb } from "react-icons/fa";
 
 const MotivationCard = () => {
+
+    const { analysis } = useAnalysis();
+
+    if (!analysis) return null;
+
+    const advice = analysis.mentor.advice;
+
     return (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 
             {/* Header */}
+
             <div className="flex items-center gap-2">
 
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100">
-
-                    <FaLightbulb
-                        size={15}
-                        className="text-amber-600"
-                    />
-
-                </div>
+                <FaLightbulb className="text-yellow-500" />
 
                 <h3 className="text-sm font-semibold text-slate-900">
-                    Mentor's Advice
+                    Mentor Advice
                 </h3>
 
             </div>
 
-            {/* Quote */}
+            {/* Title */}
 
-            <p className="mt-4 text-sm leading-7 italic text-slate-700">
+            <h4 className="mt-4 font-semibold text-slate-800">
+                {advice.title}
+            </h4>
 
-                "The best programmers don't start by coding.
-                They start by understanding the problem."
+            {/* Description */}
 
-            </p>
-
-            {/* Footer */}
-
-            <p className="mt-4 text-xs font-medium text-amber-700">
-
-                — AI Mentor
-
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+                {advice.description}
             </p>
 
         </div>
+
     );
+
 };
 
 export default MotivationCard;

@@ -1,6 +1,8 @@
 import DashboardLayout from "../Dashboard/Dashboard";
 import { QuestionInput,AnalysisConfig,AnalyzeButton } from "../../components/analyze";
 import MentorPanel from "../../components/analyze/MentorPanel";
+import AnalysisOverview from "../../components/analyze/AnalysisOverview";
+import LearningJourney from "../../components/analyze/LearningJourney";
 
 const Analyze = () => {
   return (
@@ -51,7 +53,7 @@ const Analyze = () => {
             <div className="xl:col-span-9">
 
               {/* Top Cards */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-stretch">
 
                 {/* Question Card */}
                   <QuestionInput />
@@ -62,35 +64,25 @@ const Analyze = () => {
               </div>
 
               {/* Analyze Button */}
-              <div className="mt-6">
+              <div className="mt-1">
 
                 <AnalyzeButton/>
 
               </div>
 
               {/* Analysis Overview */}
-              <div className="mt-6">
-
-                <div className="h-64 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-center">
-
-                  <h2 className="text-xl font-semibold text-slate-400">
-                    Analysis Overview
-                  </h2>
-
-                </div>
-
+              <div className="mt-1">
+                  <AnalysisOverview/>
               </div>
 
               {/* Learning Journey */}
-              <div className="mt-6">
+              <div className="mt-1">
 
-                <div className="h-72 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-center">
+                {/* <div className="h-72 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-center"> */}
 
-                  <h2 className="text-xl font-semibold text-slate-400">
-                    Learning Journey
-                  </h2>
+                  <LearningJourney/>
 
-                </div>
+                {/* </div> */}
 
               </div>
 

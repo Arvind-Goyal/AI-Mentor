@@ -1,3 +1,4 @@
+import { useAnalysis } from "../../context/AnalysisContext";
 import ConceptsCard from "./ConceptsCard";
 import DailyChallengeCard from "./DailyChallengeCard";
 import GoalCard from "./GoalCard";
@@ -8,17 +9,18 @@ import MotivationCard from "./MotivationCard";
 import StatusCard from "./StatusCard";
 
 const MentorPanel = () => {
+  
   return (
     <div className="sticky top-6 space-y-6">
 
       <MentorHeader />
       <StatusCard/>
-      <GoalCard/>
-      <ConceptsCard/>
+      {/* <GoalCard/> */}
+      {/* <ConceptsCard/> */}
       <MistakesCard/>
       <MotivationCard/>
-      <LearningProgressCard/>
-      <DailyChallengeCard/>
+      {/* <LearningProgressCard/>
+      <DailyChallengeCard/> */}
 
 
     </div>

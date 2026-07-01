@@ -1,49 +1,67 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const AnalysisContext = createContext();
+const AnalysisContext = createContext();
+export const AnalysisProvider=({children})=>{
+    // user Input
+    const [problem,setProblem] = useState("");
+    const [language,setLanguage] = useState("Java");
 
-export const AnalysisProvider = ({ children }) => {
+    //UI State
+    const [loading,setLoading] = useState(false);
+    const [currentStep,setCurrentStep] = useState(1);
 
-    const [question, setQuestion] = useState("");
+    // AI response
+    const[analysis,setAnalysis] = useState(null);
 
-    const [language, setLanguage] = useState("Python 3");
+    //Error
+    const[error,setError] = useState(null);
 
-    const [difficultyMode, setDifficultyMode] = useState("Auto Detect");
+    // Reset Everything
 
-    const [loading, setLoading] = useState(false);
+    const resetAnalysis = ()=>{
+        setProblem("");
+        setLanguage("Java");
 
-    const [analysis, setAnalysis] = useState(null);
+        setLoading(false);
+        setCurrentStep(1);
 
-    const [userCode, setUserCode] = useState("");
+        setAnalysis(null);
+        setError(null);
+    }
+     return (
 
-    const [currentStep, setCurrentStep] = useState(0);
+        <AnalysisContext.Provider
+            value={{
 
-    const value = {
-        question,
-        setQuestion,
+                problem,
+                setProblem,
 
-        language,
-        setLanguage,
+                language,
+                setLanguage,
 
-        difficultyMode,
-        setDifficultyMode,
+                loading,
+                setLoading,
 
-        loading,
-        setLoading,
+                currentStep,
+                setCurrentStep,
 
-        analysis,
-        setAnalysis,
+                analysis,
+                setAnalysis,
 
-        userCode,
-        setUserCode,
+                error,
+                setError,
 
-        currentStep,
-        setCurrentStep
-    };
+                resetAnalysis,
 
-    return (
-        <AnalysisContext.Provider value={value}>
+            }}
+        >
+
             {children}
+
         </AnalysisContext.Provider>
+
     );
+
 };
+
+export const useAnalysis = () => useContext(AnalysisContext);

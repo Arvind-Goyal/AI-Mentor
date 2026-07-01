@@ -1,6 +1,13 @@
+import { useAnalysis } from "../../context/AnalysisContext";
+
+
+
 const QuestionInput = () => {
+  
+  const {problem,setProblem} = useAnalysis();
+  
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <div className="h-[350px] rounded-2xl border border-slate-200 bg-white shadow-sm">
 
       {/* Header */}
       <div className="flex items-start justify-between p-6 border-b border-slate-100">
@@ -9,7 +16,7 @@ const QuestionInput = () => {
         <div className="flex items-start gap-4">
 
           {/* Step Number */}
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-700 font-semibold">
+          <div className="flex h-9 w-14 items-center justify-center rounded-full bg-violet-100 text-violet-700 font-semibold">
             1
           </div>
 
@@ -34,10 +41,12 @@ const QuestionInput = () => {
       </div>
 
       {/* Body */}
-      <div className="p-6">
+      <div className="p-4">
 
         <textarea
-          rows={12}
+        value={problem}
+        onChange={(e)=>setProblem(e.target.value)}
+          rows={4}
           placeholder="Paste your problem statement here..."
           className="
             w-full

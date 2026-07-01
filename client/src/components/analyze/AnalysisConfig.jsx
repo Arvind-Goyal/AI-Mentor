@@ -1,9 +1,9 @@
 const AnalysisConfig = () => {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <div className=" h-[350px] rounded-2xl border border-slate-200 bg-white shadow-sm">
 
       {/* Header */}
-      <div className="flex items-start gap-4 p-6 border-b border-slate-200">    
+      <div className="flex items-start gap-4 p-4 border-b border-slate-200">    
 
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 text-indigo-700 font-semibold">
           2
@@ -22,7 +22,7 @@ const AnalysisConfig = () => {
       </div>
 
       {/* Body */}
-      <div className="p-6 space-y-5">
+      <div className="p-4 space-y-1">
 
         {/* Language */}
         <div>
@@ -63,7 +63,7 @@ const AnalysisConfig = () => {
             Difficulty
           </label>
 
-          <select className="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-none">
+          <select className="w-full rounded-xl border border-slate-200 px-3 py-2 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-none">
 
             <option>Auto Detect</option>
             <option>Easy</option>
