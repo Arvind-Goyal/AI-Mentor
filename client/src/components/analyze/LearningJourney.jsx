@@ -8,24 +8,34 @@ import JourneyTabs from "./JourneyTabs";
 
 const LearningJourney = () => {
 
-    const { analysis, loading } = useAnalysis();
-   const [selectedStep, setSelectedStep] = useState(1);
-const [curr, setCurr] = useState(1);
+    const {
+        analysisData,
+        loading,
+    } = useAnalysis();
+
+    // Current unlocked step index
+    const [curr, setCurr] = useState(0);
+
+    // Current selected step
+    const [selectedStep, setSelectedStep] = useState(
+        JOURNEY_STEPS[0].id
+    );
+
     const handleContinue = () => {
 
-    if (curr < JOURNEY_STEPS.length) {
+        if (curr < JOURNEY_STEPS.length - 1) {
 
-        const next = curr + 1;
+            const next = curr + 1;
 
-        setCurr(next);
-        setSelectedStep(next);
+            setCurr(next);
+            setSelectedStep(JOURNEY_STEPS[next].id);
 
-    }
+        }
 
-};
+    };
 
     // Empty State
-    if (!analysis && !loading) {
+    if (!analysisData && !loading) {
         return (
             <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                 <h2 className="text-xl font-bold text-slate-900">
@@ -54,18 +64,20 @@ const [curr, setCurr] = useState(1);
         );
     }
 
-    const steps = JOURNEY_STEPS.map((step) => ({
-    ...step,
+    // Build tab state
+    const steps = JOURNEY_STEPS.map((step, index) => ({
+        ...step,
+        completed: index < curr,
+        active: index === curr,
+        locked: index > curr,
+    }));
 
-    completed: step.id < curr,
-
-    active: step.id === curr,
-
-    locked: step.id > curr,
-}));
-
+    // Current selected step
     const currentStep =
         steps.find((step) => step.id === selectedStep) || steps[0];
+
+    // Current content
+    const currentContent = analysisData?.[currentStep.id];
 
     return (
         <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
@@ -103,8 +115,9 @@ const [curr, setCurr] = useState(1);
             {/* Expanded Step */}
 
             <ExpandedStep
-             step={currentStep}
-             onContinue={handleContinue}
+                step={currentStep}
+                content={currentContent}
+                onContinue={handleContinue}
             />
 
         </div>

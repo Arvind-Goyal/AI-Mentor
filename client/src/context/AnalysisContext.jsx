@@ -10,11 +10,23 @@ export const AnalysisProvider=({children})=>{
     const [loading,setLoading] = useState(false);
     const [currentStep,setCurrentStep] = useState(1);
 
+    
+    //Error
+    const[error,setError] = useState(null);
     // AI response
     const[analysis,setAnalysis] = useState(null);
 
-    //Error
-    const[error,setError] = useState(null);
+    const [analysisData, setAnalysisData] = useState({
+    analysis: null,
+    hint1: null,
+    hint2: null,
+    algorithm: null,
+    pseudocode: null,
+    review: null,
+    optimized: null,
+});
+
+
 
     // Reset Everything
 
@@ -24,7 +36,7 @@ export const AnalysisProvider=({children})=>{
 
         setLoading(false);
         setCurrentStep(1);
-
+        setAnalysisData(null)
         setAnalysis(null);
         setError(null);
     }
@@ -47,6 +59,10 @@ export const AnalysisProvider=({children})=>{
 
                 analysis,
                 setAnalysis,
+
+                analysisData,
+                setAnalysisData,
+
 
                 error,
                 setError,

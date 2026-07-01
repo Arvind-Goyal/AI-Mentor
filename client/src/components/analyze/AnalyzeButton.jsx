@@ -1,7 +1,14 @@
+import { dummyAnalysis } from "../../constants/learningJourney.js";
 import { useAnalysis } from "../../context/AnalysisContext";
 import analyzeProblem from "../../services/analyzeService.js";
-const AnalyzeButton = () => {
 
+
+
+
+
+const AnalyzeButton = () => {
+  
+  const { setAnalysisData } = useAnalysis();
   const {
     problem,
     language,
@@ -21,6 +28,7 @@ const AnalyzeButton = () => {
       setLoading(true);
       console.log("Analyzing",problem);
       const response = await  analyzeProblem(problem,language);
+      setAnalysisData(dummyAnalysis);
       setAnalysis(response);
     }catch(error){
       setError(error.message);

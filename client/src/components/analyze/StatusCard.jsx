@@ -13,8 +13,9 @@ const difficultyColors = {
 };
 
 const StatusCard = () => {
-  const { analysis } = useAnalysis();
+  const { analysisData,analysis } = useAnalysis();
 
+  if (!analysisData) return null;
   if (!analysis) return null;
 
   const status = analysis.mentor.status;
