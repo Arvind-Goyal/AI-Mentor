@@ -8,6 +8,7 @@ const ROUTES = {
     ANALYZE: "/analyze",
     HISTORY: "/history",
     PROFILE: "/profile",
+    EDITOR:"/editor",
 };
 
 export default ROUTES;

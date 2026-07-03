@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const AnalyzeButton = () => {
   
-  const { setAnalysisData } = useAnalysis();
+  const { setAnalysisData,analysisData } = useAnalysis();
   const {
     problem,
     language,
@@ -14,7 +14,7 @@ const AnalyzeButton = () => {
     setAnalysis,
     setError
 } = useAnalysis();
-console.log(language);
+// console.log(language);
   const handleAnalyze = async()=>{
     if(!problem.trim()){
       alert("Please enter problem first. ")
@@ -26,9 +26,12 @@ console.log(language);
       // console.log("Analyzing",problem);
       const response = await axios.post("http://localhost:5000/api/analyze",{problem,language});
       await new Promise((resolve) => setTimeout(resolve, 2500));
+     
       // const response = await  analyzeProblem(problem,language);
       setAnalysisData(response.data.data);
       setAnalysis(response.data.data);
+      console.log("analu")
+      console.log(analysisData);
     }catch(error){
       setError(error.message);
     } finally{

@@ -9,6 +9,7 @@ import AnalysisOverview from "../../components/analyze/AnalysisOverview";
 import LearningJourney from "../../components/analyze/LearningJourney";
 import { useAnalysis } from "../../context/AnalysisContext";
 import MentorPreview from "../../components/analyze/MentorPreview";
+import StartCodingCard from "../../components/analyze/StartCodingCard";
 
 const Analyze = () => {
   const { analysisData, loading } = useAnalysis();
@@ -76,6 +77,12 @@ const Analyze = () => {
                {showMentor && (<div className="mt-1">
                 <LearningJourney />
               </div>)}
+
+              {/* Editor button */}
+
+              {showMentor && (<div className="mt-1">
+                <StartCodingCard/>
+                </div>)}
               
             </div>
 

@@ -1,0 +1,103 @@
+import { createContext, useContext, useState } from "react";
+
+const EditorContext = createContext();
+
+const javaTemplate = `class Solution {
+
+    public int[] twoSum(int[] nums, int target) {
+
+    }
+
+}`;
+
+const cppTemplate = `class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+
+    }
+};`;
+
+const pythonTemplate = `class Solution:
+    def twoSum(self, nums, target):
+        pass`;
+
+const jsTemplate = `var twoSum = function(nums, target) {
+
+};`;
+
+const templates = {
+  java: javaTemplate,
+  cpp: cppTemplate,
+  python: pythonTemplate,
+  javascript: jsTemplate,
+};
+
+export const EditorProvider = ({ children }) => {
+  const [language, setLanguage] = useState("java");
+  const [code, setCode] = useState(javaTemplate);
+
+  const [output, setOutput] = useState("");
+  const [consoleOutput, setConsoleOutput] = useState("");
+
+  const [review, setReview] = useState(null);
+
+  const [running, setRunning] = useState(false);
+  const [reviewLoading, setReviewLoading] = useState(false);
+  
+  const [activeTab, setActiveTab] = useState("output"); 
+
+
+  const resetCode = () => {
+    setCode(templates[language]);
+  };
+
+    const changeLanguage = (lang) => {
+       if (
+    code !== templates[language] &&
+    !window.confirm(
+      "Changing the language will replace your current code. Continue?"
+    )
+        ) {
+         return;
+        }
+
+    setLanguage(lang);
+    setCode(templates[lang]);
+  };
+
+  const value = {
+    language,
+    setLanguage: changeLanguage,
+
+    code,
+    setCode,
+
+    output,
+    setOutput,
+
+    consoleOutput,
+    setConsoleOutput,
+
+    review,
+    setReview,
+
+    running,
+    setRunning,
+
+    reviewLoading,
+    setReviewLoading,
+    
+    activeTab,
+    setActiveTab,
+    
+    resetCode,
+  };
+
+  return (
+    <EditorContext.Provider value={value}>
+      {children}
+    </EditorContext.Provider>
+  );
+};
+
+export const useEditor = () => useContext(EditorContext);

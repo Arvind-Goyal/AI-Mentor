@@ -8,6 +8,7 @@ import Analyze from "../pages/Analyze/Analyze";
 import History from "../pages/History/History";
 import Profile from "../pages/Profile/Profile";
 import NotFound from "../pages/NotFound/NotFound";
+import Editor from "../pages/Editor/Editor"
 import ROUTES from "../constants/routes.js";
 
 const AppRoutes = () => {
@@ -21,6 +22,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.SIGNUP} element={<Signup />} />
         <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
         <Route path={ROUTES.ANALYZE} element={<Analyze />} />
+        <Route path = {ROUTES.EDITOR} element={<Editor/>}/>
         
         </Routes>
 
