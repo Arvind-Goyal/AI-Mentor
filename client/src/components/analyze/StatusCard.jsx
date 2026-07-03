@@ -15,11 +15,13 @@ const difficultyColors = {
 const StatusCard = () => {
   const { analysisData,analysis } = useAnalysis();
 
-  if (!analysisData) return null;
+  if (!analysisData.analysis) return null;
   if (!analysis) return null;
-
-  const status = analysis.mentor.status;
-
+  console.log("Hiiiii");
+  console.log(analysisData);
+  const status = analysisData.mentor.status;
+  console.log("Hiiiii2");
+  console.log(status);
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 

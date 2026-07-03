@@ -3,12 +3,13 @@ const JourneyTabs = ({
     selectedStep,
     onSelect,
 }) => {
+    // const Icon = steps.icon;
     return (
 
         <div className="grid grid-cols-4 gap-3">
 
             {steps.map((step) => (
-
+                //  Icon = step.icon,
                 <button
                     key={step.id}
                     disabled={step.locked}
@@ -35,6 +36,7 @@ const JourneyTabs = ({
 
                         <div className="text-xl">
                             {step.icon}
+                            {/* <Icon/> */}
                         </div>
 
                         <p className="text-sm font-medium">

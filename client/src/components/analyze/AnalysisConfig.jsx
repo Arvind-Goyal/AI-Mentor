@@ -1,4 +1,7 @@
+import { useAnalysis } from "../../context/AnalysisContext";
+
 const AnalysisConfig = () => {
+  const {language,setLanguage} = useAnalysis();
   return (
     <div className=" h-[350px] rounded-2xl border border-slate-200 bg-white shadow-sm">
 
@@ -30,12 +33,15 @@ const AnalysisConfig = () => {
             Programming Language
           </label>
 
-          <select className="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-none">
+          <select
+          value={language} // Assumes your state variable is called 'language'
+          onChange={(e) => setLanguage(e.target.value)}
+          className="w-full rounded-xl border border-slate-200 px-4 py-3 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 outline-none">
 
-            <option>Java</option>
-            <option>C++</option>
-            <option>Python</option>
-            <option>JavaScript</option>
+            <option value="Java">Java</option>
+            <option value="C++">C++</option>
+            <option value="Python">Python</option>
+            <option value="JavaScript">JavaScript</option>
 
           </select>
 

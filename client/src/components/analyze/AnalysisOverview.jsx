@@ -10,8 +10,11 @@ import { useAnalysis } from "../../context/AnalysisContext";
 
 const AnalysisOverview = () => {
 
-    const{analysis,loading} =  useAnalysis();
-    if (!analysis && !loading) {
+    const{analysisData,loading,analysis} =  useAnalysis();
+    // console.log(loading);
+    // console.log(analysisData.analysis);
+    // console.log(analysis);
+    if (!analysisData.analysis && !loading) {
     return (
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
 
@@ -65,7 +68,8 @@ if (loading) {
 
     );
 }
-const overview = analysis.overview;
+const overview = analysisData.analysis;
+console.log(overview);
 const stats = [
 
     {

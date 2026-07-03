@@ -17,6 +17,7 @@ export const analyzeWithGemini = async (problem, language) => {
     text = text.replace(/```json/g,"")
                 .replace(/```/g,"")
                     .trim();
+    console.log(text);
     try {
         return JSON.parse(text);
     } catch (err) {

@@ -3,11 +3,11 @@ import { FaLightbulb } from "react-icons/fa";
 
 const MotivationCard = () => {
 
-    const { analysis } = useAnalysis();
+    const { analysisData } = useAnalysis();
 
-    if (!analysis) return null;
-
-    const advice = analysis.mentor.advice;
+    if (!analysisData.analysis) return null;
+    const advice = analysisData.mentor.advice;
+    console.log(advice);
 
     return (
 

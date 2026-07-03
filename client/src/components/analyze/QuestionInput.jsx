@@ -34,9 +34,9 @@ const QuestionInput = () => {
         </div>
 
         {/* Import Button */}
-        <button className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+        {/* <button className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
           Import Problem
-        </button>
+        </button> */}
 
       </div>
 
@@ -70,7 +70,7 @@ const QuestionInput = () => {
       <div className="flex items-center justify-between px-6 pb-6">
 
         <span className="text-sm text-slate-400">
-          0 / 5000 characters
+          {problem.length} / 5000 characters
         </span>
 
         <span className="text-sm font-medium text-violet-600">

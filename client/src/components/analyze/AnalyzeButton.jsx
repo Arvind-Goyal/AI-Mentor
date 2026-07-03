@@ -1,7 +1,8 @@
+
 import { dummyAnalysis } from "../../constants/learningJourney.js";
 import { useAnalysis } from "../../context/AnalysisContext";
 import analyzeProblem from "../../services/analyzeService.js";
-
+import axios from 'axios';
 
 
 
@@ -17,7 +18,7 @@ const AnalyzeButton = () => {
     setAnalysis,
     setError
 } = useAnalysis();
-
+console.log(language);
   const handleAnalyze = async()=>{
     if(!problem.trim()){
       alert("Please enter problem first. ")
@@ -26,10 +27,11 @@ const AnalyzeButton = () => {
     
     try {
       setLoading(true);
-      console.log("Analyzing",problem);
-      const response = await  analyzeProblem(problem,language);
-      setAnalysisData(dummyAnalysis);
-      setAnalysis(response);
+      // console.log("Analyzing",problem);
+      const response = await axios.post("http://localhost:5000/api/analyze",{problem,language});
+      // const response = await  analyzeProblem(problem,language);
+      setAnalysisData(response.data.data);
+      setAnalysis(response.data.data);
     }catch(error){
       setError(error.message);
     } finally{

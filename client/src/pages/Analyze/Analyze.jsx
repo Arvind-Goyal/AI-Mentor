@@ -3,8 +3,11 @@ import { QuestionInput,AnalysisConfig,AnalyzeButton } from "../../components/ana
 import MentorPanel from "../../components/analyze/MentorPanel";
 import AnalysisOverview from "../../components/analyze/AnalysisOverview";
 import LearningJourney from "../../components/analyze/LearningJourney";
+import { useAnalysis } from "../../context/AnalysisContext";
 
 const Analyze = () => {
+  const { analysisData, loading } = useAnalysis();
+  
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-[#F8FAFC]">
@@ -89,6 +92,7 @@ const Analyze = () => {
             </div>
 
             {/* ================= Right Section ================= */}
+            { analysisData.analysis!=null && !loading ?(
             <div className="xl:col-span-3">
 
               <div className="min-h-[900px] px-4 py-4 rounded-2xl border border-slate-200 bg-white shadow-sm flex items-center justify-center">
@@ -97,6 +101,8 @@ const Analyze = () => {
 
 
             </div>
+
+            ): <></>}
 
           </div>
 

@@ -2,12 +2,12 @@ import { useAnalysis } from "../../context/AnalysisContext";
 
 const MistakesCard = () => {
 
-    const { analysis } = useAnalysis();
+    const { analysisData } = useAnalysis();
 
-    if (!analysis) return null;
+    if (!analysisData.analysis) return null;
 
-    const mistakes = analysis.mentor.mistakes;
-
+    const mistakes = analysisData.mentor.mistakes;
+    console.log(mistakes);
     return (
 
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
