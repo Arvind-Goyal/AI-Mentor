@@ -11,7 +11,7 @@ import StatusCard from "./StatusCard";
 const MentorPanel = () => {
   
   return (
-    <div className="sticky top-6 space-y-6">
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-2 sticky space-y-6">
 
       <MentorHeader />
       <StatusCard/>
