@@ -1,59 +1,53 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useAnalysis } from "./AnalysisContext";
 
 const EditorContext = createContext();
 
-const javaTemplate = `class Solution {
+// const javaTemplate;
 
-    public int[] twoSum(int[] nums, int target) {
-
-    }
-
-}`;
-
-const cppTemplate = `class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-
-    }
-};`;
-
-const pythonTemplate = `class Solution:
-    def twoSum(self, nums, target):
-        pass`;
-
-const jsTemplate = `var twoSum = function(nums, target) {
-
-};`;
-
-const templates = {
-  java: javaTemplate,
-  cpp: cppTemplate,
-  python: pythonTemplate,
-  javascript: jsTemplate,
-};
-
-export const EditorProvider = ({ children }) => {
-  const [language, setLanguage] = useState("java");
-  const [code, setCode] = useState(javaTemplate);
-
-  const [output, setOutput] = useState("");
-  const [consoleOutput, setConsoleOutput] = useState("");
-
-  const [review, setReview] = useState(null);
-
-  const [running, setRunning] = useState(false);
-  const [reviewLoading, setReviewLoading] = useState(false);
+// const cppTemplate;
   
-  const [activeTab, setActiveTab] = useState("output"); 
+// const pythonTemplate;
+  
+// const jsTemplate;
+  
+//   const templates = {
+//     java: javaTemplate,
+//     cpp: cppTemplate,
+//     python: pythonTemplate,
+//     javascript: jsTemplate,
+//   };
+  
+  export const EditorProvider = ({ children }) => {
+    const { analysisData} = useAnalysis();
+    const [language, setLanguage] = useState("java");
+    const [code, setCode] = useState();
+    
+    const [output, setOutput] = useState("");
+    const [consoleOutput, setConsoleOutput] = useState("");
+    
+    const [review, setReview] = useState(null);
+    
+    const [running, setRunning] = useState(false);
+    const [reviewLoading, setReviewLoading] = useState(false);
+    
+    const [activeTab, setActiveTab] = useState("output"); 
+    
+    useEffect(() => {
+  if (analysisData?.template) {
+    setCode(analysisData.template[language]);
+  }
+}, [analysisData, language]);
 
-
-  const resetCode = () => {
-    setCode(templates[language]);
+    const resetCode = () => {
+      if (analysisData?.template) return;
+      // console.log(analysisData.template);
+    setCode(analysisData.template[language]);
   };
 
     const changeLanguage = (lang) => {
        if (
-    code !== templates[language] &&
+    code !== analysisData.template?.[language] &&
     !window.confirm(
       "Changing the language will replace your current code. Continue?"
     )
@@ -62,8 +56,9 @@ export const EditorProvider = ({ children }) => {
         }
 
     setLanguage(lang);
-    setCode(templates[lang]);
+    setCode(analysisData.template[lang]);
   };
+  
 
   const value = {
     language,

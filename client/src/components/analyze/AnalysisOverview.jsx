@@ -69,7 +69,7 @@ if (loading) {
     );
 }
 const overview = analysisData.analysis;
-console.log(overview);
+// console.log(overview);
 const stats = [
 
     {

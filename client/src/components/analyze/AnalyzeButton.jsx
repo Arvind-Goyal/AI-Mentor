@@ -25,13 +25,13 @@ const AnalyzeButton = () => {
       setLoading(true);
       // console.log("Analyzing",problem);
       const response = await axios.post("http://localhost:5000/api/analyze",{problem,language});
-      await new Promise((resolve) => setTimeout(resolve, 2500));
+      // await new Promise((resolve) => setTimeout(resolve, 2500));
      
       // const response = await  analyzeProblem(problem,language);
       setAnalysisData(response.data.data);
       setAnalysis(response.data.data);
-      console.log("analu")
-      console.log(analysisData);
+      // console.log("analu")
+      // console.log(analysisData);
     }catch(error){
       setError(error.message);
     } finally{

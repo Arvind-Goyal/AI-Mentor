@@ -1,11 +1,15 @@
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
 import { useEditor } from "../../context/EditorContext";
+import { useAnalysis } from "../../context/AnalysisContext";
 
 
 const CodeEditor = () => {
-
+  const { analysisData} = useAnalysis();
   const { code, setCode, language } = useEditor();
+  // const changeTemp = () => {
+  //   setCode(analysisData.template.language);
+  // }
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-[70vh] overflow-hidden">

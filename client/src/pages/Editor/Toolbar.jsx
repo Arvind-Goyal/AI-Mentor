@@ -6,10 +6,48 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useEditor } from "../../context/EditorContext";
+import axios from "axios";
+import { useAnalysis } from "../../context/AnalysisContext";
 
 const Toolbar = () => {
   const navigate = useNavigate();
-  const {language, setLanguage, resetCode } = useEditor();
+  const { language, setLanguage, resetCode, setReview,
+    review, activeTab, setActiveTab, reviewLoading, setReviewLoading,code } = useEditor();
+  const { analysisData} = useAnalysis();
+  
+  const handleReview = async () => {
+
+    setReviewLoading(true);
+
+    setActiveTab("review");
+
+    try{
+
+        const {data} = await axios.post("http://localhost:5000/api/editor/review",{
+
+            problem: analysisData.analysis.summary,
+
+            language,
+
+            code
+
+        });
+
+        setReview(data.review);
+
+    }catch (err) {
+
+    console.error(err);
+
+} 
+
+    finally{
+
+        setReviewLoading(false);
+
+    }
+
+}
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-4">
@@ -62,7 +100,9 @@ const Toolbar = () => {
           </button>
 
           {/* AI Review */}
-          <button className="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg px-4 py-2 transition">
+          <button
+            onClick={handleReview}
+            className="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg px-4 py-2 transition">
             <FaRobot />
             AI Review
           </button>

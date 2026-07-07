@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useEditor } from "../../context/EditorContext";
+import EmptyReview from "./EmptyReview";
+import ReviewPanel from "./ReviewPanel";
 
 const tabs = ["Output", "AI Review"];
 
 const OutputPanel = () => {
 
-  const {activeTab, setActiveTab } = useEditor();
+  const {activeTab, setActiveTab ,review, setReview,} = useEditor();
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm">
@@ -35,7 +37,7 @@ const OutputPanel = () => {
 
       {/* Content */}
 
-      <div className="h-56 p-6">
+      <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
 
         {activeTab === "Output" ? (
 
@@ -49,7 +51,11 @@ const OutputPanel = () => {
 
           <div className="text-slate-500">
 
-            Submit your code for AI review.
+            {review ? (
+                  <ReviewPanel />
+              ) : (
+                  <EmptyReview/>
+              )}
 
           </div>
 

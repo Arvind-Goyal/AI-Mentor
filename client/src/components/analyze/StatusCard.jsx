@@ -17,11 +17,11 @@ const StatusCard = () => {
 
   if (!analysisData.analysis) return null;
   if (!analysis) return null;
-  console.log("Hiiiii");
-  console.log(analysisData);
+  // console.log("Hiiiii");
+  // console.log(analysisData);
   const status = analysisData.mentor.status;
-  console.log("Hiiiii2");
-  console.log(status);
+  // console.log("Hiiiii2");
+  // console.log(status);
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 

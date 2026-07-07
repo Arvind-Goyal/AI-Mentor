@@ -50,12 +50,17 @@ IMPORTANT INSTRUCTIONS
 23. Company tags should only include well-known companies that have historically asked or are strongly associated with the problem. If unknown, return an empty array.
 24. Ensure the algorithm, pseudocode, optimized solution, and complexity analysis are all consistent with one another.
 25. Before returning the response, internally verify that every required field is present, properly formatted, and contains meaningful educational content.
+26. Even generate leetcode specific template for the given ${problem} for all four language java,cpp,python,javascript.
+
 
 =========================
 MENTOR GUIDELINES
 =========================
 
 Generate the response as if you are personally mentoring the student.
+
+Template:
+${language} specific template where student just had to code for the specfic ${problem}
 
 Problem Analysis:
 - Explain what the problem is asking.
@@ -110,6 +115,12 @@ JSON SCHEMA
 =========================
 
 {
+  "template":{
+  "java":"",
+  "cpp":"",
+  "python":"",
+  "javascript":""},
+
   "mentor": {
     "goal": "",
     "estimatedTime": "",

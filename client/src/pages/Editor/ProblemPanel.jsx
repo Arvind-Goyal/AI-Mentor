@@ -74,7 +74,7 @@ const ProblemPanel = () => {
 
       {/* Scrollable Content */}
 
-      <div className="flex-1 overflow-y-auto px-6">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent px-6">
 
         <AccordionItem
     title="Problem Statement"
