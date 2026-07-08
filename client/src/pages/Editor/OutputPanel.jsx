@@ -10,7 +10,7 @@ const OutputPanel = () => {
   const {activeTab, setActiveTab ,review, setReview,} = useEditor();
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm">
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm ">
 
       {/* Tabs */}
 
@@ -37,7 +37,7 @@ const OutputPanel = () => {
 
       {/* Content */}
 
-      <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+      <div className="h-full  p-3 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
 
         {activeTab === "Output" ? (
 

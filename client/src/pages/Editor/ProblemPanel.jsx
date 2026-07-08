@@ -61,7 +61,6 @@ const ProblemPanel = () => {
   // `;
   
   const { analysisData }=useAnalysis();
- 3
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-[70vh] overflow-hidden flex flex-col">
       {/* Header */}

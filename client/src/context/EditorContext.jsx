@@ -40,7 +40,7 @@ const EditorContext = createContext();
 }, [analysisData, language]);
 
     const resetCode = () => {
-      if (analysisData?.template) return;
+      // if (analysisData?.template) return;
       // console.log(analysisData.template);
     setCode(analysisData.template[language]);
   };

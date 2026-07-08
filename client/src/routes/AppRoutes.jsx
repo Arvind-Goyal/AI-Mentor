@@ -10,6 +10,7 @@ import Profile from "../pages/Profile/Profile";
 import NotFound from "../pages/NotFound/NotFound";
 import Editor from "../pages/Editor/Editor"
 import ROUTES from "../constants/routes.js";
+import ProtectedEditorRoute from "../pages/Editor/ProtectedEditorRoute.jsx";
 
 const AppRoutes = () => {
 
@@ -22,8 +23,14 @@ const AppRoutes = () => {
         <Route path={ROUTES.SIGNUP} element={<Signup />} />
         <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
         <Route path={ROUTES.ANALYZE} element={<Analyze />} />
-        <Route path = {ROUTES.EDITOR} element={<Editor/>}/>
-        
+        {/* <Route path = {ROUTES.EDITOR} element={<Editor/>}/> */}
+        <Route path={ROUTES.EDITOR} element={
+            <ProtectedEditorRoute>
+                <Editor />
+            </ProtectedEditorRoute>
+        }
+        />
+
         </Routes>
 
     );
