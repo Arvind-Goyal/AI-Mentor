@@ -1,10 +1,22 @@
 import React from 'react'
+import PageHeader from './PageHeader'
+import NavbarActions from './NavbarActions'
+
 
 const Navbar = () => {
+    
+ 
   return (
-    <div className="ml-5">
-      <h1>Navbar</h1>
-    </div>
+    <nav className="flex items-center justify-between h-16 px-6 bg-white border-b border-slate-200">
+
+    <PageHeader />
+
+    <NavbarActions/>
+
+</nav>
+  
+    
+          
   )
 }
 

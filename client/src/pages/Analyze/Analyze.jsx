@@ -21,37 +21,7 @@ const Analyze = () => {
       <div className="min-h-screen bg-[#F8FAFC]">
         {/* Main Container */}
         <div className="max-w-7xl mx-auto px-6 py-8">
-          {/* ================= Header ================= */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-            {/* Left */}
-            <div>
-              <h1 className="text-4xl font-bold text-slate-900">
-                Analyze Problem
-              </h1>
-
-              <p className="text-slate-500 mt-2 text-lg">
-                Get AI-powered analysis and learn step by step.
-              </p>
-            </div>
-
-            {/* Right */}
-            <button
-              className="
-                px-5
-                py-3
-                rounded-xl
-                border
-                border-slate-200
-                bg-white
-                shadow-sm
-                hover:shadow-md
-                transition-all
-                duration-300
-              "
-            >
-              How it Works
-            </button>
-          </div>
+          
 
           {/* ================= Main Grid ================= */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
