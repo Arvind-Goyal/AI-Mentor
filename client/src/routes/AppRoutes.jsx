@@ -11,6 +11,7 @@ import NotFound from "../pages/NotFound/NotFound";
 import Editor from "../pages/Editor/Editor"
 import ROUTES from "../constants/routes.js";
 import ProtectedEditorRoute from "../pages/Editor/ProtectedEditorRoute.jsx";
+import Landing from "../pages/Landing/Landing.jsx";
 
 const AppRoutes = () => {
 
@@ -18,7 +19,8 @@ const AppRoutes = () => {
 
         <Routes>
 
-        <Route path={ROUTES.HOME} element={<Home />} />
+            {/* <Route path={ROUTES.HOME} element={<Home />} /> */}
+            <Route path={ROUTES.HOME} element={< Landing/>} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.SIGNUP} element={<Signup />} />
         <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
