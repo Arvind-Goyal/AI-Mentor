@@ -1,11 +1,16 @@
-import React from 'react'
+import AuthLayout from "../../components/auth/AuthLayout";
 
 const Login = () => {
-  return (
-    <div>
-      <h1> Login </h1>
-    </div>
-  )
-}
+    return (
+        <AuthLayout
+            title="Welcome Back"
+            subtitle="Sign in to continue learning."
+        >
+            <p className="text-center text-gray-400">
+                Login Form Here
+            </p>
+        </AuthLayout>
+    );
+};
 
-export default Login
+export default Login;
