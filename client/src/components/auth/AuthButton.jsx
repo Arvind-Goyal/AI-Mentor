@@ -1,6 +1,10 @@
-const AuthButton = ({ children }) => {
+const AuthButton = ({
+    children,
+    type = "submit",
+}) => {
     return (
         <button
+            type={type}
             className="
                 w-full
                 rounded-xl
@@ -12,10 +16,10 @@ const AuthButton = ({ children }) => {
                 text-white
                 transition-all
                 duration-300
-                hover:scale-[1.02]
+                hover:-translate-y-0.5
                 hover:shadow-lg
                 hover:shadow-violet-500/25
-                active:scale-95
+                active:translate-y-0
             "
         >
             {children}
