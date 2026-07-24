@@ -69,7 +69,7 @@ if (loading) {
     );
 }
 const overview = analysisData.analysis;
-// console.log(overview);
+console.log(overview);
 const stats = [
 
     {
@@ -81,21 +81,21 @@ const stats = [
 
     {
         title: "Pattern",
-        value: overview.patterns?.join(', '),
+        value: overview.concepts?.join(', '),
         subtitle: "Primary Concept",
         icon: <FaTags />
     },
 
     {
         title: "Time Complexity",
-        value: overview.timeComplexity,
+        value: analysisData.optimized.complexity.time,
         subtitle: "Expected Solution",
         icon: <FaClock />
     },
 
     {
         title: "Space Complexity",
-        value: overview.spaceComplexity,
+        value: analysisData.optimized.complexity.space,
         subtitle: "Expected Solution",
         icon: <FaDatabase />
     }

@@ -16,7 +16,7 @@ const QuestionInput = () => {
         <div className="flex items-start gap-4">
 
           {/* Step Number */}
-          <div className="flex h-9 w-14 items-center justify-center rounded-full bg-violet-100 text-violet-700 font-semibold">
+          <div className="flex h-10 w-12 items-center justify-center rounded-full bg-violet-100 text-violet-700 font-semibold">
             1
           </div>
 
