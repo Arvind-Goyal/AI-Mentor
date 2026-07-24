@@ -13,31 +13,31 @@ export const reviewCode = async (req, res) => {
       });
     }
 
-    const review = await generateReview({problem,language,code,});
-//     const review = {
-//     errors: [
-//         "No syntax errors detectedded."
-//     ],
+    // const review = await generateReview({problem,language,code,});
+    const review = {
+    errors: [
+        "No syntax errors detectedded."
+    ],
 
-//     logicIssues: [
-//         "Your solution uses nested loops resulting in O(n²) time complexity."
-//     ],
+    logicIssues: [
+        "Your solution uses nested loops resulting in O(n²) time complexity."
+    ],
 
-//     suggestions: [
-//         "Use a HashMap for constant-time lookup.",
-//         "Rename variable 'a' to something meaningful."
-//     ],
+    suggestions: [
+        "Use a HashMap for constant-time lookup.",
+        "Rename variable 'a' to something meaningful."
+    ],
 
-//     complexity: {
-//         time: "O(n²)",
-//         expectedTime: "O(n)",
-//         space: "O(1)",
-//         expectedSpace: "O(n)"
-//     },
+    complexity: {
+        time: "O(n²)",
+        expectedTime: "O(n)",
+        space: "O(1)",
+        expectedSpace: "O(n)"
+    },
 
-//     overallFeedback:
-//         "Good first solution. The logic is correct, but it can be optimized using a HashMap."
-// };  
+    overallFeedback:
+        "Good first solution. The logic is correct, but it can be optimized using a HashMap."
+};  
     
     // console.log(review);
 

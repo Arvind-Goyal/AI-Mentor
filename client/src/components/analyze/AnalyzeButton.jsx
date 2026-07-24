@@ -1,6 +1,7 @@
 import { dummyAnalysis } from "../../constants/learningJourney.js";
 import { useAnalysis } from "../../context/AnalysisContext";
 import analyzeProblem from "../../services/analyzeService.js";
+import { analyzeQuestion } from "../../api/analysis";
 import axios from 'axios';
 
 const AnalyzeButton = () => {
@@ -23,10 +24,13 @@ const AnalyzeButton = () => {
     
     try {
       setLoading(true);
+      const response = await analyzeQuestion({ problem, language, });
+      console.log("Analyze button clicked");
       // console.log("Analyzing",problem);
-      const response = await axios.post("http://localhost:5000/api/analyze",{problem,language});
+      // const response = await axios.post("http://localhost:5000/api/analyze",{problem,language});
       // await new Promise((resolve) => setTimeout(resolve, 2500));
-     
+      console.log(response);
+      
       // const response = await  analyzeProblem(problem,language);
       setAnalysisData(response.data.data);
       setAnalysis(response.data.data);

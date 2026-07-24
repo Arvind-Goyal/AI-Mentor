@@ -1,18 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCurrentUser } from "../api/auth";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const [loading, setLoading] = useState(false);
+    const fetchUser = async () => {
+        try {
+            const response = await getCurrentUser();
 
-    const login = (userData) => {
+            setUser(response.user);
+        } catch (err) {
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
+    const loginUser = (userData) => {
         setUser(userData);
     };
 
-    const logout = () => {
+    const logoutUser = () => {
         setUser(null);
     };
 
@@ -21,9 +36,9 @@ export const AuthProvider = ({ children }) => {
             value={{
                 user,
                 loading,
-                login,
-                logout,
-                setLoading,
+                loginUser,
+                logoutUser,
+                fetchUser,
             }}
         >
             {children}
@@ -31,4 +46,6 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export default AuthContext;
+export const useAuth = () => {
+    return useContext(AuthContext);
+};

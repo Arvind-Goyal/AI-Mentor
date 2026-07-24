@@ -1,17 +1,24 @@
-import React from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 const Avatar = ({
-  name = "Arvind Kumar",
   size = "md",
   showStatus = true,
   onClick,
 }) => {
-  const initials = name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+  const { user } = useAuth();
+
+  const getInitials = (name = "") => {
+    return name
+      .trim()
+      .split(" ")
+      .filter(Boolean)
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const initials = getInitials(user?.name);
 
   const sizes = {
     sm: {
@@ -53,7 +60,7 @@ const Avatar = ({
           duration-200
         `}
       >
-        {initials}
+        {initials || "?"}
       </div>
 
       {showStatus && (

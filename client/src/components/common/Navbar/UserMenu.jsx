@@ -1,6 +1,9 @@
 import { User, Settings, CircleHelp, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { logout } from "../../../api/auth";
+import { useAuth } from "../../../context/AuthContext";
+
 const MENU_ITEMS = [
   {
     label: "Profile",
@@ -19,12 +22,28 @@ const MENU_ITEMS = [
   },
 ];
 
-const UserMenu = ({ name = "Arvind Goyal", email = "arvind@example.com", onClose }) => {
+const UserMenu = ({ onClose }) => {
   const navigate = useNavigate();
+
+  const { user, logoutUser } = useAuth();
 
   const handleNavigate = (path) => {
     navigate(path);
     onClose?.();
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // Backend clears HTTP-only cookie
+
+      logoutUser(); // Clear AuthContext
+
+      onClose?.();
+
+      navigate("/login", { replace: true });
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
   };
 
   return (
@@ -33,11 +52,11 @@ const UserMenu = ({ name = "Arvind Goyal", email = "arvind@example.com", onClose
       {/* User Info */}
       <div className="px-5 py-4 border-b border-slate-200">
         <h3 className="text-sm font-semibold text-slate-900">
-          {name}
+          {user?.name || "Guest"}
         </h3>
 
         <p className="text-xs text-slate-500 mt-1">
-          {email}
+          {user?.email || "Not signed in"}
         </p>
       </div>
 
@@ -64,6 +83,7 @@ const UserMenu = ({ name = "Arvind Goyal", email = "arvind@example.com", onClose
 
       {/* Logout */}
       <button
+        onClick={handleLogout}
         className="w-full flex items-center gap-3 px-5 py-3 text-sm text-red-600 hover:bg-red-50 transition"
       >
         <LogOut size={18} />

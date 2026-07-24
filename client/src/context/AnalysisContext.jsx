@@ -36,7 +36,15 @@ export const AnalysisProvider=({children})=>{
 
         setLoading(false);
         setCurrentStep(1);
-        setAnalysisData(null)
+        setAnalysisData({
+            analysis: null,
+            hint1: null,
+            hint2: null,
+            algorithm: null,
+            pseudocode: null,
+            review: null,
+            optimized: null,
+        });
         setAnalysis(null);
         setError(null);
     }

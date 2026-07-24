@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useEditor } from "../../context/EditorContext";
 import axios from "axios";
 import { useAnalysis } from "../../context/AnalysisContext";
-
+import { reviewSolution } from "../../api/analysis";
 const Toolbar = () => {
   const navigate = useNavigate();
   const { language, setLanguage, resetCode, setReview,
@@ -23,7 +23,7 @@ const Toolbar = () => {
 
     try{
 
-        const {data} = await axios.post("http://localhost:5000/api/editor/review",{
+        const {data} = await reviewSolution({
 
             problem: analysisData.analysis.summary,
 
