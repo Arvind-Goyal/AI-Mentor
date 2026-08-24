@@ -39,8 +39,8 @@ const UserMenu = ({ onClose }) => {
       logoutUser(); // Clear AuthContext
 
       onClose?.();
-
-      navigate("/login", { replace: true });
+      // console.log("Pahuch gaya");
+      navigate("/", { replace: true });
     } catch (err) {
       console.error("Logout failed:", err);
     }

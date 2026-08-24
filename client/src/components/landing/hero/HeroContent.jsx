@@ -2,7 +2,11 @@ import HeroBadge from "./HeroBadge";
 import HeroButtons from "./HeroButtons";
 import TrustIndicators from "./TrustIndicators";
 
-const HeroContent = () => {
+const HeroContent = ({
+  mode,
+  onStartLearning,
+  onBackToPreview,
+}) => {
   return (
     <div className="flex flex-col items-start justify-center">
       {/* Badge */}
@@ -27,7 +31,11 @@ const HeroContent = () => {
 
       {/* CTA Buttons */}
       <div className="mt-10">
-        <HeroButtons />
+        <HeroButtons
+          mode={mode}
+          onStartLearning={onStartLearning}
+          onBackToPreview={onBackToPreview}
+        />
       </div>
 
       {/* Trust Indicators */}
