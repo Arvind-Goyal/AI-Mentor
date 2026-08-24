@@ -51,7 +51,7 @@ IMPORTANT INSTRUCTIONS
 24. Ensure the algorithm, pseudocode, optimized solution, and complexity analysis are all consistent with one another.
 25. Before returning the response, internally verify that every required field is present, properly formatted, and contains meaningful educational content.
 26. Even generate leetcode specific template for the given ${problem} for all four language java,cpp,python,javascript.
-
+27. Even generate Appropriate Title for the following problem.
 
 =========================
 MENTOR GUIDELINES
@@ -115,6 +115,7 @@ JSON SCHEMA
 =========================
 
 {
+  "problemTitle":"",
   "template":{
   "java":"",
   "cpp":"",
@@ -192,138 +193,3 @@ JSON SCHEMA
       Do not return markdown.
 Do not explain anything.
 `;
-// export const getAnalysisPrompt = (problem, language) =>  `
-// You are an expert DSA mentor.
-
-// Analyze the following LeetCode problem.
-
-// Programming Language: ${language}
-
-// Problem:
-// ${problem}
-
-// Return ONLY valid JSON.
-
-// Schema:
-
-// {
-//   "mentor": {
-//     "goal": "",
-//     "estimatedTime": "",
-//     "confidence": 0,
-//     "motivation": "",
-
-//     "advice": {
-//       "title": "",
-//       "description": ""
-//     },
-
-//     "status": {
-//       "state": "",
-//       "difficulty": "",
-//       "estimatedTime": "",
-//       "progress": 0
-//     },
-
-//     "mistakes": []
-//   },
-
-//   "analysis": {
-//     "difficulty": "",
-//     "summary": "",
-//     "concepts": [],
-//     "companies": []
-//   },
-
-//   "hint1": {
-//     "text": ""
-//   },
-
-//   "hint2": {
-//     "text": ""
-//   },
-
-//   "hint3": {
-//     "text": ""
-//   },
-
-//   "algorithm": {
-//     "steps": []
-//   },
-  
-//   "pseudocode": {
-//     "code": ""
-//   },
-  
-//   "review": {
-//     "strengths": [],
-//     "improvements": []
-//   },
-
-//   "optimized": {
-//     "complexity": {
-//       "time": "",
-//       "space": ""
-//     },
-//     "code": ""
-//   }
-//   Return JSON only.
-//   `;
-
-
-// {
-//   "mentor": {
-//     "goal": "",
-//     "estimatedTime": "",
-//     "confidence": 0,
-//     "motivation": "",
-//     status: {
-//         state: "",
-//         estimatedTime: "",
-//         difficulty: "",
-//         progress: 0
-//     },
-
-//     mistakes: []
-//   },
-
-//   "analysis": {
-//     "difficulty": "",
-//     "summary": "",
-//     "concepts": [],
-//     "companies": []
-//   },
-
-//   "hint1": {
-//     "text": ""
-//   },
-
-//   "hint2": {
-//     "text": ""
-//   },
-
-//   "hint3": {
-//     "text": ""
-//   },
-
-//   "algorithm": {
-//     "steps": []
-//   },
-
-//   "pseudocode": {
-//     "code": ""
-//   },
-
-//   "review": {
-//     "strengths": [],
-//     "improvements": []
-//   },
-
-//   "optimized": {
-//     "complexity": {
-//       "time": "",
-//       "space": ""
-//     },
-//     "code": ""
-//   }
-// }

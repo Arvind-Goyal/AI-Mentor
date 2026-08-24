@@ -7,6 +7,7 @@ import editorRoutes from "./routes/editorRoutes.js";
 
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
+import historyRoutes from "./routes/historyRoutes.js";
 
 
 
@@ -30,5 +31,6 @@ app.use(cookieParser());
 app.use("/api/analyze", analysisRoutes);
 app.use("/api/editor", editorRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/history", historyRoutes);
 
 export default app;

@@ -12,6 +12,7 @@ import PublicRoute from "./PublicRoute";
 
 import ROUTES from "../constants/routes";
 import ProtectedEditorRoute from "../pages/Editor/ProtectedEditorRoute";
+import History from "../pages/History/History";
 
 const AppRoutes = () => {
     return (
@@ -36,6 +37,7 @@ const AppRoutes = () => {
                     </PublicRoute>
                 }
             />
+            
 
             {/* Protected */}
             <Route
@@ -63,6 +65,14 @@ const AppRoutes = () => {
                         <ProtectedEditorRoute>
                             <Editor />
                         </ProtectedEditorRoute>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path={ROUTES.HISTORY}
+                element={
+                    <ProtectedRoute>
+                        <History />
                     </ProtectedRoute>
                 }
             />

@@ -13,7 +13,8 @@ const AnalyzeButton = () => {
     loading,
     setLoading,
     setAnalysis,
-    setError
+    setError,
+    setHistoryId,
 } = useAnalysis();
 // console.log(language);
   const handleAnalyze = async()=>{
@@ -21,6 +22,8 @@ const AnalyzeButton = () => {
       alert("Please enter problem first. ")
       return ;
     }
+    // This is a new analysis session
+    setHistoryId(null);
     
     try {
       setLoading(true);

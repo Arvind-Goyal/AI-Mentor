@@ -14,7 +14,7 @@ const Toolbar = () => {
   const { language, setLanguage, resetCode, setReview,
     review, activeTab, setActiveTab, reviewLoading, setReviewLoading,code } = useEditor();
   const { analysisData} = useAnalysis();
-  
+
   const handleReview = async () => {
 
     setReviewLoading(true);
@@ -68,7 +68,7 @@ const Toolbar = () => {
           <div className="h-6 w-px bg-slate-200" />
 
           <h2 className="text-xl font-semibold text-slate-900">
-            Two Sum
+            {analysisData.problemTitle}
           </h2>
 
         </div>

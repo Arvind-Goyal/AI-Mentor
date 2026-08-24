@@ -8,9 +8,8 @@ import OutputPanel from "./OutputPanel";
 const Editor = () => {
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-slate-50 ">
-
-        <div className="max-w-7xl mx-auto p-6 space-y-5">
+      <div className="min-h-screen bg-slate-50">
+        <div className="mx-auto max-w-7xl space-y-5 p-6">
 
           {/* Toolbar */}
           <Toolbar />
@@ -34,7 +33,6 @@ const Editor = () => {
           <OutputPanel />
 
         </div>
-
       </div>
     </DashboardLayout>
   );

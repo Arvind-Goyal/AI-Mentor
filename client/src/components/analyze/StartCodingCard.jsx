@@ -1,8 +1,47 @@
 import { FaArrowRight, FaCode } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { useAnalysis } from "../../context/AnalysisContext";
+import { useAuth } from "../../context/AuthContext";
 
 const StartCodingCard = () => {
   const navigate = useNavigate();
+
+  const {
+    problem,
+    language,
+    analysisData,
+    setHistoryId,
+  } = useAnalysis();
+
+  const { user } = useAuth();
+
+  const handleStartCoding = async () => {
+    try {
+      if (!user?._id || !problem || !analysisData?.analysis) {
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:5000/api/history",
+        {
+          userId: user._id,
+          title: problem,
+          language,
+          analysis: analysisData,
+        }
+      );
+
+      // Store the MongoDB history ID
+      setHistoryId(response.data.history._id);
+
+      // Open editor
+      navigate("/editor");
+    } catch (error) {
+      console.error("Failed to save history:", error);
+    }
+  };
 
   return (
     <div className="mt-4 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 shadow-lg">
@@ -27,7 +66,7 @@ const StartCodingCard = () => {
         </div>
 
         <button
-          onClick={() => navigate("/editor")}
+          onClick={handleStartCoding}
           className="flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 font-semibold text-violet-700 transition-all hover:scale-105 hover:shadow-lg"
         >
           Continue to Editor

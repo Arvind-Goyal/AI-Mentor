@@ -4,11 +4,15 @@ const AnalysisContext = createContext();
 export const AnalysisProvider=({children})=>{
     // user Input
     const [problem,setProblem] = useState("");
-    const [language,setLanguage] = useState("Java");
-
+    const [language, setLanguage] = useState("Java");
+    
+    
     //UI State
     const [loading,setLoading] = useState(false);
-    const [currentStep,setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(1);
+    
+    //History ID
+    const [historyId, setHistoryId] = useState(null);
 
     
     //Error
@@ -33,6 +37,7 @@ export const AnalysisProvider=({children})=>{
     const resetAnalysis = ()=>{
         setProblem("");
         setLanguage("Java");
+        setProblemTitle("");
 
         setLoading(false);
         setCurrentStep(1);
@@ -45,6 +50,7 @@ export const AnalysisProvider=({children})=>{
             review: null,
             optimized: null,
         });
+        setHistoryId(null);
         setAnalysis(null);
         setError(null);
     }
@@ -71,10 +77,12 @@ export const AnalysisProvider=({children})=>{
                 analysisData,
                 setAnalysisData,
 
+                historyId,
+                setHistoryId,
 
                 error,
                 setError,
-
+                
                 resetAnalysis,
 
             }}

@@ -14,7 +14,8 @@ export const analyzeProblem = async (req, res) => {
         }
 
       // const analysis = await analyzeWithGemini(problem, language);
-      const analysis = {
+            const analysis = {
+"problemTitle":"Two Sum",
   "template": {
     "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Your code here\n    }\n}",
     "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
