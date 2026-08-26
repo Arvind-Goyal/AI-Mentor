@@ -24,7 +24,7 @@ const AppRoutes = () => {
                 path={ROUTES.LOGIN}
                 element={
                     <PublicRoute>
-                        <Login />
+                        <Landing />
                     </PublicRoute>
                 }
             />
@@ -33,7 +33,7 @@ const AppRoutes = () => {
                 path={ROUTES.SIGNUP}
                 element={
                     <PublicRoute>
-                        <Signup />
+                        <Landing />
                     </PublicRoute>
                 }
             />

@@ -1,30 +1,59 @@
-import Navbar from "../../components/common/Navbar/Navbar";
-import Sidebar from "../../components/common/Sidebar/Sidebar";
+import DashboardStats from "../../components/dashboard/DashboardStats";
+import TopicExploration from "../../components/dashboard/TopicExploration";
+import LanguageUsage from "../../components/dashboard/LanguageUsage";
+import MentorInsight from "../../components/dashboard/MentorInsight";
+import ContinueLearning from "../../components/dashboard/ContinueLearning";
+import WeeklyActivity from "../../components/dashboard/WeeklyActivity";
+import DashboardLayout from "../DashboardLayout/Dashboard";
 
-const DashboardLayout = ({ children }) => {
 
-    return (
+const Dashboard = () => {
 
-        <div className="flex h-screen">
+  return (
+    <DashboardLayout>
 
-            <Sidebar/>
+      <div className="bg-[#F8FAFC]  px-20 py-7">
 
-            <div className="flex flex-col flex-1">
 
-               <Navbar/>
+        {/* Stats */}
+        <DashboardStats />
 
-                <main className="flex-1 overflow-y-auto">
 
-                    {children}
+        {/* Exploration + Language */}
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
 
-                </main>
+          <TopicExploration />
 
-            </div>
+          <LanguageUsage />
 
         </div>
 
-    );
 
+
+        {/* AI Insight + Continue Learning */}
+        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+          <MentorInsight />
+
+          <ContinueLearning />
+
+        </div>
+
+
+
+        {/* Activity */}
+        <div className="mt-6">
+
+          <WeeklyActivity />
+
+        </div>
+
+
+      </div>
+
+    </DashboardLayout>
+  );
 };
 
-export default DashboardLayout;
+
+export default Dashboard;

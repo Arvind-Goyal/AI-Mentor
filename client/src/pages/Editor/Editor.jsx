@@ -1,4 +1,4 @@
-import DashboardLayout from "../Dashboard/Dashboard";
+import DashboardLayout from "../DashboardLayout/Dashboard";
 
 import Toolbar from "./Toolbar";
 import ProblemPanel from "./ProblemPanel";

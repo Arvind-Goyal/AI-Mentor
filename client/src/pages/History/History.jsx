@@ -8,7 +8,7 @@ import HistoryFilters from "../../components/history/HistoryFilters";
 import HistoryList from "../../components/history/HistoryList";
 import EmptyHistory from "../../components/history/EmptyHistory";
 
-import DashboardLayout from "../Dashboard/Dashboard";
+import DashboardLayout from "../DashboardLayout/Dashboard";
 import { useAuth } from "../../context/AuthContext";
 import { useAnalysis } from "../../context/AnalysisContext";
 

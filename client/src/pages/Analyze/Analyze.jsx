@@ -1,4 +1,4 @@
-import DashboardLayout from "../Dashboard/Dashboard";
+import DashboardLayout from "../DashboardLayout/Dashboard";
 import {
   QuestionInput,
   AnalysisConfig,
