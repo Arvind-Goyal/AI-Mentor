@@ -1,8 +1,18 @@
 import { ArrowRight, BookOpen } from "lucide-react";
-import { continueLearning } from "../../constants/dashboardData";
 
 
-const ContinueLearning = () => {
+const ContinueLearning = ({ data }) => {
+
+  const topic = data?.topic;
+
+  const description =
+    data?.description ||
+    "Analyze more problems to get a personalized recommendation.";
+
+  const action =
+    data?.action ||
+    "Analyze Problem";
+
 
   return (
 
@@ -41,7 +51,6 @@ const ContinueLearning = () => {
       </div>
 
 
-
       {/* Recommendation */}
 
       <div
@@ -50,25 +59,23 @@ const ContinueLearning = () => {
       >
 
         <p
-          className="text-xs font-medium uppercase tracking-wide
-                     text-slate-400"
+          className="text-xs font-medium uppercase
+                     tracking-wide text-slate-400"
         >
           Recommended Topic
         </p>
 
 
         <h3 className="mt-2 text-xl font-bold text-slate-900">
-          {continueLearning.topic}
+          {topic || "Start Exploring"}
         </h3>
 
 
         <p className="mt-2 text-sm leading-5 text-slate-500">
-          {continueLearning.description}
+          {description}
         </p>
 
-
       </div>
-
 
 
       {/* Action */}
@@ -79,12 +86,11 @@ const ContinueLearning = () => {
                    hover:text-violet-700"
       >
 
-        {continueLearning.action}
+        {action}
 
-        <ArrowRight size={16}/>
+        <ArrowRight size={16} />
 
       </button>
-
 
     </div>
 

@@ -1,8 +1,20 @@
 import { Sparkles, ArrowRight } from "lucide-react";
-import { mentorInsight } from "../../constants/dashboardData";
 
 
-const MentorInsight = () => {
+const MentorInsight = ({ data }) => {
+
+  const strengths = data?.strengths || [];
+
+  const suggestion = data?.suggestion;
+
+  const message =
+    data?.message ||
+    "Analyze more problems to receive personalized insights.";
+
+  const action =
+    data?.action ||
+    "Analyze More Problems";
+
 
   return (
 
@@ -20,10 +32,12 @@ const MentorInsight = () => {
           className="flex h-10 w-10 items-center justify-center
                      rounded-xl bg-violet-100"
         >
+
           <Sparkles
             size={20}
             className="text-violet-600"
           />
+
         </div>
 
 
@@ -42,57 +56,63 @@ const MentorInsight = () => {
       </div>
 
 
-
-
       {/* Insight */}
 
       <div className="mt-6">
 
-        <p className="text-sm leading-6 text-slate-700">
+        {strengths.length > 0 ? (
 
-          You're doing great with{" "}
+          <p className="text-sm leading-6 text-slate-700">
 
-          {
-            mentorInsight.strengths.map((item, index)=>(
-              
+            You're doing great with{" "}
+
+            {strengths.map((strength, index) => (
+
               <span
-                key={item}
+                key={strength}
                 className="font-semibold text-violet-600"
               >
-                {item}
 
-                {
-                  index !== mentorInsight.strengths.length - 1
-                  && ", "
-                }
+                {strength}
+
+                {index < strengths.length - 1 && ", "}
 
               </span>
 
-            ))
-          }
+            ))}
 
-          .
+            {suggestion && (
+              <>
+                .
 
-          <br />
+                <br />
 
+                Consider exploring{" "}
 
-          Consider practicing more{" "}
+                <span className="font-semibold text-slate-900">
+                  {suggestion}
+                </span>{" "}
 
-          <span className="font-semibold">
-            {mentorInsight.suggestion}
-          </span>
+                {message}
+              </>
+            )}
 
-          {" "}
+            {!suggestion && "."}
 
-          {mentorInsight.message}
+          </p>
 
+        ) : (
 
-        </p>
+          <p className="text-sm leading-6 text-slate-600">
 
+            Analyze more problems to build your
+            personalized learning profile.
+
+          </p>
+
+        )}
 
       </div>
-
-
 
 
       {/* Action */}
@@ -103,12 +123,11 @@ const MentorInsight = () => {
                    hover:text-violet-700"
       >
 
-        {mentorInsight.action}
+        {action}
 
-        <ArrowRight size={16}/>
+        <ArrowRight size={16} />
 
       </button>
-
 
     </div>
 

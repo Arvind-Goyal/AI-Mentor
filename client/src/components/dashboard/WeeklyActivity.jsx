@@ -1,9 +1,17 @@
-import { weeklyActivity } from "../../constants/dashboardData";
-const WeeklyActivity = () => {
+import {
+  Activity,
+  TrendingUp,
+} from "lucide-react";
 
 
-  const maxValue = Math.max(
-    ...weeklyActivity.map((item)=>item.count)
+const WeeklyActivity = ({ data = [] }) => {
+
+  const weeklyActivity = data;
+
+
+  const maxCount = Math.max(
+    ...weeklyActivity.map((item) => item.count),
+    1
   );
 
 
@@ -16,98 +24,152 @@ const WeeklyActivity = () => {
 
       {/* Header */}
 
-      <div className="flex items-start justify-between">
+      <div className="flex items-center justify-between">
 
-        <div>
+        <div className="flex items-center gap-3">
 
-          <h2 className="text-lg font-semibold text-slate-950">
-            Weekly Activity
-          </h2>
+          <div
+            className="flex h-10 w-10 items-center justify-center
+                       rounded-xl bg-violet-50"
+          >
+
+            <Activity
+              size={20}
+              className="text-violet-600"
+            />
+
+          </div>
 
 
-          <p className="mt-1 text-sm text-slate-500">
-            Problems analyzed this week
-          </p>
+          <div>
+
+            <h2 className="text-lg font-semibold text-slate-950">
+              Weekly Activity
+            </h2>
+
+            <p className="text-sm text-slate-500">
+              Your coding activity this week
+            </p>
+
+          </div>
 
         </div>
 
 
-        <div
-          className="rounded-lg bg-violet-50 px-3 py-1.5
-                     text-sm font-semibold text-violet-600"
-        >
-          74 Problems
-        </div>
+        <TrendingUp
+          size={20}
+          className="text-emerald-500"
+        />
 
       </div>
-
-
 
 
       {/* Chart */}
 
-      <div className="mt-8 flex h-52 items-end justify-between gap-4">
+      {weeklyActivity.length > 0 ? (
 
-        {
-          weeklyActivity.map((item)=>(
-            
-            <div
-              key={item.day}
-              className="flex h-full flex-1 flex-col
-                         items-center justify-end gap-3"
-            >
+        <div className="mt-8">
 
+          <div
+            className="flex h-48 items-end
+                       justify-between gap-3"
+          >
 
-              {/* Bar */}
+            {weeklyActivity.map((item) => {
 
-              <div
-                className="w-full max-w-[42px]
-                           rounded-t-xl bg-violet-500
-                           transition-all hover:bg-violet-600"
-                style={{
-                  height:`${(item.count / maxValue) * 100}%`
-                }}
-              />
+              const height =
+                item.count > 0
+                  ? Math.max(
+                      (item.count / maxCount) * 100,
+                      8
+                    )
+                  : 4;
 
 
-              {/* Count */}
+              return (
 
-              <span
-                className="text-xs font-medium text-slate-400"
-              >
-                {item.day}
+                <div
+                  key={item.day}
+                  className="flex h-full flex-1
+                             flex-col items-center
+                             justify-end gap-3"
+                >
+
+                  {/* Bar */}
+
+                  <div
+                    className={`w-full max-w-12 rounded-t-lg
+                      transition-all
+                      ${
+                        item.isCurrentWeek
+                          ? "bg-violet-500"
+                          : "bg-slate-200"
+                      }`}
+                    style={{
+                      height: `${height}%`,
+                    }}
+                    title={`${item.count} ${
+                      item.count === 1
+                        ? "problem"
+                        : "problems"
+                    }`}
+                  />
+
+                  {/* Day */}
+
+                  <span className="text-xs font-medium text-slate-500">
+                    {item.day}
+                  </span>
+
+                </div>
+
+              );
+
+            })}
+
+          </div>
+
+
+          {/* Legend */}
+
+          <div className="mt-6 flex items-center gap-5">
+
+            <div className="flex items-center gap-2">
+
+              <span className="h-2.5 w-2.5 rounded-full bg-violet-500" />
+
+              <span className="text-xs text-slate-500">
+                This week
               </span>
-
 
             </div>
 
-          ))
-        }
 
+            <div className="flex items-center gap-2">
 
-      </div>
+              <span className="h-2.5 w-2.5 rounded-full bg-slate-200" />
 
+              <span className="text-xs text-slate-500">
+                Previous week
+              </span>
 
+            </div>
 
-      {/* Footer */}
+          </div>
 
-      <div
-        className="mt-6 flex items-center justify-between
-                   border-t border-slate-100 pt-4"
-      >
+        </div>
 
-        <p className="text-sm text-slate-500">
-          Average daily activity
-        </p>
+      ) : (
 
+        <div className="flex h-48 items-center justify-center">
 
-        <p className="font-semibold text-slate-900">
-          10.5 problems/day
-        </p>
+          <p className="text-sm text-slate-500">
+            No activity data available yet.
+          </p>
 
+        </div>
 
-      </div>
-
+      )}
 
     </div>
 

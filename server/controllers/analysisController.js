@@ -13,95 +13,97 @@ export const analyzeProblem = async (req, res) => {
             });
         }
 
-      // const analysis = await analyzeWithGemini(problem, language);
-            const analysis = {
-"problemTitle":"Two Sum",
-  "template": {
-    "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Your code here\n    }\n}",
-    "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
-    "python": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Your code here",
-    "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(nums, target) {\n    // Your code here\n};"
-  },
-  "mentor": {
-    "goal": "The goal is to find two numbers in an array that add up to a specific target value and return their indices.",
-    "estimatedTime": "15 minutes",
-    "confidence": 100,
-    "motivation": "This is a classic interview problem that tests your understanding of basic array manipulation and data structures. Mastering this will build a strong foundation for more complex problems. Think about how you can efficiently check for the existence of a complementary number.",
-    "advice": {
-      "title": "Think about the 'complement'",
-      "description": "For each number you encounter, think about what the *other* number would need to be to reach the target. If you can quickly check if you've *already seen* that 'complementary' number, you can solve this efficiently."
-    },
-    "status": {
-      "state": "Not Started",
-      "difficulty": "Easy",
-      "estimatedTime": "15 minutes",
-      "progress": 0
-    },
-    "mistakes": [
-      "Brute-forcing with nested loops without considering optimization.",
-      "Not handling the case where the same element cannot be used twice.",
-      "Returning the values instead of the indices.",
-      "Forgetting to store the index along with the value when using a hash map."
-    ]
-  },
-  "analysis": {
-    "difficulty": "Easy",
-    "summary": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. You may assume that each input would have exactly one solution, and you may not use the same element twice. The order of returned indices does not matter.",
-    "concepts": [
-      "Hash Maps",
-      "Arrays"
-    ],
-    "companies": [
-      "Google",
-      "Amazon",
-      "Microsoft",
-      "Meta",
-      "Apple"
-    ]
-  },
-  "hint1": {
-    "text": "If you iterate through the array, for each number, what other number would you need to find to reach the target?"
-  },
-  "hint2": {
-    "text": "Consider using a data structure that allows for quick lookups. If you need to find if a specific number exists, what data structure comes to mind?"
-  },
-  "hint3": {
-    "text": "As you iterate through the array, store the numbers you've seen so far along with their indices. For each current number, calculate the 'complement' (target - current number). Then, check if this complement already exists in your storage. If it does, you've found your pair!"
-  },
-  "algorithm": {
-    "steps": [
-      "Initialize an empty hash map (e.g., `HashMap<Integer, Integer>`) to store numbers and their indices.",
-      "Iterate through the input array `nums` from index 0 to `nums.length - 1`.",
-      "For each element `nums[i]`, calculate the `complement` needed: `complement = target - nums[i]`.",
-      "Check if the `complement` already exists as a key in the hash map.",
-      "If the `complement` exists in the hash map, it means we've found the two numbers. Return an array containing the index of the complement (retrieved from the map) and the current index `i`.",
-      "If the `complement` does not exist, add the current number `nums[i]` as a key and its index `i` as the value to the hash map.",
-      "If the loop finishes without finding a pair (which shouldn't happen based on the problem constraints), return an appropriate indicator (e.g., an empty array or throw an exception, though the problem guarantees a solution)."
-    ]
-  },
-  "pseudocode": {
-    "code": "function twoSum(nums, target):\n  map = new HashMap()\n  for i from 0 to length(nums) - 1:\n    current_num = nums[i]\n    complement = target - current_num\n    if complement is in map:\n      return [map.get(complement), i]\n    else:\n      map.put(current_num, i)\n  // Should not reach here based on problem constraints\n  return []"
-  },
-  "review": {
-    "strengths": [
-      "This problem is fundamental for understanding how hash maps can drastically improve the time complexity of search operations.",
-      "It's a common warm-up question in interviews, helping to gauge basic problem-solving and coding skills.",
-      "It introduces the concept of looking for a 'complement' rather than exhaustively checking all pairs."
-    ],
-    "improvements": [
-      "Students often jump directly to a brute-force O(n^2) solution using nested loops. Encourage them to think about optimizing the search for the second number.",
-      "Careless implementation of the hash map can lead to bugs, such as storing the value instead of the index, or failing to handle duplicates correctly (though not an issue in this specific problem due to the 'exactly one solution' constraint and not using the same element twice).",
-      "Forgetting that the function must return indices, not the numbers themselves."
-    ]
-  },
-  "optimized": {
-    "complexity": {
-      "time": "O(n)",
-      "space": "O(n)"
-    },
-    "code": "import java.util.HashMap;\nimport java.util.Map;\n\nclass Solution {\n    public int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> numMap = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (numMap.containsKey(complement)) {\n                return new int[] { numMap.get(complement), i };\n            }\n            numMap.put(nums[i], i);\n        }\n        // This line should technically not be reached given the problem constraints\n        // but is required for the compiler to not complain about a missing return statement.\n        throw new IllegalArgumentException(\"No two sum solution found\");\n    }\n}"
-  }
-}
+        const analysis = await analyzeWithGemini(problem, language);
+//             const analysis = {
+// "problemTitle":"Two Sum",
+//   "template": {
+//     "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Your code here\n    }\n}",
+//     "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
+//     "python": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Your code here",
+//     "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(nums, target) {\n    // Your code here\n};"
+//   },
+//   "mentor": {
+//     "goal": "The goal is to find two numbers in an array that add up to a specific target value and return their indices.",
+//     "estimatedTime": "15 minutes",
+//     "confidence": 100,
+//     "motivation": "This is a classic interview problem that tests your understanding of basic array manipulation and data structures. Mastering this will build a strong foundation for more complex problems. Think about how you can efficiently check for the existence of a complementary number.",
+//     "advice": {
+//       "title": "Think about the 'complement'",
+//       "description": "For each number you encounter, think about what the *other* number would need to be to reach the target. If you can quickly check if you've *already seen* that 'complementary' number, you can solve this efficiently."
+//     },
+//     "status": {
+//       "state": "Not Started",
+//       "difficulty": "Easy",
+//       "estimatedTime": "15 minutes",
+//       "progress": 0
+//     },
+//     "mistakes": [
+//       "Brute-forcing with nested loops without considering optimization.",
+//       "Not handling the case where the same element cannot be used twice.",
+//       "Returning the values instead of the indices.",
+//       "Forgetting to store the index along with the value when using a hash map."
+//     ]
+//   },
+//   "analysis": {
+//     "difficulty": "Easy",
+//     "summary": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`. You may assume that each input would have exactly one solution, and you may not use the same element twice. The order of returned indices does not matter.",
+//     "concepts": [
+//       "Hash Maps",
+//       "Arrays"
+//     ],
+//     "companies": [
+//       "Google",
+//       "Amazon",
+//       "Microsoft",
+//       "Meta",
+//       "Apple"
+//     ]
+//   },
+//   "hint1": {
+//     "text": "If you iterate through the array, for each number, what other number would you need to find to reach the target?"
+//   },
+//   "hint2": {
+//     "text": "Consider using a data structure that allows for quick lookups. If you need to find if a specific number exists, what data structure comes to mind?"
+//   },
+//   "hint3": {
+//     "text": "As you iterate through the array, store the numbers you've seen so far along with their indices. For each current number, calculate the 'complement' (target - current number). Then, check if this complement already exists in your storage. If it does, you've found your pair!"
+//   },
+//   "algorithm": {
+//     "steps": [
+//       "Initialize an empty hash map (e.g., `HashMap<Integer, Integer>`) to store numbers and their indices.",
+//       "Iterate through the input array `nums` from index 0 to `nums.length - 1`.",
+//       "For each element `nums[i]`, calculate the `complement` needed: `complement = target - nums[i]`.",
+//       "Check if the `complement` already exists as a key in the hash map.",
+//       "If the `complement` exists in the hash map, it means we've found the two numbers. Return an array containing the index of the complement (retrieved from the map) and the current index `i`.",
+//       "If the `complement` does not exist, add the current number `nums[i]` as a key and its index `i` as the value to the hash map.",
+//       "If the loop finishes without finding a pair (which shouldn't happen based on the problem constraints), return an appropriate indicator (e.g., an empty array or throw an exception, though the problem guarantees a solution)."
+//     ]
+//   },
+//   "pseudocode": {
+//     "code": "function twoSum(nums, target):\n  map = new HashMap()\n  for i from 0 to length(nums) - 1:\n    current_num = nums[i]\n    complement = target - current_num\n    if complement is in map:\n      return [map.get(complement), i]\n    else:\n      map.put(current_num, i)\n  // Should not reach here based on problem constraints\n  return []"
+//   },
+//   "review": {
+//     "strengths": [
+//       "This problem is fundamental for understanding how hash maps can drastically improve the time complexity of search operations.",
+//       "It's a common warm-up question in interviews, helping to gauge basic problem-solving and coding skills.",
+//       "It introduces the concept of looking for a 'complement' rather than exhaustively checking all pairs."
+//     ],
+//     "improvements": [
+//       "Students often jump directly to a brute-force O(n^2) solution using nested loops. Encourage them to think about optimizing the search for the second number.",
+//       "Careless implementation of the hash map can lead to bugs, such as storing the value instead of the index, or failing to handle duplicates correctly (though not an issue in this specific problem due to the 'exactly one solution' constraint and not using the same element twice).",
+//       "Forgetting that the function must return indices, not the numbers themselves."
+//     ]
+//   },
+//   "optimized": {
+//     "complexity": {
+//       "time": "O(n)",
+//       "space": "O(n)"
+//     },
+//     "code": "import java.util.HashMap;\nimport java.util.Map;\n\nclass Solution {\n    public int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> numMap = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (numMap.containsKey(complement)) {\n                return new int[] { numMap.get(complement), i };\n            }\n            numMap.put(nums[i], i);\n        }\n        // This line should technically not be reached given the problem constraints\n        // but is required for the compiler to not complain about a missing return statement.\n        throw new IllegalArgumentException(\"No two sum solution found\");\n    }\n}"
+//   }
+//       }
+      
+
 //         const analysis = {
 //   "template": {
 //     "java": "class Solution {\n    public int[] pathsWithMaxScore(List<String> board) {\n        // TODO: Implement solution\n        return new int[]{0, 0};\n    }\n}",
