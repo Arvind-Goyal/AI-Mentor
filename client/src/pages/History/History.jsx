@@ -26,24 +26,68 @@ const History = () => {
   const [history, setHistory] = useState([]);
   const [filteredHistory, setFilteredHistory] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchHistory = async () => {
+  //     try {
+  //       if (!user?._id) return;
+
+  //       const response = await axios.get(
+  //         `http://localhost:5000/api/history/${user._id}`
+  //       );
+
+  //       setHistory(response.data);
+  //       setFilteredHistory(response.data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch history:", error);
+  //     }
+  //   };
+
+  //   fetchHistory();
+  // }, [user]);
+
   useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        if (!user?._id) return;
+  console.log("========== HISTORY EFFECT ==========");
+  console.log("History user:", user);
+  console.log("History user ID:", user?._id);
 
-        const response = await axios.get(
-          `http://localhost:5000/api/history/${user._id}`
-        );
+  const fetchHistory = async () => {
+    console.log("---------- fetchHistory started ----------");
 
-        setHistory(response.data);
-        setFilteredHistory(response.data);
-      } catch (error) {
-        console.error("Failed to fetch history:", error);
-      }
-    };
+    if (!user?._id) {
+      console.log("❌ No user ID. History API NOT called.");
+      return;
+    }
 
-    fetchHistory();
-  }, [user]);
+    try {
+      const url = `http://localhost:5000/api/history/${user._id}`;
+
+      console.log("➡️ Calling History API:");
+      console.log(url);
+
+      const response = await axios.get(url);
+
+      console.log("✅ History API response:");
+      console.log(response);
+
+      console.log("📦 History data:");
+      console.log(response.data);
+
+      setHistory(response.data);
+      setFilteredHistory(response.data);
+
+      console.log("✅ History state updated");
+    } catch (error) {
+      console.error("❌ History API failed");
+
+      console.error("Error:", error);
+      console.error("Response:", error.response);
+      console.error("Response data:", error.response?.data);
+      console.error("Status:", error.response?.status);
+    }
+  };
+
+  fetchHistory();
+}, [user]);
 
   const handleContinue = (session) => {
     setProblem(session.title);

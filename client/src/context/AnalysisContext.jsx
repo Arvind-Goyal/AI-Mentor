@@ -37,8 +37,6 @@ export const AnalysisProvider=({children})=>{
     const resetAnalysis = ()=>{
         setProblem("");
         setLanguage("Java");
-        setProblemTitle("");
-
         setLoading(false);
         setCurrentStep(1);
         setAnalysisData({
