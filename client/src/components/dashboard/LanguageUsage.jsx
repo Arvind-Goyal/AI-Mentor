@@ -42,7 +42,7 @@ const LanguageUsage = ({ data = [] }) => {
 
           {/* Donut */}
 
-          <div className="h-40 w-40 shrink-0">
+          <div className="h-70 w-70 shrink-0">
 
             <ResponsiveContainer
               width="100%"
@@ -55,8 +55,8 @@ const LanguageUsage = ({ data = [] }) => {
                   data={chartData}
                   dataKey="value"
                   nameKey="name"
-                  innerRadius={48}
-                  outerRadius={68}
+                  innerRadius={78}
+                  outerRadius={98}
                   paddingAngle={3}
                   stroke="none"
                 >
@@ -89,7 +89,7 @@ const LanguageUsage = ({ data = [] }) => {
 
               <div
                 key={language.name}
-                className="flex items-center justify-between"
+                className="flex items-center gap-4"
               >
 
                 <div className="flex items-center gap-2">

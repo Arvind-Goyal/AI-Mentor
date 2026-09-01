@@ -4,7 +4,6 @@ import DashboardStats from "../../components/dashboard/DashboardStats";
 import TopicExploration from "../../components/dashboard/TopicExploration";
 import LanguageUsage from "../../components/dashboard/LanguageUsage";
 import MentorInsight from "../../components/dashboard/MentorInsight";
-import ContinueLearning from "../../components/dashboard/ContinueLearning";
 import WeeklyActivity from "../../components/dashboard/WeeklyActivity";
 
 import DashboardLayout from "../DashboardLayout/Dashboard";
@@ -16,6 +15,7 @@ const Dashboard = () => {
 
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAllTopics, setShowAllTopics] = useState(false);
 
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const Dashboard = () => {
     return (
       <DashboardLayout>
 
-        <div className="flex min-h-full items-center justify-center bg-[#F8FAFC]">
+        <div className="flex min-h-[60vh] items-center justify-center bg-[#F8FAFC]">
 
           <p className="text-sm text-slate-500">
             Loading dashboard...
@@ -69,69 +69,85 @@ const Dashboard = () => {
 
   }
 
+    return (
+  <DashboardLayout>
 
-  return (
+    <div className="min-h-full bg-[#F8FAFC] px-8 py-7">
 
-    <DashboardLayout>
+      <div className="w-full">
 
-      <div className="min-h-full bg-[#F8FAFC] px-14 py-7">
+        {/* Stats */}
 
-        <div className="mx-auto w-full max-w-[1500px]">
-
-          {/* Stats */}
-
-          <DashboardStats
-            data={dashboardData?.stats}
-          />
+        <DashboardStats
+          data={dashboardData?.stats}
+        />
 
 
-          {/* Topic Exploration + Language Usage */}
+        {/* Topic + Language */}
 
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+<div
+  className={`mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-2`}
+>
 
-            <TopicExploration
-              data={dashboardData?.topics}
-            />
+  {/* Topic Exploration */}
 
-            <LanguageUsage
-              data={dashboardData?.languages}
-            />
-
-          </div>
-
-
-          {/* AI Mentor + Continue Learning */}
-
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-            <MentorInsight
-              data={dashboardData?.mentorInsight}
-            />
-
-            <ContinueLearning
-              data={dashboardData?.continueLearning}
-            />
-
-          </div>
+  <TopicExploration
+    data={dashboardData?.topics}
+    showAll={showAllTopics}
+    setShowAll={setShowAllTopics}
+  />
 
 
-          {/* Weekly Activity */}
+  {/* Right side */}
 
-          <div className="mt-6">
+  <div className="flex flex-col gap-6">
 
-            <WeeklyActivity
-              data={dashboardData?.weeklyActivity}
-            />
+    <LanguageUsage
+      data={dashboardData?.languages}
+    />
 
-          </div>
+    {/* Mentor moves here only when expanded */}
 
-        </div>
+    {showAllTopics && (
+      <MentorInsight
+        data={dashboardData?.mentorInsight}
+      />
+    )}
+
+  </div>
+
+</div>
+
+
+{/* Mentor stays below both cards when collapsed */}
+
+{!showAllTopics && (
+  <div className="mt-6">
+
+    <MentorInsight
+      data={dashboardData?.mentorInsight}
+    />
+
+  </div>
+)}
+
+
+{/* Weekly Activity */}
+
+<div className="mt-6">
+
+  <WeeklyActivity
+    data={dashboardData?.weeklyActivity}
+  />
+
+</div>
 
       </div>
 
-    </DashboardLayout>
+    </div>
 
-  );
+  </DashboardLayout>
+);
 
 };
 

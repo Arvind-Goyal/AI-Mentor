@@ -5,15 +5,15 @@ const DashboardLayout = ({ children }) => {
 
     return (
 
-        <div className="flex h-screen">
+        <div className="flex h-screen overflow-hidden">
 
             <Sidebar/>
 
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-1 flex-col min-h-0">
 
                <Navbar/>
 
-                <main className="flex-1 overflow-y-auto">
+                <main className="flex-1 min-h-0 overflow-y-auto bg-[#F8FAFC]">
 
                     {children}
 

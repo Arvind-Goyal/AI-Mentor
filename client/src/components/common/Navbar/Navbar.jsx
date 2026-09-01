@@ -7,7 +7,7 @@ const Navbar = () => {
     
  
   return (
-    <nav className="flex items-center justify-between h-16  p-10 bg-white border-b border-slate-200">
+    <nav className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
 
     <PageHeader />
 

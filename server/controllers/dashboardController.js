@@ -304,34 +304,7 @@ export const getDashboard = async (req, res) => {
         : "Explore More Problems",
 
     };
-    // Continue learning
-
-    let continueLearning = {
-      topic: null,
-      description:
-        "Analyze more problems to get a personalized recommendation.",
-      action: "Analyze Problem",
-    };
-
-
-    if (topics.length >= 3) {
-
-      const recommendedTopic =
-        topics[topics.length - 1];
-
-
-      continueLearning = {
-
-        topic: recommendedTopic.name,
-
-        description:
-          `You've explored ${recommendedTopic.name} less than your other practiced topics. Build more familiarity with this concept.`,
-
-        action: "Continue Learning",
-
-      };
-
-    }
+    
 
 
 
@@ -353,7 +326,6 @@ export const getDashboard = async (req, res) => {
 
       mentorInsight,
 
-      continueLearning,
 
     });
 

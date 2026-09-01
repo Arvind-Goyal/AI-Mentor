@@ -3,9 +3,8 @@ import AppRoutes from './routes/AppRoutes'
 // import { Toaster } from "sonner";
 const App = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      {/* <h1 className="text-4xl font-bold text-blue-600">AI Mentor</h1> */}
-      <AppRoutes/>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <AppRoutes />
     </div>
   )
 }

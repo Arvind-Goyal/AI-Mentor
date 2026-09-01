@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-
-const TopicExploration = ({ data = [] }) => {
-
-  const [showAll, setShowAll] = useState(false);
-
+const TopicExploration = ({
+  data = [],
+  showAll,
+  setShowAll,
+}) => {
 
   const maxCount = useMemo(() => {
 
@@ -50,7 +50,13 @@ const TopicExploration = ({ data = [] }) => {
 
       {/* Topics */}
 
-      <div className="mt-6 space-y-5">
+      <div
+        className={`mt-6 space-y-5 ${
+          showAll
+            ? "max-h-[470px] overflow-y-auto pr-2 scrollbar-hide"
+            : ""
+        }`}
+      >
 
         {topics.length > 0 ? (
 

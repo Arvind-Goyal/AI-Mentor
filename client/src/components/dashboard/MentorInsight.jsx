@@ -1,7 +1,9 @@
 import { Sparkles, ArrowRight } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 
 const MentorInsight = ({ data }) => {
+
+  const navigate = useNavigate();
 
   const strengths = data?.strengths || [];
 
@@ -10,10 +12,6 @@ const MentorInsight = ({ data }) => {
   const message =
     data?.message ||
     "Analyze more problems to receive personalized insights.";
-
-  const action =
-    data?.action ||
-    "Analyze More Problems";
 
 
   return (
@@ -83,6 +81,7 @@ const MentorInsight = ({ data }) => {
 
             {suggestion && (
               <>
+
                 .
 
                 <br />
@@ -94,6 +93,7 @@ const MentorInsight = ({ data }) => {
                 </span>{" "}
 
                 {message}
+
               </>
             )}
 
@@ -118,12 +118,13 @@ const MentorInsight = ({ data }) => {
       {/* Action */}
 
       <button
+        onClick={() => navigate("/analyze")}
         className="mt-6 flex items-center gap-2
                    text-sm font-semibold text-violet-600
                    hover:text-violet-700"
       >
 
-        {action}
+        Continue Learning
 
         <ArrowRight size={16} />
 
