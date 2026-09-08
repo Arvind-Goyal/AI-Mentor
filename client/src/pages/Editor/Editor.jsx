@@ -1,9 +1,9 @@
 import DashboardLayout from "../DashboardLayout/Dashboard";
 
-import Toolbar from "./Toolbar";
-import ProblemPanel from "./ProblemPanel";
-import CodeEditor from "./CodeEditor";
-import OutputPanel from "./OutputPanel";
+import Toolbar from "../../components/editor/Toolbar";
+import ProblemPanel from "../../components/editor/ProblemPanel";
+import CodeEditor from "../../components/editor/CodeEditor";
+import OutputPanel from "../../components/editor/OutputPanel";
 
 const Editor = () => {
   return (

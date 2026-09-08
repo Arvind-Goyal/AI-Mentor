@@ -67,7 +67,7 @@ const ProblemPanel = () => {
 
       <div className="px-6 py-5 border-b border-slate-200">
         <h2 className="text-xl font-bold text-slate-900">
-          Two Sum
+          {analysisData.problemTitle}
         </h2>
       </div>
 

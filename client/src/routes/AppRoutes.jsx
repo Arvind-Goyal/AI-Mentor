@@ -11,7 +11,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
 import ROUTES from "../constants/routes";
-import ProtectedEditorRoute from "../pages/Editor/ProtectedEditorRoute";
+import ProtectedEditorRoute from "../components/editor/ProtectedEditorRoute";
 import History from "../pages/History/History";
 
 const AppRoutes = () => {
