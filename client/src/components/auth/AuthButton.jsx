@@ -11,11 +11,11 @@ const AuthButton = ({
             {...props}
             className={`
                 w-full
-                rounded-xl
+                rounded-2xl
                 py-3.5
                 font-semibold
                 text-white
-                transition-all
+                shadow-md shadow-violet-500/15 transition-all
                 duration-300
 
                 ${

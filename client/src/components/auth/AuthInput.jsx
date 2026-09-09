@@ -23,15 +23,15 @@ const AuthInput = forwardRef(
                     placeholder={placeholder}
                     className={`
                         w-full
-                        rounded-xl
+                        rounded-2xl
                         border
                         bg-white/70
                         px-4
-                        py-3
+                        py-3.5
                         text-slate-900
                         placeholder:text-slate-400
                         outline-none
-                        transition-all
+                        shadow-sm shadow-slate-200/40 transition-all
                         duration-200
                         focus:ring-4
                         ${

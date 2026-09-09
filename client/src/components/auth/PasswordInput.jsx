@@ -27,14 +27,14 @@ const PasswordInput = forwardRef(
             {...props}
             className={`
               w-full
-              rounded-xl
+              rounded-2xl
               border
               bg-white/70
               px-4
-              py-3
+              py-3.5
               pr-12
               outline-none
-              transition
+              shadow-sm shadow-slate-200/40 transition
               focus:ring-4
               ${
                 error
@@ -47,7 +47,8 @@ const PasswordInput = forwardRef(
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute right-4 top-1/2 -translate-y-1/2 rounded-lg p-1 text-slate-500 transition hover:bg-slate-100 hover:text-violet-600"
           >
             {showPassword ? <FiEyeOff /> : <FiEye />}
           </button>

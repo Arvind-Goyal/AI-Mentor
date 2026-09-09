@@ -308,23 +308,6 @@ const ProfileHeader = ({
                 )}
               </div>
 
-              {/* Online Indicator */}
-
-              {!uploadingAvatar && (
-                <span
-                  className="
-                    absolute
-                    bottom-1
-                    right-1
-                    h-4
-                    w-4
-                    rounded-full
-                    border-2
-                    border-white
-                    bg-emerald-500
-                  "
-                />
-              )}
 
               {/* Avatar Upload - Own Profile Only */}
 

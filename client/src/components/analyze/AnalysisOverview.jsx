@@ -1,16 +1,11 @@
-import {
-    FaChartBar,
-    FaTags,
-    FaClock,
-    FaDatabase
-} from "react-icons/fa";
+import { BarChart3, Clock3, Database, Tags } from "lucide-react";
 
 import StatCard from "./StatCard";
 import { useAnalysis } from "../../context/AnalysisContext";
 
 const AnalysisOverview = () => {
 
-    const{analysisData,loading,analysis} =  useAnalysis();
+    const { analysisData, loading } = useAnalysis();
     // console.log(loading);
     // console.log(analysisData.analysis);
     // console.log(analysis);
@@ -18,9 +13,12 @@ const AnalysisOverview = () => {
     return (
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
 
-            <h2 className="text-xl font-semibold text-slate-900">
-                📊 Analysis Overview
-            </h2>
+            <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
+                    <BarChart3 size={20} strokeWidth={2.2} />
+                </div>
+                <h2 className="text-xl font-semibold text-slate-900">Analysis Overview</h2>
+            </div>
 
             <div className="mt-8 text-center">
 
@@ -42,13 +40,19 @@ if (loading) {
 
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
 
-            <h2 className="text-xl font-semibold">
-                📊 Analysis Overview
-            </h2>
+            <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
+                    <BarChart3 size={20} strokeWidth={2.2} />
+                </div>
+                <h2 className="text-xl font-semibold text-slate-900">Analysis Overview</h2>
+            </div>
 
             <div className="mt-8 space-y-3">
 
-                <p>⏳ Analyzing...</p>
+                <p className="flex items-center gap-2 font-medium text-slate-700">
+                    <Clock3 size={16} className="animate-pulse text-violet-600" />
+                    Analyzing...
+                </p>
 
                 <p className="text-slate-500">
                     Finding Topics...
@@ -76,28 +80,36 @@ const stats = [
         title: "Difficulty",
         value: overview.difficulty,
         subtitle: "AI Estimated",
-        icon: <FaChartBar />
+        icon: BarChart3,
+        bgColor: "bg-violet-100",
+        iconColor: "text-violet-600",
     },
 
     {
         title: "Pattern",
         value: overview.concepts?.join(', '),
         subtitle: "Primary Concept",
-        icon: <FaTags />
+        icon: Tags,
+        bgColor: "bg-blue-100",
+        iconColor: "text-blue-600",
     },
 
     {
         title: "Time Complexity",
         value: analysisData.optimized.complexity.time,
         subtitle: "Expected Solution",
-        icon: <FaClock />
+        icon: Clock3,
+        bgColor: "bg-amber-100",
+        iconColor: "text-amber-600",
     },
 
     {
         title: "Space Complexity",
         value: analysisData.optimized.complexity.space,
         subtitle: "Expected Solution",
-        icon: <FaDatabase />
+        icon: Database,
+        bgColor: "bg-emerald-100",
+        iconColor: "text-emerald-600",
     }
 
 ];

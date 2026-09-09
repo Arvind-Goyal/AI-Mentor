@@ -6,9 +6,11 @@ const StatCard = ({
     bgColor,
     iconColor
 }) => {
+    const Icon = icon;
+
     return (
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
 
             {/* Top */}
 
@@ -17,9 +19,7 @@ const StatCard = ({
                 <div
                     className={`flex h-12 w-12 items-center justify-center rounded-xl ${bgColor}`}
                 >
-                    <span className={`text-2xl ${iconColor}`}>
-                        {icon}
-                    </span>
+                    <Icon size={21} strokeWidth={2.2} className={iconColor} />
                 </div>
 
                 <div>

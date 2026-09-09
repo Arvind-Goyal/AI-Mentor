@@ -1,6 +1,6 @@
 import {
-  FileText,
-  BookOpen,
+  ChartNoAxesColumnIncreasing,
+  Layers3,
   Flame,
 } from "lucide-react";
 
@@ -14,7 +14,7 @@ const DashboardStats = ({ data }) => {
       title: "Problems Analyzed",
       value: data?.problemsAnalyzed ?? 0,
       description: "All time",
-      icon: FileText,
+      icon: ChartNoAxesColumnIncreasing,
       iconBg: "bg-violet-50",
       iconColor: "text-violet-600",
     },
@@ -23,7 +23,7 @@ const DashboardStats = ({ data }) => {
       title: "Topics Explored",
       value: data?.topicsExplored ?? 0,
       description: "Unique concepts",
-      icon: BookOpen,
+      icon: Layers3,
       iconBg: "bg-blue-50",
       iconColor: "text-blue-600",
     },
@@ -31,7 +31,7 @@ const DashboardStats = ({ data }) => {
     {
       title: "Current Streak",
       value: `${data?.currentStreak ?? 0} days`,
-      description: "Keep it up! 🔥",
+      description: "Keep it up!",
       icon: Flame,
       iconBg: "bg-orange-50",
       iconColor: "text-orange-500",

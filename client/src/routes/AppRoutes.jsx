@@ -14,6 +14,7 @@ import ROUTES from "../constants/routes";
 import ProtectedEditorRoute from "../components/editor/ProtectedEditorRoute";
 import History from "../pages/History/History";
 import Profile from "../pages/Profile/Profile";
+import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 
 const AppRoutes = () => {
     return (
@@ -25,7 +26,7 @@ const AppRoutes = () => {
                 path={ROUTES.LOGIN}
                 element={
                     <PublicRoute>
-                        <Landing />
+                        <Login />
                     </PublicRoute>
                 }
             />
@@ -34,10 +35,12 @@ const AppRoutes = () => {
                 path={ROUTES.SIGNUP}
                 element={
                     <PublicRoute>
-                        <Landing />
+                        <Signup />
                     </PublicRoute>
                 }
             />
+
+            <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
             
 
             {/* Protected */}
