@@ -86,6 +86,11 @@ const AppRoutes = () => {
                     </ProtectedRoute>
                 }
             />
+
+            <Route
+                path="/users/:username"
+                element={<Profile />}
+            />
         </Routes>
     );
 };

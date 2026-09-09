@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileTabs from "../../components/profile/ProfileTabs";
@@ -14,23 +15,46 @@ import {
   followUser,
   unfollowUser,
 } from "../../api/profile";
+
+import {
+  getUserProfile,
+  getUserFollowers,
+  getUserFollowing,
+  getUserAchievements,
+} from "../../api/user";
+
 import DashboardLayout from "../DashboardLayout/Dashboard";
 
 const Profile = () => {
+  const { username } = useParams();
+
+  const isPublicProfile = Boolean(username);
+
   const [activeTab, setActiveTab] = useState("achievements");
 
   const [achievementData, setAchievementData] = useState(null);
 
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  
+
   const [profile, setProfile] = useState(null);
+
+  const [isOwnProfile, setIsOwnProfile] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  /* ================= Follow ================= */
 
   const handleFollow = async (userId) => {
     try {
       await followUser(userId);
+
+      if (isPublicProfile) {
+        setIsFollowing(true);
+        return;
+      }
 
       const [followingData, followersData] = await Promise.all([
         getFollowing(),
@@ -44,9 +68,16 @@ const Profile = () => {
     }
   };
 
+  /* ================= Unfollow ================= */
+
   const handleUnfollow = async (userId) => {
     try {
       await unfollowUser(userId);
+
+      if (isPublicProfile) {
+        setIsFollowing(false);
+        return;
+      }
 
       const [followingData, followersData] = await Promise.all([
         getFollowing(),
@@ -59,10 +90,54 @@ const Profile = () => {
       console.error("Unfollow error:", error);
     }
   };
-  
+
+  /* ================= Load Profile ================= */
+
   useEffect(() => {
     const loadProfile = async () => {
       try {
+        setLoading(true);
+        setError("");
+
+        /*
+         * ==========================================
+         * PUBLIC PROFILE
+         * /users/:username
+         * ==========================================
+         */
+
+        if (isPublicProfile) {
+          const profileData = await getUserProfile(username);
+
+          const [
+                followersData,
+                followingData,
+                achievementsData,
+              ] = await Promise.all([
+                getUserFollowers(username),
+                getUserFollowing(username),
+                getUserAchievements(username),
+              ]);
+
+          setProfile(profileData.user);
+
+          setIsOwnProfile(profileData.isOwnProfile);
+          setIsFollowing(profileData.isFollowing);
+
+          setFollowers(followersData.followers || []);
+          setFollowing(followingData.following || []);
+          
+          setAchievementData(achievementsData);
+          return;
+        }
+
+        /*
+         * ==========================================
+         * OWN PROFILE
+         * /profile
+         * ==========================================
+         */
+
         const [
           profileData,
           achievementsData,
@@ -76,20 +151,31 @@ const Profile = () => {
         ]);
 
         setProfile(profileData.user);
+
         setAchievementData(achievementsData);
-        setFollowers(followersData.followers);
-        setFollowing(followingData.following);
+
+        setFollowers(followersData.followers || []);
+        setFollowing(followingData.following || []);
+
+        setIsOwnProfile(true);
+        setIsFollowing(false);
       } catch (error) {
         console.error("Profile fetch error:", error);
-        setError(error.message);
+
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to load profile"
+        );
       } finally {
         setLoading(false);
       }
     };
 
-      loadProfile();
-    }, []);
-  
+    loadProfile();
+  }, [username, isPublicProfile]);
+
+  /* ================= Loading ================= */
 
   if (loading) {
     return (
@@ -101,6 +187,8 @@ const Profile = () => {
     );
   }
 
+  /* ================= Error ================= */
+
   if (error || !profile) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -111,53 +199,71 @@ const Profile = () => {
     );
   }
 
+  /* ================= UI ================= */
+
   return (
     <DashboardLayout>
-    <div className="min-h-screen bg-white">
-      <main className="mx-auto w-full max-w-[1400px] px-6 py-6">
+      <div className="min-h-screen bg-white">
+        <main className="mx-auto w-full max-w-[1400px] px-6 py-6">
 
-        <ProfileHeader
-          user={profile}
-          onProfileUpdate={setProfile}
-        />
+          <ProfileHeader
+            user={profile}
+            onProfileUpdate={setProfile}
+            isOwnProfile={isOwnProfile}
+            isFollowing={isFollowing}
+            onFollow={handleFollow}
+            onUnfollow={handleUnfollow}
+          />
 
-        <ProfileTabs
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          followersCount={followers.length}
-          followingCount={following.length}
-        />
+          <ProfileTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            followersCount={followers.length}
+            followingCount={following.length}
+          />
 
-        <div className="mt-8">
+          <div className="mt-8">
 
-          {activeTab === "achievements" && (
-            <Achievements
-              achievements={achievementData?.achievements || []}
-              currentStreak={achievementData?.currentStreak || 0}
-              longestStreak={achievementData?.longestStreak || 0}
-            />
-          )}
+            {/* ================= Achievements ================= */}
 
-          {activeTab === "followers" && (
-            <FollowersList
-              followers={followers}
-              onFollow={handleFollow}
-              onUnfollow={handleUnfollow}
-            />
-          )}
+            {activeTab === "achievements" && (
+              <Achievements
+                achievements={achievementData?.achievements || []}
+                currentStreak={
+                  achievementData?.currentStreak || 0
+                }
+                longestStreak={
+                  achievementData?.longestStreak || 0
+                }
+              />
+            )}
 
-          {activeTab === "following" && (
-            <FollowingList
-              following={following}
-              onUnfollow={handleUnfollow}
-            />
-          )}
+            {/* ================= Followers ================= */}
 
-        </div>
+            {activeTab === "followers" && (
+              <FollowersList
+                followers={followers}
+                onFollow={handleFollow}
+                onUnfollow={handleUnfollow}
+                readOnly={!isOwnProfile}
+              />
+            )}
 
-      </main>
+            {/* ================= Following ================= */}
+
+            {activeTab === "following" && (
+              <FollowingList
+                following={following}
+                onUnfollow={handleUnfollow}
+                readOnly={!isOwnProfile}
+              />
+            )}
+
+          </div>
+
+        </main>
       </div>
-      </DashboardLayout>
+    </DashboardLayout>
   );
 };
 

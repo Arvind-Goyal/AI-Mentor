@@ -179,157 +179,243 @@ export const uploadBanner = async (req, res) => {
   }
 };
 
-export const getAchievements = async (req, res) => {
-  try {
-    const history = await History.find({
-      userId: req.user._id,
-    }).sort({ createdAt: 1 });
+const calculateAchievements = async (userId) => {
+  const history = await History.find({
+    userId,
+  }).sort({ createdAt: 1 });
 
-    // Count unique problems
-    const uniqueProblems = new Set(
-      history.map((item) => item.title.trim().toLowerCase())
-    );
+  // Count unique problems
+  const uniqueProblems = new Set(
+    history.map((item) =>
+      item.title.trim().toLowerCase()
+    )
+  );
 
-    const problemCount = uniqueProblems.size;
+  const problemCount = uniqueProblems.size;
 
-    // Get unique activity dates
-    const activityDates = [
-      ...new Set(
-        history.map((item) => {
-          const date = new Date(item.createdAt);
+  // Get unique activity dates
+  const activityDates = [
+    ...new Set(
+      history.map((item) => {
+        const date = new Date(item.createdAt);
 
-          return date.toISOString().split("T")[0];
-        })
-      ),
-    ].sort();
+        return date.toISOString().split("T")[0];
+      })
+    ),
+  ].sort();
 
-    // Calculate current and longest streak
-    let longestStreak = 0;
-    let currentStreak = 0;
+  // Calculate current and longest streak
+  let longestStreak = 0;
+  let currentStreak = 0;
 
-    if (activityDates.length > 0) {
-      let streak = 1;
-      longestStreak = 1;
+  if (activityDates.length > 0) {
+    let streak = 1;
 
-      for (let i = 1; i < activityDates.length; i++) {
-        const previous = new Date(activityDates[i - 1]);
-        const current = new Date(activityDates[i]);
+    longestStreak = 1;
 
-        const difference =
-          (current - previous) / (1000 * 60 * 60 * 24);
+    for (let i = 1; i < activityDates.length; i++) {
+      const previous = new Date(activityDates[i - 1]);
+      const current = new Date(activityDates[i]);
 
-        if (difference === 1) {
-          streak++;
-        } else {
-          streak = 1;
-        }
-
-        longestStreak = Math.max(longestStreak, streak);
-      }
-
-      // Calculate current streak
-      const today = new Date();
-      today.setUTCHours(0, 0, 0, 0);
-
-      const latestActivity = new Date(
-        activityDates[activityDates.length - 1]
-      );
-      latestActivity.setUTCHours(0, 0, 0, 0);
-
-      const daysSinceLatest =
-        (today - latestActivity) /
+      const difference =
+        (current - previous) /
         (1000 * 60 * 60 * 24);
 
-      if (daysSinceLatest <= 1) {
-        currentStreak = 1;
+      if (difference === 1) {
+        streak++;
+      } else {
+        streak = 1;
+      }
 
-        for (let i = activityDates.length - 1; i > 0; i--) {
-          const current = new Date(activityDates[i]);
-          const previous = new Date(activityDates[i - 1]);
+      longestStreak = Math.max(
+        longestStreak,
+        streak
+      );
+    }
 
-          const difference =
-            (current - previous) /
-            (1000 * 60 * 60 * 24);
+    // Calculate current streak
+    const today = new Date();
 
-          if (difference === 1) {
-            currentStreak++;
-          } else {
-            break;
-          }
+    today.setUTCHours(0, 0, 0, 0);
+
+    const latestActivity = new Date(
+      activityDates[activityDates.length - 1]
+    );
+
+    latestActivity.setUTCHours(0, 0, 0, 0);
+
+    const daysSinceLatest =
+      (today - latestActivity) /
+      (1000 * 60 * 60 * 24);
+
+    if (daysSinceLatest <= 1) {
+      currentStreak = 1;
+
+      for (
+        let i = activityDates.length - 1;
+        i > 0;
+        i--
+      ) {
+        const current = new Date(
+          activityDates[i]
+        );
+
+        const previous = new Date(
+          activityDates[i - 1]
+        );
+
+        const difference =
+          (current - previous) /
+          (1000 * 60 * 60 * 24);
+
+        if (difference === 1) {
+          currentStreak++;
+        } else {
+          break;
         }
       }
     }
+  }
 
-    // Normal achievements
-    const achievements = [
-      {
-        id: "first-solve",
-        title: "First Solve",
-        description: "Complete your first problem",
-        date: problemCount >= 1 ? activityDates[0] : null,
-      },
+  // Achievements
+  const achievements = [
+    {
+      id: "first-solve",
+      title: "First Solve",
+      description: "Complete your first problem",
+      date:
+        problemCount >= 1
+          ? activityDates[0]
+          : null,
+    },
 
-      {
-        id: "ten-problems",
-        title: "10 Problems",
-        description: "Complete 10 problems",
-        date: problemCount >= 10 ? new Date().toISOString() : null,
-      },
+    {
+      id: "ten-problems",
+      title: "10 Problems",
+      description: "Complete 10 problems",
+      date:
+        problemCount >= 10
+          ? new Date().toISOString()
+          : null,
+    },
 
-      {
-        id: "fifty-problems",
-        title: "50 Problems",
-        description: "Complete 50 problems",
-        date: problemCount >= 50 ? new Date().toISOString() : null,
-      },
+    {
+      id: "fifty-problems",
+      title: "50 Problems",
+      description: "Complete 50 problems",
+      date:
+        problemCount >= 50
+          ? new Date().toISOString()
+          : null,
+    },
 
-      {
-        id: "hundred-problems",
-        title: "100 Problems",
-        description: "Complete 100 problems",
-        date: problemCount >= 100 ? new Date().toISOString() : null,
-      },
+    {
+      id: "hundred-problems",
+      title: "100 Problems",
+      description: "Complete 100 problems",
+      date:
+        problemCount >= 100
+          ? new Date().toISOString()
+          : null,
+    },
 
-      {
-        id: "streak",
-        title:
-          currentStreak >= 365
-            ? "365 Day Streak"
-            : currentStreak >= 200
-            ? "200 Day Streak"
-            : currentStreak >= 100
-            ? "100 Day Streak"
-            : currentStreak >= 30
-            ? "Monthly Streak"
-            : "Monthly Streak",
+    {
+      id: "streak",
 
-        description:
-          currentStreak >= 30
-            ? `${currentStreak} day solving streak`
-            : "Maintain a 30 day solving streak",
+      title:
+        currentStreak >= 365
+          ? "365 Day Streak"
+          : currentStreak >= 200
+          ? "200 Day Streak"
+          : currentStreak >= 100
+          ? "100 Day Streak"
+          : currentStreak >= 30
+          ? "Monthly Streak"
+          : "Monthly Streak",
 
-        unlocked: currentStreak >= 30,
-        currentStreak,
-      },
+      description:
+        currentStreak >= 30
+          ? `${currentStreak} day solving streak`
+          : "Maintain a 30 day solving streak",
 
-      {
-        id: "longest-streak",
-        title: "Longest Streak",
-        description: `${longestStreak} day personal record`,
-        unlocked: longestStreak > 0,
-        longestStreak,
-      },
-    ];
+      unlocked: currentStreak >= 30,
+
+      currentStreak,
+    },
+
+    {
+      id: "longest-streak",
+
+      title: "Longest Streak",
+
+      description: `${longestStreak} day personal record`,
+
+      unlocked: longestStreak > 0,
+
+      longestStreak,
+    },
+  ];
+
+  return {
+    problemCount,
+    currentStreak,
+    longestStreak,
+    achievements,
+  };
+};
+
+
+export const getAchievements = async (req, res) => {
+  try {
+    const data = await calculateAchievements(
+      req.user._id
+    );
 
     return res.status(200).json({
       success: true,
-      problemCount,
-      currentStreak,
-      longestStreak,
-      achievements,
+      ...data,
     });
   } catch (error) {
-    console.error("Get achievements error:", error);
+    console.error(
+      "Get achievements error:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to calculate achievements",
+    });
+  }
+};
+
+export const getUserAchievements = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const user = await User.findOne({
+      username,
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const data = await calculateAchievements(
+      user._id
+    );
+
+    return res.status(200).json({
+      success: true,
+      ...data,
+    });
+  } catch (error) {
+    console.error(
+      "Get user achievements error:",
+      error
+    );
 
     return res.status(500).json({
       success: false,

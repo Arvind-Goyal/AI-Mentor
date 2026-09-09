@@ -16,10 +16,17 @@ import {
   uploadBanner,
 } from "../../api/profile";
 
-const ProfileHeader = ({ user, onProfileUpdate }) => {
+const ProfileHeader = ({
+  user,
+  onProfileUpdate,
+  isOwnProfile = true,
+  isFollowing = false,
+  onFollow,
+  onUnfollow,
+}) => {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [avatarError, setAvatarError] = useState("");
-  
+
   const [uploadingBanner, setUploadingBanner] = useState(false);
   const [bannerError, setBannerError] = useState("");
 
@@ -42,6 +49,8 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
   /* ================= Edit Profile ================= */
 
   const handleEdit = () => {
+    if (!isOwnProfile) return;
+
     setFormData({
       name: user.name || "",
       username: user.username || "",
@@ -68,6 +77,8 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+
+    if (!isOwnProfile) return;
 
     setSaving(true);
     setError("");
@@ -103,6 +114,8 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
   /* ================= Avatar Upload ================= */
 
   const handleAvatarChange = async (e) => {
+    if (!isOwnProfile) return;
+
     const file = e.target.files?.[0];
 
     if (!file) {
@@ -111,14 +124,12 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
 
     setAvatarError("");
 
-    // Validate file type
     if (!file.type.startsWith("image/")) {
       setAvatarError("Please select an image file.");
       e.target.value = "";
       return;
     }
 
-    // Validate file size
     if (file.size > 5 * 1024 * 1024) {
       setAvatarError("Image must be smaller than 5 MB.");
       e.target.value = "";
@@ -130,7 +141,6 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
 
       const data = await uploadAvatar(file);
 
-      // Update parent profile state
       onProfileUpdate(data.user);
     } catch (error) {
       console.error("Avatar upload error:", error);
@@ -141,12 +151,15 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
     } finally {
       setUploadingAvatar(false);
 
-      // Allow selecting the same file again
       e.target.value = "";
     }
   };
-    /* ================= Banner Upload ================= */
-    const handleBannerChange = async (e) => {
+
+  /* ================= Banner Upload ================= */
+
+  const handleBannerChange = async (e) => {
+    if (!isOwnProfile) return;
+
     const file = e.target.files?.[0];
 
     if (!file) {
@@ -181,6 +194,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
       );
     } finally {
       setUploadingBanner(false);
+
       e.target.value = "";
     }
   };
@@ -190,6 +204,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
       <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
         {/* ================= Banner ================= */}
+
         <div className="relative h-44 bg-gradient-to-r from-violet-100 via-purple-50 to-indigo-100">
 
           {user.banner && (
@@ -200,62 +215,70 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
             />
           )}
 
-          {/* Change Banner */}
-          <>
-            <input
-              id="banner-upload"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleBannerChange}
-              disabled={uploadingBanner}
-            />
+          {/* Change Banner - Own Profile Only */}
 
-            <label
-              htmlFor="banner-upload"
-              className="
-                absolute
-                right-4
-                top-4
-                flex
-                cursor-pointer
-                items-center
-                gap-1.5
-                rounded-lg
-                border
-                border-white/70
-                bg-white/90
-                px-3
-                py-1.5
-                text-xs
-                font-medium
-                text-slate-700
-                shadow-sm
-                backdrop-blur
-                transition
-                hover:bg-white
-              "
-            >
-              <Image size={16} />
+          {isOwnProfile && (
+            <>
+              <input
+                id="banner-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleBannerChange}
+                disabled={uploadingBanner}
+              />
 
-              {uploadingBanner ? "Uploading..." : "Change Banner"}
-            </label>
-            {/* Banner Error */}
-          {bannerError && (
-            <p className="absolute right-4 top-16 text-xs text-red-500">
-              {bannerError}
-            </p>
+              <label
+                htmlFor="banner-upload"
+                className="
+                  absolute
+                  right-4
+                  top-4
+                  flex
+                  cursor-pointer
+                  items-center
+                  gap-1.5
+                  rounded-lg
+                  border
+                  border-white/70
+                  bg-white/90
+                  px-3
+                  py-1.5
+                  text-xs
+                  font-medium
+                  text-slate-700
+                  shadow-sm
+                  backdrop-blur
+                  transition
+                  hover:bg-white
+                "
+              >
+                <Image size={16} />
+
+                {uploadingBanner
+                  ? "Uploading..."
+                  : "Change Banner"}
+              </label>
+
+              {bannerError && (
+                <p className="absolute right-4 top-16 text-xs text-red-500">
+                  {bannerError}
+                </p>
+              )}
+            </>
           )}
-          </>
         </div>
 
         {/* ================= Profile Content ================= */}
+
         <div className="px-8 pb-6">
 
-          {/* Avatar + Edit */}
+          {/* Avatar + Action */}
+
           <div className="flex items-end justify-between">
 
             {/* Avatar */}
+
             <div className="relative z-10 -mt-14">
 
               <div
@@ -276,7 +299,6 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                   className="h-full w-full object-cover"
                 />
 
-                {/* Uploading Overlay */}
                 {uploadingAvatar && (
                   <div className="absolute inset-0 flex items-center justify-center rounded-full bg-slate-900/50">
                     <span className="text-xs font-medium text-white">
@@ -287,6 +309,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
               </div>
 
               {/* Online Indicator */}
+
               {!uploadingAvatar && (
                 <span
                   className="
@@ -303,46 +326,51 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 />
               )}
 
-              {/* Hidden Avatar Input */}
-              <input
-                id="avatar-upload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleAvatarChange}
-                disabled={uploadingAvatar}
-              />
+              {/* Avatar Upload - Own Profile Only */}
 
-              {/* Change Avatar */}
-              <label
-                htmlFor="avatar-upload"
-                aria-label="Change profile photo"
-                className="
-                  absolute
-                  bottom-0
-                  right-[-4px]
-                  flex
-                  h-8
-                  w-8
-                  cursor-pointer
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-slate-200
-                  bg-white
-                  text-slate-600
-                  shadow-sm
-                  transition
-                  hover:bg-violet-50
-                  hover:text-violet-600
-                "
-              >
-                <Camera size={15} />
-              </label>
+              {isOwnProfile && (
+                <>
+                  <input
+                    id="avatar-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarChange}
+                    disabled={uploadingAvatar}
+                  />
+
+                  <label
+                    htmlFor="avatar-upload"
+                    aria-label="Change profile photo"
+                    className="
+                      absolute
+                      bottom-0
+                      right-[-4px]
+                      flex
+                      h-8
+                      w-8
+                      cursor-pointer
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-slate-200
+                      bg-white
+                      text-slate-600
+                      shadow-sm
+                      transition
+                      hover:bg-violet-50
+                      hover:text-violet-600
+                    "
+                  >
+                    <Camera size={15} />
+                  </label>
+                </>
+              )}
 
               {/* Avatar Error */}
-              {avatarError && (
+
+              {isOwnProfile && avatarError && (
                 <p className="absolute left-0 top-full mt-2 w-52 text-xs text-red-500">
                   {avatarError}
                 </p>
@@ -350,56 +378,107 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
 
             </div>
 
-            {/* Edit Profile */}
-            <button
-              type="button"
-              onClick={handleEdit}
-              className="
-                mt-4
-                flex
-                items-center
-                gap-2
-                rounded-xl
-                border
-                border-violet-200
-                bg-violet-50
-                px-5
-                py-2.5
-                text-sm
-                font-medium
-                text-violet-600
-                transition
-                hover:bg-violet-100
-              "
-            >
-              <Pencil size={16} />
-              Edit Profile
-            </button>
+            {/* ================= Action Button ================= */}
+
+            {isOwnProfile ? (
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="
+                  mt-4
+                  flex
+                  items-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-violet-200
+                  bg-violet-50
+                  px-5
+                  py-2.5
+                  text-sm
+                  font-medium
+                  text-violet-600
+                  transition
+                  hover:bg-violet-100
+                "
+              >
+                <Pencil size={16} />
+                Edit Profile
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() =>
+                  isFollowing
+                    ? onUnfollow?.(user._id)
+                    : onFollow?.(user._id)
+                }
+                className={`
+                  group
+                  mt-4
+                  flex
+                  items-center
+                  gap-2
+                  rounded-xl
+                  border
+                  px-5
+                  py-2.5
+                  text-sm
+                  font-medium
+                  transition
+                  ${
+                    isFollowing
+                      ? "border-slate-200 bg-white text-slate-600 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                      : "border-violet-200 bg-violet-50 text-violet-600 hover:bg-violet-100"
+                  }
+                `}
+              >
+                {isFollowing ? (
+                  <>
+                    <span className="group-hover:hidden">
+                      Following
+                    </span>
+
+                    <span className="hidden group-hover:inline">
+                      Unfollow
+                    </span>
+                  </>
+                ) : (
+                  "Follow"
+                )}
+              </button>
+            )}
 
           </div>
 
           {/* ================= Main Information ================= */}
+
           <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
 
             {/* User Information */}
+
             <div className="min-w-0">
 
               {/* Name */}
+
               <h1 className="text-2xl font-bold text-slate-900">
                 {user.name}
               </h1>
 
               {/* Username */}
+
               <p className="mt-0.5 text-sm text-slate-500">
                 {user.username}
               </p>
 
               {/* Bio */}
+
               <p className="mt-3 max-w-2xl text-sm leading-5 text-slate-600">
                 {user.bio}
               </p>
 
               {/* Location + Joined */}
+
               <div className="mt-3 flex flex-wrap items-center gap-5 text-sm text-slate-500">
 
                 <div className="flex items-center gap-1.5">
@@ -422,9 +501,11 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
               </div>
 
               {/* ================= Social Links ================= */}
+
               <div className="mt-4 flex items-center gap-2">
 
                 {/* LinkedIn */}
+
                 {user.socialLinks?.linkedin && (
                   <a
                     href={user.socialLinks.linkedin}
@@ -449,6 +530,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 )}
 
                 {/* GitHub */}
+
                 {user.socialLinks?.github && (
                   <a
                     href={user.socialLinks.github}
@@ -473,6 +555,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 )}
 
                 {/* LeetCode */}
+
                 {user.socialLinks?.leetcode && (
                   <a
                     href={user.socialLinks.leetcode}
@@ -497,6 +580,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 )}
 
                 {/* Portfolio */}
+
                 {user.socialLinks?.portfolio && (
                   <a
                     href={user.socialLinks.portfolio}
@@ -529,7 +613,8 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
       </section>
 
       {/* ================= Edit Profile Modal ================= */}
-      {isEditing && (
+
+      {isOwnProfile && isEditing && (
         <div
           className="
             fixed
@@ -558,6 +643,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
           >
 
             {/* Modal Header */}
+
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
 
               <div>
@@ -592,11 +678,13 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
             </div>
 
             {/* Form */}
+
             <form onSubmit={handleSave}>
 
               <div className="space-y-5 px-6 py-5">
 
                 {/* Error */}
+
                 {error && (
                   <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
                     {error}
@@ -604,6 +692,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 )}
 
                 {/* Name */}
+
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-slate-700">
                     Name
@@ -634,6 +723,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 </div>
 
                 {/* Username */}
+
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-slate-700">
                     Username
@@ -665,6 +755,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 </div>
 
                 {/* Bio */}
+
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-slate-700">
                     Bio
@@ -696,6 +787,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 </div>
 
                 {/* Location */}
+
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-slate-700">
                     Location
@@ -726,6 +818,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
                 </div>
 
                 {/* Social Links */}
+
                 <div>
 
                   <h3 className="mb-3 text-sm font-semibold text-slate-900">
@@ -824,6 +917,7 @@ const ProfileHeader = ({ user, onProfileUpdate }) => {
               </div>
 
               {/* Modal Footer */}
+
               <div className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4">
 
                 <button

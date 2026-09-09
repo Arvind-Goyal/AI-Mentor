@@ -30,6 +30,9 @@ const StartCodingCard = () => {
           title: problem,
           language,
           analysis: analysisData,
+        },
+        {
+          withCredentials: true,
         }
       );
 
