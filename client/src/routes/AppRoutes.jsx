@@ -13,6 +13,7 @@ import PublicRoute from "./PublicRoute";
 import ROUTES from "../constants/routes";
 import ProtectedEditorRoute from "../components/editor/ProtectedEditorRoute";
 import History from "../pages/History/History";
+import Profile from "../pages/Profile/Profile";
 
 const AppRoutes = () => {
     return (
@@ -73,6 +74,15 @@ const AppRoutes = () => {
                 element={
                     <ProtectedRoute>
                         <History />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path={ROUTES.PROFILE}
+                element={
+                    <ProtectedRoute>
+                        <Profile/>
                     </ProtectedRoute>
                 }
             />
