@@ -22,10 +22,12 @@ const app = express();
 // app.use(cors());
 
 app.use(
-    cors({
-        origin: process.env.CLIENT_URL,
-        credentials: true,
-    })
+  cors({
+    origin: "https://ai-mentor-neon-ten.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
 );
 app.use(express.json());
 
