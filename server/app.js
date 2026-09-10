@@ -26,12 +26,11 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL,
-        credentials: true,
-    })
-);
+import cors from 'cors';
+app.use(cors({
+  origin: 'https://ai-mentor-neon-ten.vercel.app',
+  credentials: true
+}));
 app.use(express.json());
 
 app.use(cookieParser());
