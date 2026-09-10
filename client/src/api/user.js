@@ -1,52 +1,40 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/users";
+import api from "../lib/axios"; // adjust path if needed
 
 export const searchUsers = async (query) => {
-  const response = await axios.get(`${API_URL}/search`, {
-    params: { q: query },
-    withCredentials: true,
+  const response = await api.get("/users/search", {
+    params: {
+      q: query,
+    },
   });
 
   return response.data;
 };
 
 export const getUserProfile = async (username) => {
-  const response = await axios.get(`${API_URL}/${username}`, {
-    withCredentials: true,
-  });
+  const response = await api.get(`/users/${username}`);
 
   return response.data;
 };
 
 export const getUserFollowers = async (username) => {
-  const response = await axios.get(
-    `${API_URL}/${username}/followers`,
-    {
-      withCredentials: true,
-    }
+  const response = await api.get(
+    `/users/${username}/followers`
   );
 
   return response.data;
 };
 
 export const getUserFollowing = async (username) => {
-  const response = await axios.get(
-    `${API_URL}/${username}/following`,
-    {
-      withCredentials: true,
-    }
+  const response = await api.get(
+    `/users/${username}/following`
   );
 
   return response.data;
 };
 
 export const getUserAchievements = async (username) => {
-  const response = await axios.get(
-    `${API_URL}/${username}/achievements`,
-    {
-      withCredentials: true,
-    }
+  const response = await api.get(
+    `/users/${username}/achievements`
   );
 
   return response.data;

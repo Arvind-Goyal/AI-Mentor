@@ -1,6 +1,6 @@
 import { FaArrowRight, FaCode } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../lib/axios";
 
 import { useAnalysis } from "../../context/AnalysisContext";
 import { useAuth } from "../../context/AuthContext";
@@ -23,8 +23,8 @@ const StartCodingCard = () => {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:5000/api/history",
+      const response = await api.post(
+        "/history",
         {
           userId: user._id,
           title: problem,

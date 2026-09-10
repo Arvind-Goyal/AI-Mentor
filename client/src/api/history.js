@@ -1,9 +1,7 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/history";
+import api from "../lib/axios"; 
 
 export const getHistory = async () => {
-  const response = await axios.get(API_URL, {
+  const response = await api.get("/history", {
     withCredentials: true,
   });
 
@@ -11,13 +9,9 @@ export const getHistory = async () => {
 };
 
 export const saveHistory = async (historyData) => {
-  const response = await axios.post(
-    API_URL,
-    historyData,
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await api.post("/history", historyData, {
+    withCredentials: true,
+  });
 
   return response.data;
 };

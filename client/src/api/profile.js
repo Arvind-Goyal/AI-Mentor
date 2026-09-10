@@ -1,189 +1,115 @@
+import api from "../lib/axios"; // adjust path if your api.js is elsewhere
+
 export const getProfile = async () => {
-  const response = await fetch(
-    "http://localhost:5000/api/profile",
-    {
-      method: "GET",
-      credentials: "include",
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch profile");
+  try {
+    const response = await api.get("/profile");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to fetch profile"
+    );
   }
-
-  return data;
 };
 
 export const updateProfile = async (profileData) => {
-  const response = await fetch(
-    "http://localhost:5000/api/profile",
-    {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(profileData),
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to update profile");
+  try {
+    const response = await api.put("/profile", profileData);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Failed to update profile"
+    );
   }
-
-  return data;
 };
 
 export const uploadAvatar = async (file) => {
-  const formData = new FormData();
+  try {
+    const formData = new FormData();
+    formData.append("avatar", file);
 
-  formData.append("avatar", file);
+    const response = await api.post("/profile/avatar", formData);
 
-  const response = await fetch(
-    "http://localhost:5000/api/profile/avatar",
-    {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to upload profile picture"
+      error.response?.data?.message ||
+        "Failed to upload profile picture"
     );
   }
-
-  return data;
 };
 
 export const uploadBanner = async (file) => {
-  const formData = new FormData();
+  try {
+    const formData = new FormData();
+    formData.append("banner", file);
 
-  formData.append("banner", file);
+    const response = await api.post("/profile/banner", formData);
 
-  const response = await fetch(
-    "http://localhost:5000/api/profile/banner",
-    {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to upload banner"
+      error.response?.data?.message ||
+        "Failed to upload banner"
     );
   }
-
-  return data;
 };
 
 export const getAchievements = async () => {
-  const response = await fetch(
-    "http://localhost:5000/api/profile/achievements",
-    {
-      method: "GET",
-      credentials: "include",
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+  try {
+    const response = await api.get("/profile/achievements");
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to fetch achievements"
+      error.response?.data?.message ||
+        "Failed to fetch achievements"
     );
   }
-
-  return data;
 };
 
 export const getFollowers = async () => {
-  const response = await fetch(
-    "http://localhost:5000/api/profile/followers",
-    {
-      method: "GET",
-      credentials: "include",
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+  try {
+    const response = await api.get("/profile/followers");
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to fetch followers"
+      error.response?.data?.message ||
+        "Failed to fetch followers"
     );
   }
-
-  return data;
 };
 
 export const getFollowing = async () => {
-  const response = await fetch(
-    "http://localhost:5000/api/profile/following",
-    {
-      method: "GET",
-      credentials: "include",
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+  try {
+    const response = await api.get("/profile/following");
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to fetch following"
+      error.response?.data?.message ||
+        "Failed to fetch following"
     );
   }
-
-  return data;
 };
 
 export const followUser = async (userId) => {
-  const response = await fetch(
-    `http://localhost:5000/api/profile/follow/${userId}`,
-    {
-      method: "POST",
-      credentials: "include",
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+  try {
+    const response = await api.post(`/profile/follow/${userId}`);
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to follow user"
+      error.response?.data?.message ||
+        "Failed to follow user"
     );
   }
-
-  return data;
 };
 
 export const unfollowUser = async (userId) => {
-  const response = await fetch(
-    `http://localhost:5000/api/profile/follow/${userId}`,
-    {
-      method: "DELETE",
-      credentials: "include",
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
+  try {
+    const response = await api.delete(`/profile/follow/${userId}`);
+    return response.data;
+  } catch (error) {
     throw new Error(
-      data.message || "Failed to unfollow user"
+      error.response?.data?.message ||
+        "Failed to unfollow user"
     );
   }
-
-  return data;
 };
