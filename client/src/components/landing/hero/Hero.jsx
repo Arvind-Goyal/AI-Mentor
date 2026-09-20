@@ -8,7 +8,7 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden bg-white">
-      <div className="mx-auto grid min-h-screen w-full max-w-[1600px] grid-cols-1 items-center gap-8 px-8 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:px-12 xl:px-16">
+      <div className="mx-auto grid min-h-screen w-full max-w-[1600px] grid-cols-1 items-center gap-8 px-4 sm:px-8 py-10 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:px-12 xl:px-16">
 
         {/* LEFT */}
         <div className="flex min-h-[500px] w-full max-w-[700px] flex-col justify-center">

@@ -16,7 +16,7 @@ const DashboardHero = () => {
   const firstName = user?.name ? user.name.split(" ")[0] : "Coder";
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-700 via-indigo-600 to-purple-700 p-7 text-white shadow-xl shadow-indigo-500/10">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-700 via-indigo-600 to-purple-700 p-5 sm:p-7 text-white shadow-xl shadow-indigo-500/10">
       {/* Subtle decorative background circles */}
       <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
       <div className="pointer-events-none absolute bottom-0 right-1/4 h-40 w-40 rounded-full bg-indigo-400/10 blur-xl" />

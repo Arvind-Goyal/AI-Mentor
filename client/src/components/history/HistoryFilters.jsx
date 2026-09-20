@@ -174,13 +174,13 @@ const HistoryFilters = ({ history = [], setFilteredHistory }) => {
         <label className="text-xs font-semibold text-slate-700">
           Language
         </label>
-        <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+        <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-white p-1 shadow-sm overflow-x-auto scrollbar-none max-w-full">
           {languageOptions.map((opt) => (
             <button
               key={opt.id}
               type="button"
               onClick={() => handleLanguageFilter(opt.id)}
-              className={`h-8 rounded-lg px-3 text-xs font-semibold transition ${
+              className={`h-8 rounded-lg px-3 text-xs font-semibold transition whitespace-nowrap shrink-0 ${
                 activeLanguage === opt.id
                   ? "bg-violet-100 text-violet-700 shadow-sm border border-violet-200/60"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent"
@@ -197,13 +197,13 @@ const HistoryFilters = ({ history = [], setFilteredHistory }) => {
         <label className="text-xs font-semibold text-slate-700">
           Difficulty
         </label>
-        <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+        <div className="flex h-10 items-center rounded-xl border border-slate-200 bg-white p-1 shadow-sm overflow-x-auto scrollbar-none max-w-full">
           {difficultyOptions.map((opt) => (
             <button
               key={opt.id}
               type="button"
               onClick={() => handleDifficultyFilter(opt.id)}
-              className={`flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition ${
+              className={`flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition whitespace-nowrap shrink-0 ${
                 activeDifficulty === opt.id
                   ? "bg-violet-100 text-violet-700 shadow-sm border border-violet-200/60"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent"

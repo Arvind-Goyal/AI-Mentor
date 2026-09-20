@@ -24,6 +24,10 @@ let localBySlug = new Map();
 let localByMethodName = new Map();
 let localSolutionsBySlug = new Map();
 
+// In-flight analyses map for request deduplication (Single-flight pattern)
+// Prevents multiple concurrent LLM calls for the same problem statement
+const inFlightAnalyses = new Map();
+
 /**
  * Lazily loads the local LeetCode dataset into in-memory maps.
  * Problems are NOT saved to the database.
@@ -526,14 +530,15 @@ export const buildAnalysisFromJavaSolution = (problem, javaSolution) => {
  *    -> If yes, returns DB analysis immediately (0 LLM calls).
  * 3. If not, generates via precomputed dataset or Gemini, saves ONLY the analysis to DB, and returns.
  */
-export const getOrGenerateAnalysis = async (
+const executeGetOrGenerateAnalysis = async (
   problemInput,
   language = "Java",
-  options = {}
+  options = {},
+  parsedInput = null
 ) => {
   const normalizedLang = (language || "java").toLowerCase();
   const { mode = "Detailed", difficulty: requestedDifficulty = "Auto Detect" } = options;
-  const parsed = parseProblemInput(problemInput);
+  const parsed = parsedInput || parseProblemInput(problemInput);
 
   let problem = null;
   if (parsed && parsed.type !== "statement") {
@@ -714,6 +719,52 @@ ${(problem.hints || []).join("\n")}
     isCached: false,
     source: "gemini_api",
   };
+};
+
+/**
+ * Main service entrypoint:
+ * Wraps executeGetOrGenerateAnalysis with in-flight promise deduplication.
+ * Ensures that simultaneous/rapid requests for the same problem reuse the
+ * same active promise, preventing duplicate Gemini LLM calls.
+ */
+export const getOrGenerateAnalysis = async (
+  problemInput,
+  language = "Java",
+  options = {}
+) => {
+  const normalizedLang = (language || "java").toLowerCase();
+  const { mode = "Detailed", difficulty: requestedDifficulty = "Auto Detect" } = options;
+  const parsed = parseProblemInput(problemInput);
+
+  // Compute normalized deduplication key
+  const identifier = parsed?.slug || parsed?.frontendId || String(problemInput).trim().toLowerCase().slice(0, 120);
+  const dedupKey = `${identifier}::${normalizedLang}::${mode}::${requestedDifficulty}`;
+
+  // If already in-flight, reuse existing promise (0 duplicate LLM calls)
+  if (inFlightAnalyses.has(dedupKey)) {
+    console.log(
+      `[DEDUPLICATION] Active in-flight analysis for "${dedupKey}" found. Reusing active execution (0 duplicate LLM calls).`
+    );
+    return await inFlightAnalyses.get(dedupKey);
+  }
+
+  // Create new execution promise and store in inFlight map
+  const analysisPromise = executeGetOrGenerateAnalysis(
+    problemInput,
+    language,
+    options,
+    parsed
+  );
+
+  inFlightAnalyses.set(dedupKey, analysisPromise);
+
+  try {
+    const result = await analysisPromise;
+    return result;
+  } finally {
+    // Release key when execution completes (success or failure)
+    inFlightAnalyses.delete(dedupKey);
+  }
 };
 
 /**

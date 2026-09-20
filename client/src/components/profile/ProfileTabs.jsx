@@ -21,7 +21,7 @@ const ProfileTabs = ({
 
   return (
     <div className="mt-6 border-b border-slate-200">
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-5 sm:gap-8 overflow-x-auto scrollbar-none">
 
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;

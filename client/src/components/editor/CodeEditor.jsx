@@ -28,9 +28,9 @@ const CodeEditor = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-[70vh] overflow-hidden flex flex-col">
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-[50vh] sm:h-[60vh] lg:h-[70vh] overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 bg-slate-50/50">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-200 bg-slate-50/50">
         <div className="flex items-center gap-2">
           <FaCode className="text-violet-600 text-sm" />
           <h2 className="font-bold text-slate-800 text-sm">

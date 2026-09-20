@@ -125,8 +125,8 @@ const AnalysisOverview = () => {
   ];
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-4 sm:p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-5">
         {stats.map((stat) => (
           <StatCard
             key={stat.id}

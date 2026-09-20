@@ -93,20 +93,22 @@ const NavbarActions = () => {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-1.5 sm:gap-3">
 
       {/* How it Works */}
       <button
         type="button"
         className="
-          flex
+          hidden sm:flex
           items-center
           gap-2
           rounded-xl
           border
           border-slate-200
-          px-4
+          px-3 sm:px-4
           py-2
+          text-xs sm:text-sm
+          text-slate-700
           transition
           hover:bg-slate-50
         "
@@ -180,6 +182,7 @@ const NavbarActions = () => {
               top-12
               z-50
               w-80
+              max-w-[calc(100vw-2rem)]
               overflow-hidden
               rounded-xl
               border

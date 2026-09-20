@@ -11,7 +11,7 @@ const AuthLayout = ({ children }) => {
             {/* Small floating blob */}
             <div className="absolute top-1/3 right-1/4 h-32 w-32 rounded-full bg-violet-200/40 blur-3xl" />
 
-            <div className="relative z-10 flex min-h-screen min-w-screen items-center justify-center px-6 py-12">
+            <div className="relative z-10 flex min-h-screen w-full items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
 
                 {children}
 

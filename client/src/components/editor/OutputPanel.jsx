@@ -79,8 +79,8 @@ const OutputPanel = () => {
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[360px]">
       {/* Tab Navigation Header */}
-      <div className="flex items-center justify-between border-b border-slate-200 px-4 bg-slate-50/50">
-        <div className="flex overflow-x-auto scrollbar-none">
+      <div className="flex items-center justify-between border-b border-slate-200 px-2 sm:px-4 bg-slate-50/50">
+        <div className="flex overflow-x-auto scrollbar-none min-w-0">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -88,13 +88,13 @@ const OutputPanel = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 sm:px-5 py-3.5 text-sm font-semibold transition border-b-2 cursor-pointer whitespace-nowrap ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold transition border-b-2 cursor-pointer whitespace-nowrap ${
                   isActive
                     ? "border-violet-600 text-violet-700 bg-white shadow-xs"
                     : "border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100/60"
                 }`}
               >
-                <Icon className={isActive ? "text-violet-600" : "text-slate-400"} />
+                <Icon className={isActive ? "text-violet-600 text-xs sm:text-sm" : "text-slate-400 text-xs sm:text-sm"} />
                 <span>{tab.label}</span>
 
                 {tab.id === "Testcases" && testCases && testCases.length > 0 && (
@@ -153,7 +153,7 @@ const OutputPanel = () => {
       </div>
 
       {/* Tab Panels */}
-      <div className="p-5 flex-1 overflow-y-auto">
+      <div className="p-3 sm:p-5 flex-1 overflow-y-auto">
         {/* Tab 1: Testcases from Dataset */}
         {activeTab === "Testcases" && (
           <div className="space-y-4">

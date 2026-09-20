@@ -20,56 +20,48 @@ const Analyze = () => {
     <DashboardLayout>
       <div className="min-h-screen bg-[#F8FAFC]">
         {/* Main Container */}
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          
-
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-8">
           {/* ================= Main Grid ================= */}
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
             {/* ================= Left Section ================= */}
-            <div className="xl:col-span-9">
+            <div className="xl:col-span-8 2xl:col-span-9 space-y-4 sm:space-y-5">
               {/* Top Cards */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <QuestionInput />
                 <AnalysisConfig />
               </div>
 
               {/* Analyze Button */}
-              <div className="mt-1">
+              <div>
                 <AnalyzeButton />
               </div>
 
               {/* Analysis Overview */}
-              <div className="mt-1">
+              <div>
                 <AnalysisOverview />
               </div>
 
               {/* Learning Journey */}
-               {showMentor && (<div className="mt-1">
-                <LearningJourney />
-              </div>)}
+              {showMentor && (
+                <div>
+                  <LearningJourney />
+                </div>
+              )}
 
               {/* Editor button */}
-
-              {showMentor && (<div className="mt-1">
-                <StartCodingCard/>
-                </div>)}
-              
+              {showMentor && (
+                <div>
+                  <StartCodingCard />
+                </div>
+              )}
             </div>
 
             {/* ================= Mentor Panel ================= */}
-           
-              <div className="xl:col-span-3">
-                <div
-                  className="
-                    sticky
-      p-4
-      transition-all
-      duration-500
-                  "
-                >
-                  {showMentor ?<MentorPanel /> : <MentorPreview/>}
-                </div>
+            <div className="xl:col-span-4 2xl:col-span-3">
+              <div className="xl:sticky xl:top-6 transition-all duration-300">
+                {showMentor ? <MentorPanel /> : <MentorPreview />}
               </div>
+            </div>
           </div>
         </div>
       </div>

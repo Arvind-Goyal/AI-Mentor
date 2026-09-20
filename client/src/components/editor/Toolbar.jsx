@@ -72,38 +72,39 @@ const Toolbar = () => {
 
   return (
     <div className="space-y-2">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm px-4 sm:px-6 py-3 sm:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           {/* Left: Back button & Title with Switcher */}
-          <div className="flex items-center gap-3 min-w-0 flex-wrap">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-wrap">
             <button
               onClick={() => navigate("/analyze")}
-              className="flex items-center gap-2 text-slate-600 hover:text-violet-600 font-medium transition cursor-pointer shrink-0"
+              className="flex items-center gap-1.5 sm:gap-2 text-slate-600 hover:text-violet-600 font-medium transition cursor-pointer shrink-0 text-xs sm:text-sm"
             >
-              <FaArrowLeft className="text-sm" />
+              <FaArrowLeft className="text-xs sm:text-sm" />
               <span>Back</span>
             </button>
 
-            <div className="h-6 w-px bg-slate-200 shrink-0" />
+            <div className="h-5 sm:h-6 w-px bg-slate-200 shrink-0" />
 
             <div className="flex items-center gap-2 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900 truncate">
+              <h2 className="text-base sm:text-xl font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md">
                 {title}
               </h2>
 
               <button
                 onClick={() => setShowSearchModal(true)}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 rounded-lg border border-violet-200 transition cursor-pointer shrink-0"
+                className="inline-flex items-center gap-1.5 px-2 py-1 sm:px-2.5 text-xs font-semibold bg-violet-50 text-violet-700 hover:bg-violet-100 rounded-lg border border-violet-200 transition cursor-pointer shrink-0"
                 title="Switch to another LeetCode problem"
               >
                 <FaExchangeAlt className="text-[10px]" />
-                <span>Switch Problem</span>
+                <span className="hidden xs:inline sm:inline">Switch</span>
+                <span className="hidden sm:inline">Problem</span>
               </button>
             </div>
           </div>
 
           {/* Right: Controls */}
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto justify-end">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end">
             {/* Language Selector */}
             <select
               value={language}

@@ -11,7 +11,7 @@ const AnalysisConfig = () => {
   } = useAnalysis();
 
   return (
-    <div className="h-[350px] flex flex-col justify-between rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <div className="min-h-[350px] sm:h-[350px] flex flex-col justify-between rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex items-center gap-3 p-4 border-b border-slate-100 shrink-0">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 font-semibold text-sm">

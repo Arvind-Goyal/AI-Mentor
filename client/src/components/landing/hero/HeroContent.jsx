@@ -13,7 +13,7 @@ const HeroContent = ({
       <HeroBadge />
 
       {/* Heading */}
-      <h1 className="mt-6 text-5xl font-extrabold leading-[1.1] tracking-tight text-slate-900 lg:text-7xl">
+      <h1 className="mt-6 text-3xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.15] sm:leading-[1.1] tracking-tight text-slate-900">
         Understand Every{" "}
         <span className="bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent">
           Problem.

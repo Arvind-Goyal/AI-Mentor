@@ -207,7 +207,7 @@ const ProfileHeader = ({
 
         {/* ================= Banner ================= */}
 
-        <div className="relative h-44 bg-gradient-to-r from-violet-100 via-purple-50 to-indigo-100">
+        <div className="relative h-36 sm:h-44 bg-gradient-to-r from-violet-100 via-purple-50 to-indigo-100">
 
           {user.banner && (
             <img
@@ -234,8 +234,8 @@ const ProfileHeader = ({
                 htmlFor="banner-upload"
                 className="
                   absolute
-                  right-4
-                  top-4
+                  right-3 sm:right-4
+                  top-3 sm:top-4
                   flex
                   cursor-pointer
                   items-center
@@ -244,8 +244,8 @@ const ProfileHeader = ({
                   border
                   border-white/70
                   bg-white/90
-                  px-3
-                  py-1.5
+                  px-2.5 sm:px-3
+                  py-1 sm:py-1.5
                   text-xs
                   font-medium
                   text-slate-700
@@ -255,15 +255,15 @@ const ProfileHeader = ({
                   hover:bg-white
                 "
               >
-                <Image size={16} />
+                <Image size={15} />
 
-                {uploadingBanner
-                  ? "Uploading..."
-                  : "Change Banner"}
+                <span className="hidden xs:inline sm:inline">
+                  {uploadingBanner ? "Uploading..." : "Change Banner"}
+                </span>
               </label>
 
               {bannerError && (
-                <p className="absolute right-4 top-16 text-xs text-red-500">
+                <p className="absolute right-4 top-14 sm:top-16 text-xs text-red-500">
                   {bannerError}
                 </p>
               )}
@@ -273,23 +273,25 @@ const ProfileHeader = ({
 
         {/* ================= Profile Content ================= */}
 
-        <div className="px-8 pb-6">
+        <div className="px-4 sm:px-8 pb-6">
 
           {/* Avatar + Action */}
 
-          <div className="flex items-end justify-between">
+          <div className="flex items-end justify-between gap-3">
 
             {/* Avatar */}
 
-            <div className="relative z-10 -mt-14">
+            <div className="relative z-10 -mt-10 sm:-mt-14">
 
               <div
                 className="
-                  h-28
-                  w-28
+                  h-20
+                  w-20
+                  sm:h-28
+                  sm:w-28
                   overflow-hidden
                   rounded-full
-                  border-[5px]
+                  border-4 sm:border-[5px]
                   border-white
                   bg-white
                   shadow-md

@@ -6,10 +6,8 @@ const JourneyTabs = ({
     // const Icon = steps.icon;
     return (
 
-        <div className="grid grid-cols-4 gap-3">
-
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
             {steps.map((step) => (
-                //  Icon = step.icon,
                 <button
                     key={step.id}
                     disabled={step.locked}
@@ -17,38 +15,31 @@ const JourneyTabs = ({
                     className={`
                         rounded-xl
                         border
-                        px-3
-                        py-2
+                        px-2.5 sm:px-3
+                        py-2 sm:py-2.5
                         transition-all
                         duration-200
 
                         ${
                             selectedStep === step.id
-                                ? "border-violet-500 bg-violet-50"
+                                ? "border-violet-500 bg-violet-50 shadow-xs"
                                 : "border-slate-200 bg-white hover:bg-slate-50"
                         }
 
-                        ${step.locked && "opacity-50 cursor-not-allowed"}
+                        ${step.locked ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                     `}
                 >
-
-                    <div className="flex flex-col items-center gap-2">
-
-                        <div className="text-xl">
+                    <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+                        <div className="text-lg sm:text-xl">
                             {step.icon}
-                            {/* <Icon/> */}
                         </div>
 
-                        <p className="text-sm font-medium">
+                        <p className="text-xs sm:text-sm font-medium text-center truncate w-full">
                             {step.title}
                         </p>
-
                     </div>
-
                 </button>
-
             ))}
-
         </div>
 
     );

@@ -48,7 +48,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-full bg-[#F8FAFC] px-6 py-6 sm:px-8 sm:py-7">
+      <div className="min-h-full bg-[#F8FAFC] px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="mx-auto max-w-7xl space-y-6">
           {/* 1. Hero Welcome & Analyze CTA */}
           <DashboardHero />

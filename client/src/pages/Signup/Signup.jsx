@@ -48,7 +48,7 @@ const Signup = () => {
 
     return (
         <AuthLayout>
-            <div className="w-full max-w-md rounded-3xl border border-white/40 bg-white/80 p-10 shadow-2xl backdrop-blur-xl">
+            <div className="w-full max-w-md rounded-3xl border border-white/40 bg-white/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
 
                 {/* Logo */}
                 <div className="flex justify-center">
@@ -64,8 +64,8 @@ const Signup = () => {
                 </div>
 
                 {/* Heading */}
-                <div className="mt-8 text-center">
-                    <h1 className="text-4xl font-bold text-slate-900">
+                <div className="mt-6 sm:mt-8 text-center">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">
                         Create Account
                     </h1>
 

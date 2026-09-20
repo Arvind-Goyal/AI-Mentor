@@ -54,7 +54,7 @@ const History = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col gap-8 p-8">
+      <div className="flex flex-col gap-6 sm:gap-8 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
         <HistoryHeader />
 
         <HistoryStats history={history} />

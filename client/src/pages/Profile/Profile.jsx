@@ -204,7 +204,7 @@ const Profile = () => {
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-white">
-        <main className="mx-auto w-full max-w-[1400px] px-6 py-6">
+        <main className="mx-auto w-full max-w-[1400px] px-3.5 sm:px-6 py-4 sm:py-6">
 
           <ProfileHeader
             user={profile}

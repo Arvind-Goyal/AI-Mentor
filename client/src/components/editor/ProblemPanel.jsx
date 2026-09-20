@@ -35,16 +35,16 @@ const ProblemPanel = () => {
     (typeof analysisData?.optimized === "string" ? analysisData.optimized : "");
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-[70vh] overflow-hidden flex flex-col">
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm h-[45vh] sm:h-[55vh] lg:h-[70vh] overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/50">
-        <h2 className="text-lg font-bold text-slate-900 truncate">
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50/50">
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 truncate">
           {title}
         </h2>
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent px-6 py-2">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent px-4 sm:px-6 py-2">
         <AccordionItem
           title="Problem Statement"
           content={problemStatement}

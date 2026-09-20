@@ -20,11 +20,12 @@ const AnalyzeButton = () => {
   } = useAnalysis();
 
   const handleAnalyze = async () => {
-    if (!problem || !problem.trim()) {
+    if (loading || !problem || !problem.trim()) {
       return;
     }
     // This is a new analysis session
     setHistoryId(null);
+    setError(null);
 
     try {
       setLoading(true);
@@ -38,66 +39,58 @@ const AnalyzeButton = () => {
       setAnalysisData(response.data.data);
       setAnalysis(response.data.data);
     } catch (error) {
-      setError(error.message);
+      const errMsg = error.response?.data?.message || error.message || "Failed to analyze problem";
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
-    // setTimeout(() => {
+  };
 
-    //     console.log("Analysis Complete");
-
-    //     setLoading(false);
-
-    // }, 3000);
-
-
-  }
+  const isButtonDisabled = loading || !problem || !problem.trim();
 
   return (
     <button
-    onClick={handleAnalyze}
-      className="
-        mt-6
+      onClick={handleAnalyze}
+      disabled={isButtonDisabled}
+      className={`
+        mt-4 sm:mt-6
         w-full
         rounded-2xl
         bg-gradient-to-r
         from-violet-600
         via-purple-600
         to-indigo-600
-        px-8
-        py-6
+        px-5 sm:px-8
+        py-4 sm:py-6
         text-white
         shadow-lg
         transition
         duration-300
-        hover:scale-[1.01]
-        hover:shadow-xl
-      "
+        ${
+          isButtonDisabled
+            ? "opacity-60 cursor-not-allowed shadow-none"
+            : "hover:scale-[1.01] hover:shadow-xl cursor-pointer active:scale-95"
+        }
+      `}
     >
-      <div className="flex items-center justify-between">
-
+      <div className="flex items-center justify-between gap-3">
         {/* Left */}
-        <div className="text-left">
-
-          <h2 className="text-xl font-semibold">
-            {
-            loading?"Analyzing......":"✨ Analyze Problem"}
+        <div className="text-left min-w-0">
+          <h2 className="text-lg sm:text-xl font-semibold truncate">
+            {loading ? "Analyzing Problem..." : "✨ Analyze Problem"}
           </h2>
 
-          <p className="mt-1 text-sm text-violet-100">
-           {loading
-        ? "Please wait while AI is analyzing your problem..."
-        : "AI will analyze your problem and generate your personalized learning roadmap."}
+          <p className="mt-1 text-xs sm:text-sm text-violet-100 line-clamp-2">
+            {loading
+              ? "Please wait while AI is analyzing your problem (rate limit protected)..."
+              : "AI will analyze your problem and generate your personalized learning roadmap."}
           </p>
-
         </div>
 
         {/* Right */}
-
-        <div className="text-3xl">
+        <div className="text-2xl sm:text-3xl shrink-0">
           {loading ? "⏳" : "→"}
-       </div>
-
+        </div>
       </div>
     </button>
   );
