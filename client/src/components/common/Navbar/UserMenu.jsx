@@ -50,14 +50,28 @@ const UserMenu = ({ onClose }) => {
     <div className="absolute right-0 mt-3 w-72 bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden z-50">
 
       {/* User Info */}
-      <div className="px-5 py-4 border-b border-slate-200">
-        <h3 className="text-sm font-semibold text-slate-900">
-          {user?.name || "Guest"}
-        </h3>
+      <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
+        {user?.profilePicture ? (
+          <img
+            src={user.profilePicture}
+            alt={user.name}
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
+          />
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-bold text-white ring-1 ring-slate-200 select-none">
+            {user?.name?.trim()?.[0]?.toUpperCase() || user?.username?.trim()?.[0]?.toUpperCase() || "U"}
+          </div>
+        )}
 
-        <p className="text-xs text-slate-500 mt-1">
-          {user?.email || "Not signed in"}
-        </p>
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate text-sm font-semibold text-slate-900">
+            {user?.name || "Guest"}
+          </h3>
+
+          <p className="truncate text-xs text-slate-500 mt-0.5">
+            {user?.email || "Not signed in"}
+          </p>
+        </div>
       </div>
 
       {/* Menu Items */}

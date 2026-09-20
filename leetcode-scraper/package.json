@@ -1,0 +1,19 @@
+{
+  "name": "leetcode-scraper",
+  "version": "1.0.0",
+  "main": "fetchLeetCode.js",
+  "scripts": {
+    "scrape": "node fetchLeetCode.js",
+    "generate:java": "node generateJavaSolutions.js",
+    "test": "node --check fetchLeetCode.js && node --check generateJavaSolutions.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.19.0",
+    "cheerio": "^1.2.0"
+  }
+}

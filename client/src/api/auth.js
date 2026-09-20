@@ -1,5 +1,10 @@
 import api from "../lib/axios";
 
+export const checkUsernameAvailability = async (username) => {
+    const { data } = await api.get(`/auth/check-username?username=${encodeURIComponent(username)}`);
+    return data;
+};
+
 export const signup = async (userData) => {
     const { data } = await api.post("/auth/signup", userData);
     return data;

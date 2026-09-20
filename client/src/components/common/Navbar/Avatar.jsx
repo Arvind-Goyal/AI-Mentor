@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 
 const Avatar = ({
@@ -6,27 +7,23 @@ const Avatar = ({
   onClick,
 }) => {
   const { user } = useAuth();
+  const [imgError, setImgError] = useState(false);
 
-  const getInitials = (name = "") => {
-    return name
-      .trim()
-      .split(" ")
-      .filter(Boolean)
-      .map((word) => word[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+  const getFirstChar = (name = "") => {
+    const clean = (name || "").trim();
+    return clean ? clean[0].toUpperCase() : "U";
   };
 
-  const initials = getInitials(user?.name);
+  const initial = getFirstChar(user?.name || user?.username);
+  const photoUrl = user?.profilePicture || user?.avatar;
 
   const sizes = {
     sm: {
-      container: "w-8 h-8 text-sm",
+      container: "w-8 h-8 text-xs",
       status: "w-2.5 h-2.5",
     },
     md: {
-      container: "w-10 h-10 text-base",
+      container: "w-10 h-10 text-sm",
       status: "w-3 h-3",
     },
     lg: {
@@ -35,7 +32,7 @@ const Avatar = ({
     },
   };
 
-  const currentSize = sizes[size];
+  const currentSize = sizes[size] || sizes.md;
 
   return (
     <button
@@ -52,15 +49,26 @@ const Avatar = ({
           flex
           items-center
           justify-center
-          font-semibold
+          font-bold
           text-white
           shadow-md
           hover:scale-105
           transition-transform
           duration-200
+          overflow-hidden
+          select-none
         `}
       >
-        {initials || "?"}
+        {photoUrl && !imgError ? (
+          <img
+            src={photoUrl}
+            alt={user?.name || "User"}
+            onError={() => setImgError(true)}
+            className="h-full w-full object-cover rounded-full"
+          />
+        ) : (
+          initial
+        )}
       </div>
 
       {showStatus && (

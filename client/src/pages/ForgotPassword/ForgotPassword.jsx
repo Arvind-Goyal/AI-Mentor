@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { KeyRound, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 import AuthLayout from "../../components/auth/AuthLayout";
 import AuthInput from "../../components/auth/AuthInput";
@@ -24,7 +26,7 @@ const ForgotPassword = () => {
         setMessage("");
 
         if (!email.trim()) {
-            setError("Enter the email linked to your account.");
+            setError("Please enter the email linked to your account.");
             return;
         }
 
@@ -33,9 +35,11 @@ const ForgotPassword = () => {
             const response = await requestPasswordReset(email.trim());
             setToken(response.resetToken || "");
             setStep("reset");
-            setMessage(response.message);
+            setMessage(response.message || "Reset token generated. Set your new password.");
+            toast.success("Reset token ready! Please set your new password.");
         } catch (requestError) {
-            setError(requestError.response?.data?.message || "We could not start the reset flow.");
+            const errMsg = requestError.response?.data?.message || "Failed to initiate password reset.";
+            setError(errMsg);
         } finally {
             setIsSubmitting(false);
         }
@@ -45,6 +49,11 @@ const ForgotPassword = () => {
         event.preventDefault();
         setError("");
         setMessage("");
+
+        if (!token.trim()) {
+            setError("Reset token is required.");
+            return;
+        }
 
         if (password.length < 6) {
             setError("Your new password must be at least 6 characters.");
@@ -59,10 +68,12 @@ const ForgotPassword = () => {
         try {
             setIsSubmitting(true);
             const response = await resetPassword(token.trim(), password);
-            setMessage(response.message);
+            setMessage(response.message || "Password updated successfully!");
+            toast.success("Password updated successfully! You can now log in.");
             setStep("complete");
         } catch (resetError) {
-            setError(resetError.response?.data?.message || "That reset link is invalid or expired.");
+            const errMsg = resetError.response?.data?.message || "That reset token is invalid or expired.";
+            setError(errMsg);
         } finally {
             setIsSubmitting(false);
         }
@@ -71,54 +82,118 @@ const ForgotPassword = () => {
     return (
         <AuthLayout>
             <div className="w-full max-w-md rounded-3xl border border-white/60 bg-white/85 p-8 shadow-2xl shadow-violet-200/40 backdrop-blur-xl sm:p-10">
-                <Link to="/login" className="mb-10 inline-flex items-center gap-2 text-sm font-semibold text-violet-600 transition hover:text-violet-800">
-                    <span aria-hidden="true">&#8592;</span> Back to sign in
+                <Link
+                    to="/login"
+                    className="mb-8 inline-flex items-center gap-1.5 text-xs font-semibold text-violet-700 transition hover:text-violet-900"
+                >
+                    <ArrowLeft size={14} /> Back to Sign In
                 </Link>
 
                 <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-bold text-white shadow-lg shadow-violet-500/20">AI</div>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/20">
+                        <KeyRound size={20} />
+                    </div>
                     <div>
-                        <p className="text-sm font-semibold text-slate-900">AI DSA Mentor</p>
-                        <p className="text-xs text-slate-500">Account recovery</p>
+                        <p className="text-sm font-bold text-slate-900">AI DSA Mentor</p>
+                        <p className="text-xs text-slate-500">Change / Reset Password</p>
                     </div>
                 </div>
 
-                <div className="mt-8">
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-                        {step === "complete" ? "Password updated" : step === "reset" ? "Create a new password" : "Forgot your password?"}
+                <div className="mt-7">
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                        {step === "complete"
+                            ? "Password Changed!"
+                            : step === "reset"
+                            ? "Set New Password"
+                            : "Reset Your Password"}
                     </h1>
-                    <p className="mt-3 text-sm leading-6 text-slate-500">
-                        {step === "complete" ? "Your account is ready. Sign in with your new password." : step === "reset" ? "Use the reset token from the previous step, then choose a password you will remember." : "Enter your email and we will help you get back to your learning journey."}
+                    <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                        {step === "complete"
+                            ? "Your account password has been updated. You can now sign in."
+                            : step === "reset"
+                            ? "Enter and confirm your new secure password."
+                            : "Enter your registered email address to change your password."}
                     </p>
                 </div>
 
                 {step === "request" && (
-                    <form onSubmit={handleRequest} className="mt-8 space-y-5">
-                        <AuthInput label="Email" type="email" placeholder="john@example.com" value={email} onChange={(event) => setEmail(event.target.value)} />
-                        {error && <p className="text-sm font-medium text-red-500">{error}</p>}
-                        <AuthButton disabled={isSubmitting}>{isSubmitting ? "Preparing reset..." : "Continue"}</AuthButton>
+                    <form onSubmit={handleRequest} className="mt-7 space-y-4">
+                        <AuthInput
+                            label="Email Address"
+                            type="email"
+                            placeholder="john@example.com"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                        {error && <p className="text-xs font-medium text-red-500">{error}</p>}
+                        <div className="pt-2">
+                            <AuthButton disabled={isSubmitting}>
+                                {isSubmitting ? "Verifying..." : "Continue to Change Password"}
+                            </AuthButton>
+                        </div>
                     </form>
                 )}
 
                 {step === "reset" && (
-                    <form onSubmit={handleReset} className="mt-8 space-y-5">
-                        <AuthInput label="Reset token" placeholder="Paste your reset token" value={token} onChange={(event) => setToken(event.target.value)} />
-                        <PasswordInput label="New password" placeholder="At least 6 characters" value={password} onChange={(event) => setPassword(event.target.value)} />
-                        <PasswordInput label="Confirm password" placeholder="Repeat your new password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
-                        {message && <p className="rounded-xl bg-violet-50 px-3 py-2 text-sm leading-5 text-violet-700">{message}</p>}
-                        {error && <p className="text-sm font-medium text-red-500">{error}</p>}
-                        <AuthButton disabled={isSubmitting}>{isSubmitting ? "Updating password..." : "Update password"}</AuthButton>
+                    <form onSubmit={handleReset} className="mt-7 space-y-4">
+                        {token ? (
+                            <div className="flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-200 px-3.5 py-2.5 text-xs text-emerald-800">
+                                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                                <span>Reset token ready for <strong>{email}</strong></span>
+                            </div>
+                        ) : (
+                            <AuthInput
+                                label="Reset Token"
+                                placeholder="Paste your reset token"
+                                value={token}
+                                onChange={(event) => setToken(event.target.value)}
+                            />
+                        )}
+
+                        <PasswordInput
+                            label="New Password"
+                            placeholder="At least 6 characters"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                        <PasswordInput
+                            label="Confirm New Password"
+                            placeholder="Repeat new password"
+                            value={confirmPassword}
+                            onChange={(event) => setConfirmPassword(event.target.value)}
+                        />
+                        {message && <p className="rounded-xl bg-violet-50 px-3 py-2 text-xs text-violet-700">{message}</p>}
+                        {error && <p className="text-xs font-medium text-red-500">{error}</p>}
+                        <div className="pt-2">
+                            <AuthButton disabled={isSubmitting}>
+                                {isSubmitting ? "Changing Password..." : "Change Password Now"}
+                            </AuthButton>
+                        </div>
                     </form>
                 )}
 
                 {step === "complete" && (
-                    <div className="mt-8">
-                        <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{message}</p>
-                        <Link to="/login" className="mt-5 block text-center text-sm font-semibold text-violet-600 hover:text-violet-800">Return to sign in</Link>
+                    <div className="mt-7 space-y-4 text-center">
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
+                            <CheckCircle2 size={24} />
+                        </div>
+                        <p className="rounded-xl bg-emerald-50 p-3 text-xs text-emerald-800 font-medium">
+                            {message}
+                        </p>
+                        <Link
+                            to="/login"
+                            className="inline-block w-full rounded-2xl bg-violet-600 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-violet-700"
+                        >
+                            Sign In with New Password
+                        </Link>
                     </div>
                 )}
 
-                {step !== "complete" && !message && <AuthFooter text="Remember your password?" linkText="Sign in" to="/login" />}
+                {step !== "complete" && (
+                    <div className="mt-6">
+                        <AuthFooter text="Remember your password?" linkText="Sign In" to="/login" />
+                    </div>
+                )}
             </div>
         </AuthLayout>
     );

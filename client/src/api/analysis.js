@@ -1,6 +1,14 @@
 import api from "../lib/axios";
 
 /**
+ * Lookup LeetCode problem by number, URL, or title
+ */
+export const lookupQuestion = async (query) => {
+    const { data } = await api.get(`/analyze/lookup?q=${encodeURIComponent(query)}`);
+    return data;
+};
+
+/**
  * Analyze a LeetCode problem
  */
 export const analyzeQuestion = async (payload) => {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   User,
+  AtSign,
   Mail,
   Lock,
   Eye,
@@ -23,6 +24,7 @@ const AuthPanel = ({ mode, setMode }) => {
 
   const [formData, setFormData] = useState({
     name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -38,7 +40,7 @@ const AuthPanel = ({ mode, setMode }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "username" ? value.toLowerCase().replace(/\s+/g, "") : value,
     }));
   };
 
@@ -49,6 +51,16 @@ const AuthPanel = ({ mode, setMode }) => {
     // Basic validation
     if (isSignup && !formData.name.trim()) {
       toast.error("Please enter your name");
+      return;
+    }
+
+    if (isSignup && !formData.username.trim()) {
+      toast.error("Please choose a username");
+      return;
+    }
+
+    if (isSignup && !/^[a-z0-9_.-]{3,30}$/.test(formData.username.trim().toLowerCase())) {
+      toast.error("Username must be 3-30 characters (letters, numbers, _, ., -)");
       return;
     }
 
@@ -81,6 +93,7 @@ const AuthPanel = ({ mode, setMode }) => {
       if (isSignup) {
         const response = await signup({
           name: formData.name.trim(),
+          username: formData.username.trim().toLowerCase(),
           email: formData.email.trim(),
           password: formData.password,
         });
@@ -197,6 +210,33 @@ const AuthPanel = ({ mode, setMode }) => {
           </div>
         )}
 
+        {/* Username */}
+        {isSignup && (
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Username (Unique Handle)
+            </label>
+
+            <div className="relative">
+              <AtSign
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="choose_username"
+                autoComplete="username"
+                disabled={loading}
+                className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100 disabled:cursor-not-allowed disabled:bg-slate-50"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Email */}
         <div>
           <label className="mb-2 block text-sm font-medium text-slate-700">
@@ -300,6 +340,7 @@ const AuthPanel = ({ mode, setMode }) => {
           <div className="flex justify-end">
             <button
               type="button"
+              onClick={() => navigate("/forgot-password")}
               className="text-sm font-medium text-purple-600 hover:text-purple-700"
             >
               Forgot password?

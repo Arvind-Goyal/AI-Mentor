@@ -23,12 +23,23 @@ const StartCodingCard = () => {
         return;
       }
 
+      const cleanTitle =
+        analysisData?.problemTitle ||
+        (problem.length > 60 ? problem.slice(0, 60) + "..." : problem);
+      const difficulty =
+        analysisData?.analysis?.difficulty || "Medium";
+      const problemId =
+        analysisData?.problemSlug ||
+        cleanTitle.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
       const response = await api.post(
         "/history",
         {
           userId: user._id,
-          title: problem,
+          problemId,
+          title: cleanTitle,
           language,
+          difficulty,
           analysis: analysisData,
         },
         {

@@ -89,6 +89,16 @@ const Signup = () => {
                     />
 
                     <AuthInput
+                        label="Username (Unique Handle)"
+                        placeholder="e.g. alex_coder"
+                        autoComplete="username"
+                        {...register("username", {
+                            onChange: () => setServerError(""),
+                        })}
+                        error={errors.username}
+                    />
+
+                    <AuthInput
                         type="email"
                         label="Email"
                         placeholder="john@example.com"

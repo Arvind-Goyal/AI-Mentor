@@ -63,22 +63,17 @@ const FollowingList = ({
                 {/* User */}
                 <div className="flex items-center gap-3">
 
-                  <img
-                    src={
-                      user.profilePicture ||
-                      user.avatar ||
-                      "/default-avatar.png"
-                    }
-                    alt={user.name}
-                    className="
-                      h-11
-                      w-11
-                      rounded-full
-                      object-cover
-                      ring-2
-                      ring-slate-100
-                    "
-                  />
+                  {user.profilePicture || user.avatar ? (
+                    <img
+                      src={user.profilePicture || user.avatar}
+                      alt={user.name}
+                      className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-slate-100"
+                    />
+                  ) : (
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-bold text-white ring-2 ring-slate-100 select-none">
+                      {user.name?.trim()?.[0]?.toUpperCase() || user.username?.trim()?.[0]?.toUpperCase() || "U"}
+                    </div>
+                  )}
 
                   <div>
                     <h3 className="text-sm font-semibold text-slate-900">

@@ -1,138 +1,156 @@
+import React, { useState } from "react";
 import { BarChart3, Clock3, Database, Tags } from "lucide-react";
 
 import StatCard from "./StatCard";
+import StatDetailModal from "./StatDetailModal";
 import { useAnalysis } from "../../context/AnalysisContext";
 
 const AnalysisOverview = () => {
+  const { analysisData, loading } = useAnalysis();
+  const [selectedStat, setSelectedStat] = useState(null);
 
-    const { analysisData, loading } = useAnalysis();
-    // console.log(loading);
-    // console.log(analysisData.analysis);
-    // console.log(analysis);
-    if (!analysisData.analysis && !loading) {
+  if (!analysisData.analysis && !loading) {
     return (
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-
-            <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
-                    <BarChart3 size={20} strokeWidth={2.2} />
-                </div>
-                <h2 className="text-xl font-semibold text-slate-900">Analysis Overview</h2>
-            </div>
-
-            <div className="mt-8 text-center">
-
-                <p className="text-slate-500">
-                    Paste your problem and click Analyze.
-                </p>
-
-                <p className="mt-2 text-sm text-slate-400">
-                    We'll detect difficulty, topics and generate your learning roadmap.
-                </p>
-
-            </div>
-
-        </div>
-    );
-}
-if (loading) {
-    return (
-
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-
-            <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
-                    <BarChart3 size={20} strokeWidth={2.2} />
-                </div>
-                <h2 className="text-xl font-semibold text-slate-900">Analysis Overview</h2>
-            </div>
-
-            <div className="mt-8 space-y-3">
-
-                <p className="flex items-center gap-2 font-medium text-slate-700">
-                    <Clock3 size={16} className="animate-pulse text-violet-600" />
-                    Analyzing...
-                </p>
-
-                <p className="text-slate-500">
-                    Finding Topics...
-                </p>
-
-                <p className="text-slate-500">
-                    Estimating Difficulty...
-                </p>
-
-                <p className="text-slate-500">
-                    Preparing Learning Roadmap...
-                </p>
-
-            </div>
-
+      <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
+            <BarChart3 size={20} strokeWidth={2.2} />
+          </div>
+          <h2 className="text-xl font-semibold text-slate-900">Analysis Overview</h2>
         </div>
 
+        <div className="mt-8 text-center">
+          <p className="text-slate-500">
+            Paste your problem and click Analyze.
+          </p>
+          <p className="mt-2 text-sm text-slate-400">
+            We'll detect difficulty, topics and generate your learning roadmap.
+          </p>
+        </div>
+      </div>
     );
-}
-const overview = analysisData.analysis;
-console.log(overview);
-const stats = [
+  }
 
+  if (loading) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600">
+            <BarChart3 size={20} strokeWidth={2.2} />
+          </div>
+          <h2 className="text-xl font-semibold text-slate-900">Analysis Overview</h2>
+        </div>
+
+        <div className="mt-8 space-y-3">
+          <p className="flex items-center gap-2 font-medium text-slate-700">
+            <Clock3 size={16} className="animate-pulse text-violet-600" />
+            Analyzing...
+          </p>
+          <p className="text-slate-500">Finding Topics...</p>
+          <p className="text-slate-500">Estimating Difficulty...</p>
+          <p className="text-slate-500">Preparing Learning Roadmap...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const overview = analysisData.analysis || {};
+  const mentor = analysisData.mentor || {};
+  const optimized = analysisData.optimized || {};
+  const complexity = optimized.complexity || {};
+
+  const stats = [
     {
-        title: "Difficulty",
-        value: overview.difficulty,
-        subtitle: "AI Estimated",
-        icon: BarChart3,
-        bgColor: "bg-violet-100",
-        iconColor: "text-violet-600",
+      id: "difficulty",
+      title: "Difficulty",
+      value: overview.difficulty || "Medium",
+      subtitle: "AI Estimated",
+      icon: BarChart3,
+      bgColor: "bg-violet-100",
+      textColor: "text-violet-600",
+      details: {
+        difficulty: overview.difficulty,
+        estimatedTime: mentor.estimatedTime || "20-30 min",
+        confidence: mentor.confidence,
+        summary: overview.summary,
+        goal: mentor.goal,
+      },
     },
-
     {
-        title: "Pattern",
-        value: overview.concepts?.join(', '),
-        subtitle: "Primary Concept",
-        icon: Tags,
-        bgColor: "bg-blue-100",
-        iconColor: "text-blue-600",
+      id: "pattern",
+      title: "Pattern",
+      value: Array.isArray(overview.concepts)
+        ? overview.concepts.join(", ")
+        : overview.concepts || "Pattern",
+      rawItems: Array.isArray(overview.concepts) ? overview.concepts : [],
+      subtitle: "Primary Concept",
+      icon: Tags,
+      bgColor: "bg-blue-100",
+      textColor: "text-blue-600",
+      details: {
+        concepts: overview.concepts || [],
+        approach: optimized.approach,
+        companies: overview.companies || [],
+        advice: mentor.advice,
+      },
     },
-
     {
-        title: "Time Complexity",
-        value: analysisData.optimized.complexity.time,
-        subtitle: "Expected Solution",
-        icon: Clock3,
-        bgColor: "bg-amber-100",
-        iconColor: "text-amber-600",
+      id: "time",
+      title: "Time Complexity",
+      value: complexity.time || "O(n)",
+      subtitle: "Expected Solution",
+      icon: Clock3,
+      bgColor: "bg-amber-100",
+      textColor: "text-amber-600",
+      details: {
+        complexity: complexity.time || "O(n)",
+        explanation: optimized.explanation,
+        approach: optimized.approach,
+      },
     },
-
     {
-        title: "Space Complexity",
-        value: analysisData.optimized.complexity.space,
-        subtitle: "Expected Solution",
-        icon: Database,
-        bgColor: "bg-emerald-100",
-        iconColor: "text-emerald-600",
-    }
+      id: "space",
+      title: "Space Complexity",
+      value: complexity.space || "O(1)",
+      subtitle: "Expected Solution",
+      icon: Database,
+      bgColor: "bg-emerald-100",
+      textColor: "text-emerald-600",
+      details: {
+        complexity: complexity.space || "O(1)",
+        explanation: optimized.explanation,
+        approach: optimized.approach,
+      },
+    },
+  ];
 
-];
-
-return (
-
-<div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-
-   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-    {stats.map((stat) => (
-        <StatCard
-            key={stat.title}
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        {stats.map((stat) => (
+          <StatCard
+            key={stat.id}
             icon={stat.icon}
             title={stat.title}
             value={stat.value}
+            rawItems={stat.rawItems}
             subtitle={stat.subtitle}
+            bgColor={stat.bgColor}
+            textColor={stat.textColor}
+            onClick={() => setSelectedStat(stat)}
+          />
+        ))}
+      </div>
+
+      {/* Pop-up detail modal */}
+      {selectedStat && (
+        <StatDetailModal
+          stat={selectedStat}
+          onClose={() => setSelectedStat(null)}
         />
-    ))}
-</div>
-
-</div>
-
-);
+      )}
+    </div>
+  );
 };
 
 export default AnalysisOverview;

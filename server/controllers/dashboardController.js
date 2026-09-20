@@ -1,4 +1,5 @@
 import History from "../models/History.js";
+import { getDailyRecommendations } from "../services/leetcodeService.js";
 
 
 export const getDashboard = async (req, res) => {
@@ -308,8 +309,51 @@ export const getDashboard = async (req, res) => {
 
 
 
-    res.status(200).json({
+    // Difficulty breakdown
+    let easyCount = 0;
+    let mediumCount = 0;
+    let hardCount = 0;
 
+    history.forEach((item) => {
+      const diff = (
+        item.difficulty ||
+        item.analysis?.analysis?.difficulty ||
+        ""
+      ).toLowerCase();
+      if (diff === "easy") easyCount++;
+      else if (diff === "hard") hardCount++;
+      else if (diff === "medium") mediumCount++;
+    });
+
+    const difficultyBreakdown = {
+      easy: easyCount,
+      medium: mediumCount,
+      hard: hardCount,
+      total: problemsAnalyzed,
+    };
+
+    // Recent activity (latest 5)
+    const recentActivity = history.slice(0, 5).map((item) => ({
+      id: item._id,
+      title: item.title,
+      difficulty: item.difficulty || item.analysis?.analysis?.difficulty || "Medium",
+      language: item.language || "Java",
+      concepts: item.analysis?.analysis?.concepts || [],
+      createdAt: item.createdAt,
+    }));
+
+    // Recommended daily problems from LeetCode dataset
+    const recommendedProblems = await getDailyRecommendations();
+
+    // Weekly goal progress
+    const thisWeekCompleted = currentWeekCounts.reduce((sum, c) => sum + c, 0);
+    const weeklyGoal = {
+      target: 7,
+      completed: thisWeekCompleted,
+      percentage: Math.min(Math.round((thisWeekCompleted / 7) * 100), 100),
+    };
+
+    res.status(200).json({
       success: true,
 
       stats: {
@@ -318,6 +362,14 @@ export const getDashboard = async (req, res) => {
         topicsExplored,
       },
 
+      difficultyBreakdown,
+
+      recentActivity,
+
+      recommendedProblems,
+
+      weeklyGoal,
+
       topics,
 
       languages,
@@ -325,8 +377,6 @@ export const getDashboard = async (req, res) => {
       weeklyActivity,
 
       mentorInsight,
-
-
     });
 
 

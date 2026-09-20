@@ -26,6 +26,7 @@ const ProfileHeader = ({
 }) => {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [avatarError, setAvatarError] = useState("");
+  const [imgError, setImgError] = useState(false);
 
   const [uploadingBanner, setUploadingBanner] = useState(false);
   const [bannerError, setBannerError] = useState("");
@@ -141,6 +142,7 @@ const ProfileHeader = ({
 
       const data = await uploadAvatar(file);
 
+      setImgError(false);
       onProfileUpdate(data.user);
     } catch (error) {
       console.error("Avatar upload error:", error);
@@ -293,11 +295,18 @@ const ProfileHeader = ({
                   shadow-md
                 "
               >
-                <img
-                  src={user.profilePicture || user.avatar}
-                  alt={user.name}
-                  className="h-full w-full object-cover"
-                />
+                {(user.profilePicture || user.avatar) && !imgError ? (
+                  <img
+                    src={user.profilePicture || user.avatar}
+                    alt={user.name}
+                    onError={() => setImgError(true)}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-violet-600 to-indigo-600 text-4xl font-black text-white select-none shadow-inner">
+                    {user.name?.trim()?.[0]?.toUpperCase() || user.username?.trim()?.[0]?.toUpperCase() || "U"}
+                  </div>
+                )}
 
                 {uploadingAvatar && (
                   <div className="absolute inset-0 flex items-center justify-center rounded-full bg-slate-900/50">

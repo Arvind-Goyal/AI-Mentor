@@ -3,42 +3,98 @@ import crypto from "crypto";
 import User from "../models/User.js";
 import sendToken from "../utils/sendToken.js";
 
-export const signup = async (req, res) => {
+export const checkUsernameAvailability = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username } = req.query;
 
-    if (!name || !email || !password) {
+    if (!username || !username.trim()) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "Username query parameter is required",
       });
     }
 
-    const existingUser = await User.findOne({ email });
+    const cleanUsername = username.trim().toLowerCase();
 
-    if (existingUser) {
+    if (!/^[a-z0-9_.-]{3,30}$/.test(cleanUsername)) {
+      return res.status(400).json({
+        success: false,
+        available: false,
+        message: "Username must be 3-30 characters (letters, numbers, _, ., -)",
+      });
+    }
+
+    const existing = await User.findOne({ username: cleanUsername });
+
+    return res.status(200).json({
+      success: true,
+      available: !existing,
+      username: cleanUsername,
+    });
+  } catch (error) {
+    console.error("Check username error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to check username availability",
+    });
+  }
+};
+
+export const signup = async (req, res) => {
+  try {
+    const { name, username, email, password } = req.body;
+
+    if (!name || !username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required (name, username, email, password)",
+      });
+    }
+
+    const cleanUsername = username.trim().toLowerCase();
+
+    if (!/^[a-z0-9_.-]{3,30}$/.test(cleanUsername)) {
+      return res.status(400).json({
+        success: false,
+        message: "Username must be 3-30 characters and can only contain letters, numbers, underscores, hyphens, and periods",
+      });
+    }
+
+    const [existingUsername, existingEmail] = await Promise.all([
+      User.findOne({ username: cleanUsername }),
+      User.findOne({ email: email.trim().toLowerCase() }),
+    ]);
+
+    if (existingUsername) {
       return res.status(409).json({
         success: false,
-        message: "User already exists",
+        message: "Username is already taken. Please choose another.",
+      });
+    }
+
+    if (existingEmail) {
+      return res.status(409).json({
+        success: false,
+        message: "Email is already registered. Please login instead.",
       });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await User.create({
-      name,
-      email,
+      name: name.trim(),
+      username: cleanUsername,
+      email: email.trim().toLowerCase(),
       password: hashedPassword,
     });
 
-    return sendToken( user, 201, res, "Account created successfully");
-
+    return sendToken(user, 201, res, "Account created successfully");
   } catch (error) {
     console.log(error);
 
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: error.message || "Internal Server Error",
     });
   }
 };

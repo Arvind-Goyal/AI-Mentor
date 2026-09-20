@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRound } from "lucide-react";
 
 import { loginSchema } from "../../schemas/loginSchema";
 import { login } from "../../api/auth";
@@ -100,13 +101,15 @@ const Login = () => {
                         error={errors.password}
                     />
 
-                    {/* Forgot Password */}
-                    <div className="flex justify-end">
+                    {/* Forgot Password Button */}
+                    <div className="flex items-center justify-between pt-0.5">
+                        <span className="text-xs text-slate-500">Trouble logging in?</span>
                         <Link
                             to="/forgot-password"
-                            className="text-sm font-medium text-violet-600 hover:text-violet-700"
+                            className="inline-flex items-center gap-1.5 rounded-xl border border-violet-200 bg-violet-50/60 px-3 py-1.5 text-xs font-semibold text-violet-700 shadow-sm transition hover:bg-violet-100 hover:border-violet-300 active:scale-95"
                         >
-                            Forgot Password?
+                            <KeyRound size={13} />
+                            Reset / Change Password
                         </Link>
                     </div>
 

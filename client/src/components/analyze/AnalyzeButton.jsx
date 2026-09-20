@@ -10,38 +10,36 @@ const AnalyzeButton = () => {
   const {
     problem,
     language,
+    mode,
+    difficulty,
     loading,
     setLoading,
     setAnalysis,
     setError,
     setHistoryId,
-} = useAnalysis();
-// console.log(language);
-  const handleAnalyze = async()=>{
-    if(!problem.trim()){
-      alert("Please enter problem first. ")
-      return ;
+  } = useAnalysis();
+
+  const handleAnalyze = async () => {
+    if (!problem || !problem.trim()) {
+      return;
     }
     // This is a new analysis session
     setHistoryId(null);
-    
+
     try {
       setLoading(true);
-      const response = await analyzeQuestion({ problem, language, });
-      console.log("Analyze button clicked");
-      // console.log("Analyzing",problem);
-      // const response = await axios.post("http://localhost:5000/api/analyze",{problem,language});
-      // await new Promise((resolve) => setTimeout(resolve, 2500));
-      console.log(response);
-      
-      // const response = await  analyzeProblem(problem,language);
+      const response = await analyzeQuestion({
+        problem: problem.trim(),
+        language,
+        mode,
+        difficulty,
+      });
+
       setAnalysisData(response.data.data);
       setAnalysis(response.data.data);
-      // console.log("analu")
-      // console.log(analysisData);
-    }catch(error){
+    } catch (error) {
       setError(error.message);
-    } finally{
+    } finally {
       setLoading(false);
     }
     // setTimeout(() => {

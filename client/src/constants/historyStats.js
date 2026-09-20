@@ -1,33 +1,37 @@
-export const getHistoryStats = (history) => {
+export const getHistoryStats = (history = []) => {
   const totalSessions = history.length;
 
   const javaCount = history.filter(
-    (item) => item.language === "Java"
+    (item) => (item.language || "").toLowerCase() === "java"
   ).length;
 
-  const cppCount = history.filter(
-    (item) => item.language === "C++"
-  ).length;
+  const cppCount = history.filter((item) => {
+    const l = (item.language || "").toLowerCase();
+    return l === "c++" || l === "cpp";
+  }).length;
 
   const pythonCount = history.filter(
-    (item) => item.language === "Python"
+    (item) => (item.language || "").toLowerCase() === "python"
   ).length;
 
-  const easyCount = history.filter(
-    (item) => item.analysis?.analysis?.difficulty === "Easy"
-  ).length;
+  const easyCount = history.filter((item) => {
+    const d = (item.difficulty || item.analysis?.analysis?.difficulty || "").toLowerCase();
+    return d === "easy";
+  }).length;
 
-  const mediumCount = history.filter(
-    (item) => item.analysis?.analysis?.difficulty === "Medium"
-  ).length;
+  const mediumCount = history.filter((item) => {
+    const d = (item.difficulty || item.analysis?.analysis?.difficulty || "").toLowerCase();
+    return d === "medium";
+  }).length;
 
-  const hardCount = history.filter(
-    (item) => item.analysis?.analysis?.difficulty === "Hard"
-  ).length;
+  const hardCount = history.filter((item) => {
+    const d = (item.difficulty || item.analysis?.analysis?.difficulty || "").toLowerCase();
+    return d === "hard";
+  }).length;
 
   return [
     {
-      label: "Sessions",
+      label: "Problems",
       value: totalSessions,
       color: "text-slate-900",
     },

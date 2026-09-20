@@ -1,11 +1,11 @@
 import { getGeminiClient } from "../config/gemini.js";
 import { getAnalysisPrompt } from "../prompts/analysisPrompt.js";
 
-export const analyzeWithGemini = async (problem, language) => {
+export const analyzeWithGemini = async (problem, language, options = {}) => {
 
     const ai = getGeminiClient();
 
-    const prompt = getAnalysisPrompt(problem, language);
+    const prompt = getAnalysisPrompt(problem, language, options);
 
     const response = await ai.models.generateContent({
         // model: "gemini-2.5-flash",

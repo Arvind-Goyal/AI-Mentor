@@ -221,22 +221,17 @@ const NavbarActions = () => {
                       "
                     >
                       {/* Avatar */}
-                      <img
-                        src={
-                          user.profilePicture ||
-                          "/default-avatar.png"
-                        }
-                        alt={user.name}
-                        className="
-                          h-10
-                          w-10
-                          shrink-0
-                          rounded-full
-                          object-cover
-                          ring-1
-                          ring-slate-200
-                        "
-                      />
+                      {user.profilePicture ? (
+                        <img
+                          src={user.profilePicture}
+                          alt={user.name}
+                          className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
+                        />
+                      ) : (
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-sm font-bold text-white ring-1 ring-slate-200 select-none">
+                          {user.name?.trim()?.[0]?.toUpperCase() || user.username?.trim()?.[0]?.toUpperCase() || "U"}
+                        </div>
+                      )}
 
                       {/* User information */}
                       <div className="min-w-0">

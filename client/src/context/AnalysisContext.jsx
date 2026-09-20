@@ -5,6 +5,8 @@ export const AnalysisProvider=({children})=>{
     // user Input
     const [problem,setProblem] = useState("");
     const [language, setLanguage] = useState("Java");
+    const [mode, setMode] = useState("Detailed");
+    const [difficulty, setDifficulty] = useState("Auto Detect");
     
     
     //UI State
@@ -37,6 +39,8 @@ export const AnalysisProvider=({children})=>{
     const resetAnalysis = ()=>{
         setProblem("");
         setLanguage("Java");
+        setMode("Detailed");
+        setDifficulty("Auto Detect");
         setLoading(false);
         setCurrentStep(1);
         setAnalysisData({
@@ -62,6 +66,12 @@ export const AnalysisProvider=({children})=>{
 
                 language,
                 setLanguage,
+
+                mode,
+                setMode,
+
+                difficulty,
+                setDifficulty,
 
                 loading,
                 setLoading,

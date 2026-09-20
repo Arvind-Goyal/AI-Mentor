@@ -7,11 +7,14 @@ import {
   me,
   forgotPassword,
   resetPassword,
+  checkUsernameAvailability,
 } from "../controllers/authController.js";
 
 import protect from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+
+router.get("/check-username", checkUsernameAvailability);
 
 router.post("/signup", signup);
 
