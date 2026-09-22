@@ -1,4 +1,5 @@
 import api from "../lib/axios";
+import { fetchWithCache } from "../lib/cache";
 
 /**
  * Execute code using free compiler service (no Judge0 required)
@@ -21,13 +22,20 @@ export const runCode = async ({
 };
 
 /**
- * Fetch standard LeetCode dataset test cases for a problem
+ * Fetch standard LeetCode dataset test cases for a problem (cached for 10 minutes)
  */
 export const fetchProblemTestCases = async (problem) => {
-  const { data } = await api.get("/editor/testcases", {
-    params: { problem },
-  });
-  return data;
+  const cleanKey = `testcases_${(problem || "").trim().toLowerCase()}`;
+  return fetchWithCache(
+    cleanKey,
+    async () => {
+      const { data } = await api.get("/editor/testcases", {
+        params: { problem },
+      });
+      return data;
+    },
+    { ttl: 10 * 60 * 1000 }
+  );
 };
 
 /**
@@ -43,12 +51,18 @@ export const reviewCode = async ({ problem, language, code }) => {
 };
 
 /**
- * Search problems in the LeetCode dataset for problem switcher
+ * Search problems in the LeetCode dataset for problem switcher (cached for 5 minutes)
  */
 export const searchDatasetProblems = async (query = "") => {
-  const { data } = await api.get("/editor/search", {
-    params: { q: query },
-  });
-  return data;
+  const cleanKey = `search_problem_${(query || "").trim().toLowerCase()}`;
+  return fetchWithCache(
+    cleanKey,
+    async () => {
+      const { data } = await api.get("/editor/search", {
+        params: { q: query },
+      });
+      return data;
+    },
+    { ttl: 5 * 60 * 1000 }
+  );
 };
-

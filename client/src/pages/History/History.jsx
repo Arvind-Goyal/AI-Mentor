@@ -10,6 +10,7 @@ import EmptyHistory from "../../components/history/EmptyHistory";
 import DashboardLayout from "../DashboardLayout/Dashboard";
 import { useAnalysis } from "../../context/AnalysisContext";
 import { getHistory } from "../../api/history";
+import { getCachedData } from "../../lib/cache";
 
 const History = () => {
   const navigate = useNavigate();
@@ -21,26 +22,34 @@ const History = () => {
     setHistoryId,
   } = useAnalysis();
 
-  const [history, setHistory] = useState([]);
-  const [filteredHistory, setFilteredHistory] = useState([]);
+  const cachedHistory = getCachedData("user_history", 5 * 60 * 1000) || [];
+  const [history, setHistory] = useState(cachedHistory);
+  const [filteredHistory, setFilteredHistory] = useState(cachedHistory);
+  const [loading, setLoading] = useState(cachedHistory.length === 0);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchHistory = async () => {
       try {
         const data = await getHistory();
-
-        setHistory(data);
-        setFilteredHistory(data);
+        if (isMounted) {
+          const list = Array.isArray(data) ? data : [];
+          setHistory(list);
+          setFilteredHistory(list);
+        }
       } catch (error) {
         console.error("Failed to fetch history:", error);
-        console.error(
-          "Response:",
-          error.response?.data
-        );
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchHistory();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleContinue = (session) => {
@@ -64,7 +73,11 @@ const History = () => {
           setFilteredHistory={setFilteredHistory}
         />
 
-        {filteredHistory.length > 0 ? (
+        {loading && history.length === 0 ? (
+          <div className="flex justify-center items-center py-16">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-3 border-violet-600 border-t-transparent" />
+          </div>
+        ) : filteredHistory.length > 0 ? (
           <HistoryList
             history={filteredHistory}
             onContinue={handleContinue}

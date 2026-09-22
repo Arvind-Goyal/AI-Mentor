@@ -15,6 +15,7 @@ import ProtectedEditorRoute from "../components/editor/ProtectedEditorRoute";
 import History from "../pages/History/History";
 import Profile from "../pages/Profile/Profile";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
+import NotFound from "../pages/NotFound/NotFound";
 
 const AppRoutes = () => {
     return (
@@ -94,6 +95,9 @@ const AppRoutes = () => {
                 path="/users/:username"
                 element={<Profile />}
             />
+
+            {/* Universal 404 Error Route for Wrong Pages */}
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 };

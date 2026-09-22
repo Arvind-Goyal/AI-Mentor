@@ -1,7 +1,7 @@
 import {
   PlayCircle,
   Sun,
-  Bell,
+  Moon,
   Search,
 } from "lucide-react";
 
@@ -9,11 +9,13 @@ import Avatar from "./Avatar";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserMenu from "./UserMenu";
+import useTheme from "../../../hooks/useTheme";
 
 import { searchUsers } from "../../../api/user";
 
 const NavbarActions = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const [open, setOpen] = useState(false);
 
@@ -58,13 +60,13 @@ const NavbarActions = () => {
 
   // Search users
   useEffect(() => {
-    if (!search.trim()) {
-      setSearchResults([]);
-      setSearchOpen(false);
-      return;
-    }
-
     const timer = setTimeout(async () => {
+      if (!search.trim()) {
+        setSearchResults([]);
+        setSearchOpen(false);
+        return;
+      }
+
       try {
         setSearchLoading(true);
         setSearchOpen(true);
@@ -78,7 +80,7 @@ const NavbarActions = () => {
       } finally {
         setSearchLoading(false);
       }
-    }, 300);
+    }, search.trim() ? 300 : 0);
 
     return () => clearTimeout(timer);
   }, [search]);
@@ -276,52 +278,31 @@ const NavbarActions = () => {
       </div>
 
 
-      {/* Theme */}
+      {/* Theme Toggle Button */}
       <button
         type="button"
+        onClick={toggleTheme}
+        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
         className="
-          rounded-lg
+          rounded-xl
           p-2
-          transition
+          transition-colors
           hover:bg-slate-100
+          dark:hover:bg-slate-800
+          text-slate-600
+          dark:text-slate-300
+          cursor-pointer
         "
       >
-        <Sun size={20} />
+        {theme === "dark" ? (
+          <Sun size={20} className="text-amber-400 hover:rotate-45 transition-transform" />
+        ) : (
+          <Moon size={20} className="text-slate-600 hover:-rotate-12 transition-transform" />
+        )}
       </button>
 
-
-      {/* Notifications */}
-      <button
-        type="button"
-        className="
-          relative
-          rounded-lg
-          p-2
-          transition
-          hover:bg-slate-100
-        "
-      >
-        <Bell size={20} />
-
-        <span
-          className="
-            absolute
-            -right-1
-            -top-1
-            flex
-            h-4
-            w-4
-            items-center
-            justify-center
-            rounded-full
-            bg-violet-600
-            text-[10px]
-            text-white
-          "
-        >
-          2
-        </span>
-      </button>
+      {/* Notifications - Hidden for now as requested */}
 
 
       {/* Profile Menu */}

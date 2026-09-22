@@ -10,25 +10,35 @@ import MentorInsight from "../../components/dashboard/MentorInsight";
 import WeeklyActivity from "../../components/dashboard/WeeklyActivity";
 
 import { getDashboard } from "../../api/dashboard";
+import { getCachedData } from "../../lib/cache";
 
 const Dashboard = () => {
-  const [dashboardData, setDashboardData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const cached = getCachedData("dashboard_data", 5 * 60 * 1000);
+  const [dashboardData, setDashboardData] = useState(cached);
+  const [loading, setLoading] = useState(!cached);
   const [showAllTopics, setShowAllTopics] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchDashboard = async () => {
       try {
         const data = await getDashboard();
-        setDashboardData(data);
+        if (isMounted) {
+          setDashboardData(data);
+        }
       } catch (error) {
         console.error("Failed to fetch dashboard:", error);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchDashboard();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (loading) {
