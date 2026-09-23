@@ -279,7 +279,7 @@ const NavbarActions = () => {
 
 
       {/* Theme Toggle Button */}
-      <button
+      {/* <button
         type="button"
         onClick={toggleTheme}
         aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
@@ -300,7 +300,7 @@ const NavbarActions = () => {
         ) : (
           <Moon size={20} className="text-slate-600 hover:-rotate-12 transition-transform" />
         )}
-      </button>
+      </button> */}
 
       {/* Notifications - Hidden for now as requested */}
 

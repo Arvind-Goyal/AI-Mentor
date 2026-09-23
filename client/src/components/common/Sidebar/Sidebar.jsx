@@ -45,7 +45,7 @@ const Sidebar = ({ mobileOpen = false, onClose }) => {
       </nav>
 
       {/* Footer */}
-      <div className="space-y-1 border-t border-slate-200/70 px-3 py-4">
+      {/* <div className="space-y-1 border-t border-slate-200/70 px-3 py-4">
         {SIDEBAR_FOOTER.map((item) => (
           <SidebarItem
             key={item.path}
@@ -53,7 +53,7 @@ const Sidebar = ({ mobileOpen = false, onClose }) => {
             onClick={onClose}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 
