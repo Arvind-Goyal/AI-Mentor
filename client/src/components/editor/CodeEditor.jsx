@@ -53,7 +53,7 @@ const CodeEditor = () => {
         <Editor
           height="100%"
           language={language === "cpp" ? "cpp" : language}
-          theme="vs-dark"
+          theme="vs"
           value={code}
           onChange={(value) => setCode(value ?? "")}
           onMount={handleEditorMount}

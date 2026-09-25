@@ -1,7 +1,5 @@
 import {
   PlayCircle,
-  Sun,
-  Moon,
   Search,
 } from "lucide-react";
 
@@ -9,13 +7,11 @@ import Avatar from "./Avatar";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserMenu from "./UserMenu";
-import useTheme from "../../../hooks/useTheme";
 
 import { searchUsers } from "../../../api/user";
 
 const NavbarActions = () => {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
 
   const [open, setOpen] = useState(false);
 
@@ -278,29 +274,6 @@ const NavbarActions = () => {
       </div>
 
 
-      {/* Theme Toggle Button */}
-      {/* <button
-        type="button"
-        onClick={toggleTheme}
-        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-        title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-        className="
-          rounded-xl
-          p-2
-          transition-colors
-          hover:bg-slate-100
-          dark:hover:bg-slate-800
-          text-slate-600
-          dark:text-slate-300
-          cursor-pointer
-        "
-      >
-        {theme === "dark" ? (
-          <Sun size={20} className="text-amber-400 hover:rotate-45 transition-transform" />
-        ) : (
-          <Moon size={20} className="text-slate-600 hover:-rotate-12 transition-transform" />
-        )}
-      </button> */}
 
       {/* Notifications - Hidden for now as requested */}
 
